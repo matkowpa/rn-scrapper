@@ -10,40 +10,222 @@ def main():
     reports_dir = Path("docs/reports")
     reports = sorted(reports_dir.glob("*.html"), reverse=True)
 
-    rows = []
-    for r in reports:
+    cards = []
+    for i, r in enumerate(reports):
         try:
             dt = datetime.strptime(r.stem, "%Y%m%d_%H%M%S")
-            label = dt.strftime("%d.%m.%Y %H:%M")
+            date_str = dt.strftime("%d.%m.%Y")
+            time_str = dt.strftime("%H:%M")
         except ValueError:
-            label = r.stem
-        rows.append(f'<li><a href="reports/{r.name}">{label}</a></li>')
+            date_str = r.stem
+            time_str = ""
 
-    items_html = "\n    ".join(rows) if rows else "<li>Brak raportów.</li>"
+        badge = '<span class="badge-new">NOWY</span>' if i == 0 else ""
+        cards.append(f"""
+      <a class="card" href="reports/{r.name}">
+        <div class="card-icon">&#128196;</div>
+        <div class="card-body">
+          <div class="card-date">{date_str} {badge}</div>
+          <div class="card-time">&#128336; {time_str}</div>
+        </div>
+        <div class="card-arrow">&#8594;</div>
+      </a>""")
+
+    cards_html = "".join(cards) if cards else '<p class="empty">Brak raportów.</p>'
+    total = len(reports)
+    latest = datetime.strptime(reports[0].stem, "%Y%m%d_%H%M%S").strftime("%d.%m.%Y %H:%M") if reports else "—"
 
     html = f"""<!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rada Nadzorcza – Raporty</title>
+  <title>Rada Nadzorcza – Monitor ogłoszeń</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {{ font-family: sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; color: #333; }}
-    h1 {{ font-size: 1.5rem; }}
-    p.info {{ color: #666; font-size: 0.9rem; }}
-    ul {{ padding-left: 1.2em; }}
-    li {{ margin: 8px 0; font-size: 1rem; }}
-    a {{ color: #1a73e8; text-decoration: none; }}
-    a:hover {{ text-decoration: underline; }}
+    *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+
+    body {{
+      font-family: 'Inter', sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      min-height: 100vh;
+    }}
+
+    /* ── Header ─────────────────────────────────────── */
+    header {{
+      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+      color: #fff;
+      padding: 40px 24px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }}
+    header::before {{
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }}
+    .header-icon {{
+      font-size: 3rem;
+      margin-bottom: 12px;
+      display: block;
+    }}
+    header h1 {{
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+    }}
+    header p {{
+      margin-top: 8px;
+      font-size: 0.95rem;
+      opacity: 0.85;
+      position: relative;
+    }}
+
+    /* ── Stats bar ───────────────────────────────────── */
+    .stats {{
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 16px 24px;
+    }}
+    .stat {{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: #4a5568;
+    }}
+    .stat strong {{ color: #1a202c; font-weight: 600; }}
+    .stat-dot {{
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 3px #dcfce7;
+      flex-shrink: 0;
+    }}
+
+    /* ── Main content ────────────────────────────────── */
+    main {{
+      max-width: 680px;
+      margin: 32px auto;
+      padding: 0 16px 48px;
+    }}
+
+    .section-title {{
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #718096;
+      margin-bottom: 12px;
+    }}
+
+    /* ── Report cards ────────────────────────────────── */
+    .card {{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.15s, transform 0.15s, border-color 0.15s;
+    }}
+    .card:hover {{
+      box-shadow: 0 4px 20px rgba(37,99,235,0.12);
+      transform: translateY(-2px);
+      border-color: #93c5fd;
+    }}
+    .card-icon {{
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      width: 44px; height: 44px;
+      background: #eff6ff;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }}
+    .card-body {{ flex: 1; }}
+    .card-date {{
+      font-weight: 600;
+      font-size: 1rem;
+      color: #1a202c;
+      display: flex; align-items: center; gap: 8px;
+    }}
+    .card-time {{
+      font-size: 0.8rem;
+      color: #718096;
+      margin-top: 2px;
+    }}
+    .badge-new {{
+      display: inline-block;
+      background: #2563eb;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 2px 7px;
+      border-radius: 99px;
+      vertical-align: middle;
+    }}
+    .card-arrow {{
+      font-size: 1.1rem;
+      color: #a0aec0;
+      flex-shrink: 0;
+      transition: color 0.15s, transform 0.15s;
+    }}
+    .card:hover .card-arrow {{
+      color: #2563eb;
+      transform: translateX(3px);
+    }}
+
+    .empty {{ color: #718096; font-style: italic; margin-top: 16px; }}
+
+    /* ── Footer ──────────────────────────────────────── */
+    footer {{
+      text-align: center;
+      font-size: 0.78rem;
+      color: #a0aec0;
+      padding: 24px;
+      border-top: 1px solid #e2e8f0;
+    }}
   </style>
 </head>
 <body>
-  <h1>Członek Rady Nadzorczej – Historia raportów</h1>
-  <p class="info">Raporty generowane automatycznie 3x dziennie (ok. 08:00, 13:00, 18:00 PL).<br>
-  Kliknij wybrany raport, aby zobaczyć ogłoszenia z danego dnia.</p>
-  <ul>
-    {items_html}
-  </ul>
+
+  <header>
+    <span class="header-icon">&#128269;</span>
+    <h1>Monitor Rady Nadzorczej</h1>
+    <p>Automatyczny przegląd ogłoszeń o naborze kandydatów na członka rady nadzorczej</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><span class="stat-dot"></span> Aktywny monitoring</div>
+    <div class="stat">&#128202; Liczba raportów: <strong>{total}</strong></div>
+    <div class="stat">&#128336; Ostatni: <strong>{latest}</strong></div>
+    <div class="stat">&#128260; Częstotliwość: <strong>3× dziennie</strong></div>
+  </div>
+
+  <main>
+    <div class="section-title">Historia raportów</div>
+    {cards_html}
+  </main>
+
+  <footer>
+    Raporty generowane automatycznie ok. 08:00, 13:00 i 18:00 (czas PL) &nbsp;·&nbsp;
+    Źródła: BIP, Google, Yahoo, Brave, Startpage
+  </footer>
+
 </body>
 </html>"""
 
