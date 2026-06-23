@@ -42,7 +42,7 @@ def _parse_args() -> date:
     Zwraca datę odcięcia na podstawie argumentów wiersza poleceń.
 
     --date YYYY-MM-DD   ustaw konkretną datę graniczną
-    --months N          cofnij się o N miesięcy od dziś (domyślnie: 3)
+    --months N          cofnij się o N miesięcy od dziś (domyślnie: 1)
     """
     parser = argparse.ArgumentParser(
         description="Wyszukiwarka ogłoszeń BIP – Członek Rady Nadzorczej"
@@ -56,9 +56,9 @@ def _parse_args() -> date:
     group.add_argument(
         "--months",
         type=int,
-        default=3,
+        default=1,
         metavar="N",
-        help="Liczba miesięcy wstecz od dziś (domyślnie: 3).",
+        help="Liczba miesięcy wstecz od dziś (domyślnie: 1).",
     )
     args = parser.parse_args()
 
