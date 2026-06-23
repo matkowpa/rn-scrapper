@@ -28,18 +28,19 @@ jobs:
       - name: Run scraper
         run: python main.py --months 1
 
-      - name: Move report to docs/index.html
+      - name: Save report to docs/reports/ and update index
         run: |
-          mkdir -p docs
-          # weź najnowszy wygenerowany raport i skopiuj jako index.html
+          mkdir -p docs/reports
+          TIMESTAMP=$(date +'%Y%m%d_%H%M%S')
           LATEST=$(ls -t raport_rada_nadzorcza_*.html | head -1)
-          cp "$LATEST" docs/index.html
-          echo "Skopiowano: $LATEST -> docs/index.html"
+          cp "$LATEST" "docs/reports/${TIMESTAMP}.html"
+          echo "Zapisano: $LATEST -> docs/reports/${TIMESTAMP}.html"
+          python generate_index.py
 
       - name: Commit and push report
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/index.html
+          git add docs/
           git diff --staged --quiet || git commit -m "Raport $(date +'%Y-%m-%d %H:%M') UTC"
           git push
