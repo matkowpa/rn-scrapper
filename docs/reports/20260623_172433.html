@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f6f9;
+    color: #2c3e50;
+    padding: 24px 16px;
+}
+.container { max-width: 960px; margin: 0 auto; }
+
+/* Nagłówek strony */
+header {
+    background: #1a3a5c;
+    color: #fff;
+    border-radius: 10px;
+    padding: 28px 32px 20px;
+    margin-bottom: 28px;
+}
+header h1 { font-size: 1.7rem; margin-bottom: 8px; }
+header .meta { font-size: 0.88rem; opacity: 0.85; line-height: 1.8; }
+header .badge {
+    display: inline-block;
+    background: #2ecc71;
+    color: #fff;
+    border-radius: 12px;
+    padding: 2px 12px;
+    font-size: 0.82rem;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+/* Ostrzeżenie metodyczne */
+.notice {
+    background: #fff8e1;
+    border-left: 4px solid #f39c12;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+}
+
+/* Filtr info */
+.filter-info {
+    background: #e8f4fd;
+    border-left: 4px solid #3498db;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 28px;
+    font-size: 0.9rem;
+}
+
+/* Karta ogłoszenia */
+.card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+.card-header {
+    background: #1a3a5c;
+    color: #fff;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+.card-header h2 {
+    font-size: 1.0rem;
+    font-weight: 600;
+    line-height: 1.4;
+    flex: 1;
+}
+.card-header a { color: #aad4f5; text-decoration: none; }
+.card-header a:hover { text-decoration: underline; }
+.card-number {
+    background: rgba(255,255,255,0.18);
+    border-radius: 50%;
+    min-width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-body { padding: 18px 20px; }
+
+/* Tabela metadanych */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 0.88rem; }
+.meta-table td { padding: 6px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; color: #555; width: 130px; white-space: nowrap; }
+.meta-table a { color: #2980b9; word-break: break-all; }
+
+/* Skrót */
+.section-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+    margin-top: 14px;
+}
+.summary-box {
+    background: #f8f9fa;
+    border-left: 3px solid #95a5a6;
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Szczegóły – rozwijane */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2980b9;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+}
+summary::before { content: "▶ "; font-size: 0.7em; }
+details[open] summary::before { content: "▼ "; }
+.details-content {
+    background: #fdfdfd;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 420px;
+    overflow-y: auto;
+    color: #444;
+}
+
+/* Brak wyników */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+    font-size: 1.1rem;
+}
+
+/* Stopka */
+footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid #ddd;
+}
+
+/* Date badge */
+.date-badge {
+    display: inline-block;
+    background: #e8f8f0;
+    color: #27ae60;
+    border: 1px solid #a9dfbf;
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.date-unknown {
+    background: #fef9e7;
+    color: #b7950b;
+    border-color: #f9e79f;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>Ogłoszenia na stanowisko Członka Rady Nadzorczej</h1>
+    <div class="meta">
+      Data wygenerowania: <strong>2026-06-23 17:24</strong> &nbsp;|&nbsp;
+      Znaleziono ogłoszeń: <strong>8</strong>
+      <span class="badge">HTML</span>
+      <br>
+      Źródło danych: DuckDuckGo (region: pl-pl) + bezpośrednie pobieranie stron
+    </div>
+  </header>
+
+  <div class="notice">
+    <strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące
+    stanowiska <em>członka rady nadzorczej</em>. Ogłoszenia na stanowiska zarządcze
+    (np. członek zarządu, prezes zarządu) zostały odfiltrowane.
+  </div>
+
+  <div class="filter-info">🗓 <strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>23.05.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszenia bez rozpoznanej daty: <strong>7</strong> (oznaczone żółto).</div>
+
+  
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <span class="card-number">1</span>
+    <h2><a href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">PILNE! Praca: Członek rady nadzorczej - Czerwiec 2026 - 7607 ofert Pracy - JOOBLE.pl</a></h2>
+  </div>
+  <div class="card-body">
+    <table class="meta-table">
+      <tr>
+        <td>Data ogłoszenia</td>
+        <td><span class="date-badge date-unknown">—</span></td>
+      </tr>
+      <tr>
+        <td>Źródło</td>
+        <td>pl.jooble.org</td>
+      </tr>
+      <tr>
+        <td>Link</td>
+        <td><a href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">https://pl.jooble.org/praca-członek-rady-nadzorczej</a></td>
+      </tr>
+    </table>
+
+    <div class="section-label">Skrót ogłoszenia</div>
+    <div class="summary-box">Praca: Członek rady nadzorczej. 149.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+
+    <details>
+      <summary>Pokaż pełne szczegóły (treść pobrana ze strony)</summary>
+      <div class="details-content">Praca: Członek rady nadzorczej. 149.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <span class="card-number">2</span>
+    <h2><a href="https://bip.mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-mazowieckiej-agencji-energetycznej.html" target="_blank" rel="noopener">Nabór kandydatów do Rady Nadzorczej Mazowieckiej Agencji Energetycznej - Witryna Mazovia.pl</a></h2>
+  </div>
+  <div class="card-body">
+    <table class="meta-table">
+      <tr>
+        <td>Data ogłoszenia</td>
+        <td><span class="date-badge date-unknown">—</span></td>
+      </tr>
+      <tr>
+        <td>Źródło</td>
+        <td>bip.mazovia.pl</td>
+      </tr>
+      <tr>
+        <td>Link</td>
+        <td><a href="https://bip.mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-mazowieckiej-agencji-energetycznej.html" target="_blank" rel="noopener">https://bip.mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-mazowieckiej-agencji-energetycznej.html</a></td>
+      </tr>
+    </table>
+
+    <div class="section-label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ogłoszenie nr 1/2023 o naborze kandydatów do Rady Nadzorczej spółki „Mazowiecka Agencja Energetyczna” Sp.</div>
+
+    <details>
+      <summary>Pokaż pełne szczegóły (treść pobrana ze strony)</summary>
+      <div class="details-content">Ogłoszenie nr 1/2023 o naborze kandydatów do Rady Nadzorczej spółki „Mazowiecka Agencja Energetyczna” Sp.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <span class="card-number">3</span>
+    <h2><a href="https://www.pracuj.pl/praca/członek+rady+nadzorczej;kw" target="_blank" rel="noopener">Praca członek+rady+nadzorczej – Pracuj.pl</a></h2>
+  </div>
+  <div class="card-body">
+    <table class="meta-table">
+      <tr>
+        <td>Data ogłoszenia</td>
+        <td><span class="date-badge date-unknown">—</span></td>
+      </tr>
+      <tr>
+        <td>Źródło</td>
+        <td>www.pracuj.pl</td>
+      </tr>
+      <tr>
+        <td>Link</td>
+        <td><a href="https://www.pracuj.pl/praca/członek+rady+nadzorczej;kw" target="_blank" rel="noopener">https://www.pracuj.pl/praca/członek+rady+nadzorczej;kw</a></td>
+      </tr>
+    </table>
+
+    <div class="section-label">Skrót ogłoszenia</div>
+    <div class="summary-box">Praca członek rady nadzorczej – w serwisie Pracuj.pl↑ Tutaj znajdziesz atrakcyjne oferty pracy w Twoim mieście↑ Nie wahaj się i zaaplikuj na najbardziej interesującą ofertę↑</div>
+
+    <details>
+      <summary>Pokaż pełne szczegóły (treść pobrana ze strony)</summary>
+      <div class="details-content">Przejdź do wyszukiwarki
+Przejdź do ofert
+Przejdź do filtrów
+Przejdź do stopki
+Hej! Jakiej pracy szukasz?
+Stanowisko, firma, słowo kluczowe
+Kategoria
+Lokalizacja
+Odległość
+Szukaj
+Kryteria wyszukiwania
+Filtry
+Wyszukiwanie zaawansowane
+Przejdź do wyszukiwarki
+Przejdź do ofert
+Przejdź do filtrów
+Przejdź do stopki
+Zapisz wyszukiwanie
+A to pech: 0 ofert
+z podanymi kryteriami
+Nie znaleźliśmy ofert, które spełniałyby podane przez Ciebie kryteria wyszukiwania
+Ale nie przejmuj się, zobacz co możesz zrobić:
+Zmień lub
+wyczyść filtry
+Upewnij się, że nie ma żadnych literówek we wpisanych frazach
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <span class="card-number">4</span>
+    <h2><a href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3" target="_blank" rel="noopener">LEX</a></h2>
+  </div>
+  <div class="card-body">
+    <table class="meta-table">
+      <tr>
+        <td>Data ogłoszenia</td>
+        <td><span class="date-badge date-unknown">—</span></td>
+      </tr>
+      <tr>
+        <td>Źródło</td>
+        <td>sip.lex.pl</td>
+      </tr>
+      <tr>
+        <td>Link</td>
+        <td><a href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3" target="_blank" rel="noopener">https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3</a></td>
+      </tr>
+    </table>
+
+    <div class="section-label">Skrót ogłoszenia</div>
+    <div class="summary-box">499 oraz z 2026 r. poz. 160 i 177) na zasadach wskazanych w tym przepisie. Art. 20. [Wprowadzanie wymagań wobec kandydatów na członków organów nadzorczych w spółkach-córkach] 1. Podmiot uprawniony do wykonywania praw z akcji należących do Skarbu Państwa lub państwowa osoba prawna, w zakresie wykonywania praw z akcji w spółce, z wyłączeniem spółki w upadłości, są obowiązane podejmować działania mające na celu wprowadzenie do statutów spółek, wobec których spółka z udziałem Skarbu Państwa lub państwowej osoby prawnej jest przedsiębiorcą dominującym w rozumieniu art.</div>
+
+    <details>
+      <summary>Pokaż pełne szczegóły (treść pobrana ze strony)</summary>
+      <div class="details-content">This Site required Java Script support by browser</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <span class="card-number">5</span>
+    <h2><a href="https://mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-spolki-warszawska-kolej-dojazdowa.html" target="_blank" rel="noopener">Nabór kandydatów do Rady Nadzorczej spółki Warszawska Kolej Dojazdowa - Witryna Mazovia.pl</a></h2>
+  </div>
+  <div class="card-body">
+    <table class="meta-table">
+      <tr>
+        <td>Data ogłoszenia</td>
+        <td><span class="date-badge date-unknown">—</span></td>
+      </tr>
+      <tr>
+        <td>Źródło</td>
+        <td>mazovia.pl</td>
+      </tr>
+      <tr>
+        <td>Link</td>
+        <td><a href="https://mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-spolki-warszawska-kolej-dojazdowa.html" target="_blank" rel="noopener">https://mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-spolki-warszawska-kolej-dojazdowa.html</a></td>
+      </tr>
+    </table>
+
+    <div class="section-label">Skrót ogłoszenia</div>
+    <div class="summary-box">BIP · Komunikaty · Komunikaty · Ogłoszenie o naborze do Radny Nadzorczej WKD · Rozmiar: 19.71 KB, DOCX · Zgłoszenie kandydata · Rozmiar: 24.08 KB, DOCX · Podmiot udostępniający: Urząd Marszałkowski Województwa Mazowieckiego w Warszawie · Wytworzył: Teodor Sikora ·</div>
+
+    <details>
+      <summary>Pokaż pełne szczegóły (treść pobrana ze strony)</summary>
+      <div class="details-content">BIP · Komunikaty · Komunikaty · Ogłoszenie o naborze do Radny Nadzorczej WKD · Rozmiar: 19.71 KB, DOCX · Zgłoszenie kandydata · Rozmiar: 24.08 KB, DOCX · Podmiot udostępniający: Urząd Marszałkowski Województwa Mazowieckiego w Warszawie · Wytworzył: Teodor Sikora ·</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <span class="card-number">6</span>
+    <h2><a href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">Ogłoszenie o naborze uzupełniającym kandydatów na członków rady nadzorczej</a></h2>
+  </div>
+  <div class="card-body">
+    <table class="meta-table">
+      <tr>
+        <td>Data ogłoszenia</td>
+        <td><span class="date-badge date-unknown">—</span></td>
+      </tr>
+      <tr>
+        <td>Źródło</td>
+        <td>um_jaslo.bip.gov.pl</td>
+      </tr>
+      <tr>
+        <td>Link</td>
+        <td><a href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html</a></td>
+      </tr>
+    </table>
+
+    <div class="section-label">Skrót ogłoszenia</div>
+    <div class="summary-box">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+
+    <details>
+      <summary>Pokaż pełne szczegóły (treść pobrana ze strony)</summary>
+      <div class="details-content">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-7">
+  <div class="card-header">
+    <span class="card-number">7</span>
+    <h2><a href="https://pwkczarne.mojbip.pl/75.html?file=300" target="_blank" rel="noopener">ogłoszenie o naborze kandydatów do rady nadzorczej</a></h2>
+  </div>
+  <div class="card-body">
+    <table class="meta-table">
+      <tr>
+        <td>Data ogłoszenia</td>
+        <td><span class="date-badge date-unknown">—</span></td>
+      </tr>
+      <tr>
+        <td>Źródło</td>
+        <td>pwkczarne.mojbip.pl</td>
+      </tr>
+      <tr>
+        <td>Link</td>
+        <td><a href="https://pwkczarne.mojbip.pl/75.html?file=300" target="_blank" rel="noopener">https://pwkczarne.mojbip.pl/75.html?file=300</a></td>
+      </tr>
+    </table>
+
+    <div class="section-label">Skrót ogłoszenia</div>
+    <div class="summary-box">zdanie egzaminu dla kandydatów na członków rad nadzorczych bądź legitymowanie się dokumentem zwalniającym z obowiązku zdawania egzaminu, zgodnie z ...</div>
+
+    <details>
+      <summary>Pokaż pełne szczegóły (treść pobrana ze strony)</summary>
+      <div class="details-content">%PDF-1.7
+%����
+1 0 obj
+&lt;&gt;/Metadata 195 0 R/ViewerPreferences 196 0 R&gt;&gt;
+endobj
+2 0 obj
+&lt;&gt;
+endobj
+3 0 obj
+&lt;&gt;/ExtGState&lt;&gt;/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] &gt;&gt;/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group&lt;&gt;/Tabs/S/StructParents 0&gt;&gt;
+endobj
+4 0 obj
+&lt;&gt;
+stream
+x��]mo9�� ��?J�UO�l� P��&quot;7��f��r|���L�����_,VYd���F=L,��|)V=|�X�?��puWl�?�cx{QT?����c�z������w����P���WUY����UEU�ޖF]��^�7�_��/���Wo~~�ꇃ*�*������WP�*�/�*��h��l����]������㓫���_}���W�����MU���ջ���w
+���ݦv�CU�a��#�E�a�l�W�W��h��}VJ��]�W�*�C�;U��[���ڿ�/��;,��ᳯ~nj�U}��O���h���	��4I�|��0�0jhN�l�{q�����{�����?^���y��T�uY9O~vpNV�:i����P���Ȕ�.�ږj�1O�6x�a�S�����=̡�+�e/��n������H8�D��{W�SxT��ܶ���m�
+��8���+�=2��f}��ZU6�X{?����ڮ����Ƭn�?������~�u���7k���ܻGź_�eܓrݬ�?�����S��P���_�����������&gt;���G�=����Lt�u8����alJU��Z�
+NU�~�2�&amp;���I�5���S�;]�Zo��UT���W�o��)���u��oem�N��b�	�A�4��r�[(����)0=(7�8R������CŃ�:���}k
+�u����X�D��r���&quot; p�HD�n�i��1�GK����}ߣ�S�S�]��qݱ-�D5��G�%rr�L�A�Tzu̡������U}Y7Gz�0����&lt;&amp;���v�p~��?�כf�~
+� z��Ue��h�߷�L���i�ǫ�+7�O�kXP�_�Jr�V�?�×��V�iW�Pk�V_
+X)���[0n�:�}���8tkJ�ǌu�,ėH��ΖM3a�)���!mupD�\z.�PH�Il��&gt;��y����&quot;:��0��&quot;��	�l#��S��Ԥ��M=�j�&#x27;�#�������zϤ�h�_��o���&lt;&quot;���ϩ;48D� ���B&lt;�]�*u��D},,�3�ڹ/��qM����*�=�/+uv�e\C}���S/K���Lڍ�4tLJF��$d��JO�`rO3۰�z��Ϡ&quot;�������+R��Iɡx��ԲSv�p�BUD4܊N&gt;&#x27;&quot;�}����A
+������hߗM?-�\�#�$���к��BU��܇�L��]Xel��R�Q]�%�/�
+O�?fU��v,uR����Zm���&quot;��I#�W���i��&#x27;t�6�Bm`��Gd.b;V6�����F�]���Z��^Y)A��]-M�ﱸ�jehp�&lt;�������lmd( |&amp;*YR���^A�V��e�%ϐ��)�����Ak�nug����kF6+��KSg
+)��i%�8Th~�E	��t�C�9��k{{Κ��a�
+3_SWm�N�q�6�`�x���PI�1C� ����x�+,zM�!/�K{�~G���w�k�����s䖝� ��&quot;?N�yacCV���E?hq@������``�n|Z��X��e��Ο���Վ�rp���`$	UC�s�NK���Ӹ�sl�=����K��X�%C�֦6��n������ 0w{!�*|������|���E���7��g�^Y�ٝ���[�/�1�߯u&amp;TVv����iJ�uUO�D��a�k��П�`��|8��䍥�Q�����r�Dr�&quot;kI0�Ѹ�%�VoG��j��=�U���ch&#x27;ry-�G�H�!����j*�&gt;q0�5�s� � 0h�(��ޔ�&gt;o��JaL8��ϲ�h�j�)�gT����V��NK{�ܴ�3HJ�*�5�
+?�P�FҮ8�R�r�g�������:�&lt;1Ռ8�d}��Bf�j�M�9Pg;`pI�J4R�1J�s&#x27;_��6,0G���&quot;��2X����m��:�t(�B� 5��lh��G�2�1ĉ�V���:���Fp5r�޼��gA���3͖&quot;�=H)�g�Q$�zI��t$S=�&gt;?qN~ٴ���CD�e��h��H��C�:��#��[O�L�
+Z��H��C�i����9hk�k¸�	�i��c���蒷�*��B�/UhmV�T��Q��_����Nv�.�&gt;3��@a�.��P!���Ss:�H�;�P�8J&lt;	U��*a�S�,
+�Ρ��=�*�N�z�Ѥ)@JC:A��m����0���&#x27;��X����]W��XE�}��L�ձ# !�g��11��qy��&#x27;nc�Lɀ�xQ�)+jqV�]paFS�,^��k���ױ��2K�P�����Fl�Jէ, x$�1�-�
+��8 *��~�0Ҩ�t��R�}0��ňT�h�X����YQ�\���2�Ks;V&#x27;���[���1-SLB��v��R�i�E�b̴�4�L������&gt;�4eV��9rO���eg2��%
+@��N������p�=pYg��Rxm����)�T�I}�%�L#��D��`S&#x27;����LoI]d2;��(GH��R��(Md�1�ZVmEX`�8h�����Ӟl�ϐ�ǋ�����
+��U���%��Ҙu�;��,�D���lI�{�=��&amp;S�&gt;���
+|y�p��W���p�[���ǵ����…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-8">
+  <div class="card-header">
+    <span class="card-number">8</span>
+    <h2><a href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały</a></h2>
+  </div>
+  <div class="card-body">
+    <table class="meta-table">
+      <tr>
+        <td>Data ogłoszenia</td>
+        <td><span class="date-badge">1 lipca 2026</span></td>
+      </tr>
+      <tr>
+        <td>Źródło</td>
+        <td>bip.goldap.pl</td>
+      </tr>
+      <tr>
+        <td>Link</td>
+        <td><a href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html</a></td>
+      </tr>
+    </table>
+
+    <div class="section-label">Skrót ogłoszenia</div>
+    <div class="summary-box">kandydat na członka Rady Nadzorczej nie może wykonywać zajęć, które pozostawałyby w sprzeczności z jego obowiązkami jako członka organu nadzorczego albo mogłyby ...</div>
+
+    <details>
+      <summary>Pokaż pełne szczegóły (treść pobrana ze strony)</summary>
+      <div class="details-content">Na Skróty
+Budżet
+Ogłoszenia o Naborze
+Nieruchomości gminne
+Sprzedaż Nieruchomości
+Dzierżawa i użyczenia
+Najem
+Uchwały
+Wybory
+Informacja publiczna
+Petycje
+Petycje do Rady Miejskiej
+Petycje do Burmistrza Gołdapi
+Archiwum BIP
+BIP GOV
+ePUAP
+Profil Zaufany
+CEIDG
+e-SESJA
+Dziennik Ustaw
+Dziennik Urzędowy Woj. Warmińsko-Mazurskiego
+Strona główna
+Nabory
+Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały
+Aktualizacja informacji z rozstrzygnięcia naboru na stanowisko urzędnicze ds. kadr i płac
+Informacja  o rozstrzygnięciu  naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych- ½ etatu
+Informacja o nierozstrzygnięciu  naboru na wolne stanowisko urzędnicze do spraw obrony cywilnej,  ochrony ludności i dostępności w Wydziale ds. Administracyjnych  Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na do spraw projektów inwestycyjnych w Wydziale Inwestycji  i Rozwoju Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na kierownicze stanowisko urzędnicze Dyrektora Ośrodka Sportu i Rekreacji w Gołdapi
+INFORMACJA O NIEROZSTRZYGNIĘCIU NABORU NA STANOWISKO URZĘDNICZE AUDYTORA WEWNĘTRZNEGO
+Informacja o nierozstrzygnięciu naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych
+Informacja o nierozstrzygnięciu naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych - ½ etatu
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  do spraw nadzoru inwestorskiego w Wydziale Inwestycji i Rozwoju Urzędu Miejskiego  w Gołdapi
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  do spraw nadzoru inwestorskiego w Wydziale Inwestycji i Rozwoju Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością ob…</div>
+    </details>
+  </div>
+</div>
+
+  <footer>
+    Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-06-23 17:24
+    &nbsp;·&nbsp; Projekt RN &nbsp;·&nbsp; Dane: DuckDuckGo / ddgs
+  </footer>
+
+</div>
+</body>
+</html>
