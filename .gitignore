@@ -1,0 +1,4 @@
+raport_*.html
+raport_*.md
+__pycache__/
+*.pyc

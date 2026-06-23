@@ -1,0 +1,12 @@
+# Run VS Code
+
+# Run in terminal
+
+# Default: last 3 months
+python main.py
+
+# Custom cut-off date
+python main.py --date 2026-04-01
+
+# Custom number of months back
+python main.py --months 6

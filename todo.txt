@@ -1,0 +1,2 @@
+-> automatic launch once every day
+-> adding to the webpage storing all hist data
