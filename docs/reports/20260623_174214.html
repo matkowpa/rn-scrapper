@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-06-23 17:42</span>
+      <span class="header-chip chip-green">&#9679; 10 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>23.05.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>4</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (10)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://www.money.pl/gielda/komunikaty/7298632321283137.html" target="_blank" rel="noopener">CRJ Zgłoszenie kandydata na Członka Rady Nadzorczej Spółki</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 28 maja 2026</span>
+      <span class="meta-pill">&#127760; www.money.pl</span>
+    </div>
+    <a class="url-link" href="https://www.money.pl/gielda/komunikaty/7298632321283137.html" target="_blank" rel="noopener">&#128279; https://www.money.pl/gielda/komunikaty/7298632321283137.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">4 days ago · Działając zgodnie z zasadami Dobrych Praktyk Spółek Notowanych na GPW 2021 oraz zapewniając Akcjonariuszom możliwość poznania kandydatów na członków Rady Nadzorczej Spółki, Zarząd ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">CREEPYJAR: strona spółki
+19.06.2026, 20:09
+CRJ Zgłoszenie kandydata na Członka Rady Nadzorczej Spółki
+Zarząd Creepy Jar S.A. z siedzibą w Warszawie (dalej „Spółka”) w nawiązaniu do przedstawionego w raporcie bieżącym nr 13/2026 z dnia 28 maja 2026 roku porządku obrad Zwyczajnego Walnego Zgromadzenia Spółki zwołanego na dzień 22 czerwca 2026 roku, informuje, że akcjonariusz Spółki, Venture FIZ, zgłosił Pana Jarosława Karasińskiego (obecny Członek Rady Nadzorczej Spółki) na Członka Rady Nadzorczej Spółki.
+Pan Jarosław Karasiński wyraził zgodę na kandydowanie do Rady Nadzorczej Spółki oraz złożył oświadczenie o spełnianiu wymaganych prawem kryteriów stawianych kandydatom na członków rad nadzorczych.
+Działając zgodnie z zasadami Dobrych Praktyk Spółek Notowanych na GPW 2021 oraz zapewniając Akcjonariuszom możliwość poznania kandydatów na członków Rady Nadzorczej Spółki, Zarząd Spółki przekazuje w załączeniu do niniejszego raportu życiorys zawodowy kandydata oraz odpowiednie oświadczenie.
+Załączniki
+Pobierz załącznik 1
+Pobierz załącznik 2
+Inne komunikaty
+Data
+Tytuł
+Kurs
+Zmiana
+2026-06-22
+CRJ Wykaz akcjonariuszy posiadających co najmniej 5% liczby głosów na Zwyczajnym Walnym Zgromadzeniu Akcjonariuszy Spółki w dniu 22 czerwca 2026 r.
+506,00
+0,00
+2026-06-22
+CRJ Powołanie członków Rady Nadzorczej Spółki na nową kadencję
+506,00
+0,00
+2026-06-22
+CRJ Podjęcie przez Zwyczajne Walne Zgromadzenie Creepy Jar S.A. decyzji w sprawie wypłaty dywidendy
+506,00
+0,00
+2026-06-22
+CRJ Uchwały podjęte przez Zwyczajne Walne Zgromadzenie Akcjonariuszy Spółki w dniu 22 czerwca 2026 r.
+506,00
+0,00
+2026-06-19
+CRJ Zgłoszenie kandydata na Członka Rady Nadzorczej Spółki
+510,00
+0,00
+2026-06-18
+CRJ Informacja o transakcjach wykonywanych przez osoby pełniące obowiązki zarządcze
+512,00
+-1,95
+2026-06-01
+CRJ Zgłoszenie kandydatów na Członków Rady Nadzorczej Spółki
+516,00
+-0,39
+2026-05-28
+CRJ Wniosek akcjonariusza o rozszerzenie porządku obrad Zwyczajnego Walnego Zgromadzenia zwołanego na dzień 22 czerwca 2026 r.
+518,00
++0,77
+2026-05-27
+CRJ SA-Q 1/2026: formularz raportu kwartalnego dla emitentów prowadzących działalność wytwórczą, budowlaną, handlową lub usługową
+530,00
+-2,26
+2026-05-25
+CRJ Ogłoszenie o zwołaniu Zwyczajnego Walnego Zgromadzenia Creepy Jar S.A.
+520,00
+0,00
+Wszystke komunikaty</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://pwkczarne.mojbip.pl/75.html?file=300" target="_blank" rel="noopener">ogłoszenie o naborze kandydatów do rady nadzorczej</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; pwkczarne.mojbip.pl</span>
+    </div>
+    <a class="url-link" href="https://pwkczarne.mojbip.pl/75.html?file=300" target="_blank" rel="noopener">&#128279; https://pwkczarne.mojbip.pl/75.html?file=300</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">OGŁOSZENIE O NABORZE KANDYDATÓW DO RADY NADZORCZEJ. Przedsiębiorstwa Wodno-Kanalizacyjnego Sp. z o.o. w Czarnem. Burmistrz Czarnego ogłasza nabór na ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">%PDF-1.7
+%����
+1 0 obj
+&lt;&gt;/Metadata 195 0 R/ViewerPreferences 196 0 R&gt;&gt;
+endobj
+2 0 obj
+&lt;&gt;
+endobj
+3 0 obj
+&lt;&gt;/ExtGState&lt;&gt;/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] &gt;&gt;/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group&lt;&gt;/Tabs/S/StructParents 0&gt;&gt;
+endobj
+4 0 obj
+&lt;&gt;
+stream
+x��]mo9�� ��?J�UO�l� P��&quot;7��f��r|���L�����_,VYd���F=L,��|)V=|�X�?��puWl�?�cx{QT?����c�z������w����P���WUY����UEU�ޖF]��^�7�_��/���Wo~~�ꇃ*�*������WP�*�/�*��h��l����]������㓫���_}���W�����MU���ջ���w
+���ݦv�CU�a��#�E�a�l�W�W��h��}VJ��]�W�*�C�;U��[���ڿ�/��;,��ᳯ~nj�U}��O���h���	��4I�|��0�0jhN�l�{q�����{�����?^���y��T�uY9O~vpNV�:i����P���Ȕ�.�ږj�1O�6x�a�S�����=̡�+�e/��n������H8�D��{W�SxT��ܶ���m�
+��8���+�=2��f}��ZU6�X{?����ڮ����Ƭn�?������~�u���7k���ܻGź_�eܓrݬ�?�����S��P���_�����������&gt;���G�=����Lt�u8����alJU��Z�
+NU�~�2�&amp;���I�5���S�;]�Zo��UT���W�o��)���u��oem�N��b�	�A�4��r�[(����)0=(7�8R������CŃ�:���}k
+�u����X�D��r���&quot; p�HD�n�i��1�GK����}ߣ�S�S�]��qݱ-�D5��G�%rr�L�A�Tzu̡������U}Y7Gz�0����&lt;&amp;���v�p~��?�כf�~
+� z��Ue��h�߷�L���i�ǫ�+7�O�kXP�_�Jr�V�?�×��V�iW�Pk�V_
+X)���[0n�:�}���8tkJ�ǌu�,ėH��ΖM3a�)���!mupD�\z.�PH�Il��&gt;��y����&quot;:��0��&quot;��	�l#��S��Ԥ��M=�j�&#x27;�#�������zϤ�h�_��o���&lt;&quot;���ϩ;48D� ���B&lt;�]�*u��D},,�3�ڹ/��qM����*�=�/+uv�e\C}���S/K���Lڍ�4tLJF��$d��JO�`rO3۰�z��Ϡ&quot;�������+R��Iɡx��ԲSv�p�BUD4܊N&gt;&#x27;&quot;�}����A
+������hߗM?-�\�#�$���к��BU��܇�L��]Xel��R�Q]�%�/�
+O�?fU��v,uR����Zm���&quot;��I#�W���i��&#x27;t�6�Bm`��Gd.b;V6�����F�]���Z��^Y)A��]-M�ﱸ�jehp�&lt;�������lmd( |&amp;*YR���^A�V��e�%ϐ��)�����Ak�nug����kF6+��KSg
+)��i%�8Th~�E	��t�C�9��k{{Κ��a�
+3_SWm�N�q�6�`�x���PI�1C� ����x�+,zM�!/�K{�~G���w�k�����s䖝� ��&quot;?N�yacCV���E?hq@������``�n|Z��X��e��Ο���Վ�rp���`$	UC�s�NK���Ӹ�sl�=����K��X�%C�֦6��n������ 0w{!�*|������|���E���7��g�^Y�ٝ���[�/�1�߯u&amp;TVv����iJ�uUO�D��a�k��П�`��|8��䍥�Q�����r�Dr�&quot;kI0�Ѹ�%�VoG��j��=�U���ch&#x27;ry-�G�H�!����j*�&gt;q0�5�s� � 0h�(��ޔ�&gt;o��JaL8��ϲ�h�j�)�gT����V��NK{�ܴ�3HJ�*�5�
+?�P�FҮ8�R�r�g�������:�&lt;1Ռ8�d}��Bf�j�M�9Pg;`pI�J4R�1J�s&#x27;_��6,0G���&quot;��2X����m��:�t(�B� 5��lh��G�2�1ĉ�V���:���Fp5r�޼��gA���3͖&quot;�=H)�g�Q$�zI��t$S=�&gt;?qN~ٴ���CD�e��h��H��C�:��#��[O�L�
+Z��H��C�i����9hk�k¸�	�i��c���蒷�*��B�/UhmV�T��Q��_����Nv�.�&gt;3��@a�.��P!���Ss:�H�;�P�8J&lt;	U��*a�S�,
+�Ρ��=�*�N�z�Ѥ)@JC:A��m����0���&#x27;��X����]W��XE�}��L�ձ# !�g��11��qy��&#x27;nc�Lɀ�xQ�)+jqV�]paFS�,^��k���ױ��2K�P�����Fl�Jէ, x$�1�-�
+��8 *��~�0Ҩ�t��R�}0��ňT�h�X����YQ�\���2�Ks;V&#x27;���[���1-SLB��v��R�i�E�b̴�4�L������&gt;�4eV��9rO���eg2��%
+@��N������p�=pYg��Rxm����)�T�I}�%�L#��D��`S&#x27;����LoI]d2;��(GH��R��(Md�1�ZVmEX`�8h�����Ӟl�ϐ�ǋ�����
+��U���%��Ҙu�;��,�D���lI�{�=��&amp;S�&gt;���
+|y�p��W���p�[���ǵ����…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">PILNE! Praca: Członek rady nadzorczej - Czerwiec 2026 - 7031 ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; pl.jooble.org</span>
+    </div>
+    <a class="url-link" href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://pl.jooble.org/praca-członek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Regionalny Kierownik ds. Sprzętu (K/M) ... przetwarzania, a także prawo sprzeciwu oraz prawo do przenoszenia danych. Przysługuje Państwu także prawo wniesienia skargi do organu nadzorczego (Prezesa Urzędu Ochrony Danych Osobowych). Z kim się kontaktować? Jeśli mają Państwo jakieś pytania dotyczące ochrony Państwa...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Regionalny Kierownik ds. Sprzętu (K/M) ... przetwarzania, a także prawo sprzeciwu oraz prawo do przenoszenia danych. Przysługuje Państwu także prawo wniesienia skargi do organu nadzorczego (Prezesa Urzędu Ochrony Danych Osobowych). Z kim się kontaktować? Jeśli mają Państwo jakieś pytania dotyczące ochrony Państwa...</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 1 lipca 2026</span>
+      <span class="meta-pill">&#127760; bip.goldap.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">&#128279; https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">May 28, 2025 · Nabór dokumentów aplikacyjnych potrwa do 25 czerwca 2025 r. Kandydatom, którzy odpowiedzieli na ogłoszenie, a nie zostali wybrani na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały nie przysługuje możliwość odwołania się.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Na Skróty
+Budżet
+Ogłoszenia o Naborze
+Nieruchomości gminne
+Sprzedaż Nieruchomości
+Dzierżawa i użyczenia
+Najem
+Uchwały
+Wybory
+Informacja publiczna
+Petycje
+Petycje do Rady Miejskiej
+Petycje do Burmistrza Gołdapi
+Archiwum BIP
+BIP GOV
+ePUAP
+Profil Zaufany
+CEIDG
+e-SESJA
+Dziennik Ustaw
+Dziennik Urzędowy Woj. Warmińsko-Mazurskiego
+Strona główna
+Nabory
+Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały
+Aktualizacja informacji z rozstrzygnięcia naboru na stanowisko urzędnicze ds. kadr i płac
+Informacja  o rozstrzygnięciu  naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych- ½ etatu
+Informacja o nierozstrzygnięciu  naboru na wolne stanowisko urzędnicze do spraw obrony cywilnej,  ochrony ludności i dostępności w Wydziale ds. Administracyjnych  Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na do spraw projektów inwestycyjnych w Wydziale Inwestycji  i Rozwoju Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na kierownicze stanowisko urzędnicze Dyrektora Ośrodka Sportu i Rekreacji w Gołdapi
+INFORMACJA O NIEROZSTRZYGNIĘCIU NABORU NA STANOWISKO URZĘDNICZE AUDYTORA WEWNĘTRZNEGO
+Informacja o nierozstrzygnięciu naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych
+Informacja o nierozstrzygnięciu naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych - ½ etatu
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  do spraw nadzoru inwestorskiego w Wydziale Inwestycji i Rozwoju Urzędu Miejskiego  w Gołdapi
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  do spraw nadzoru inwestorskiego w Wydziale Inwestycji i Rozwoju Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością ob…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://niepelnosprawni.gov.pl/ogloszenie-o-naborze-kandydatow-do-rady-nadzorczej-panstwowego-funduszu-rehabilitacji-osob-niepelnosprawnych/" target="_blank" rel="noopener">Ogłoszenie o naborze kandydatów do Rady Nadzorczej Państwowego Funduszu Rehabilitacji Osób Niepełnosprawnych</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 27 maja 2026</span>
+      <span class="meta-pill">&#127760; niepelnosprawni.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://niepelnosprawni.gov.pl/ogloszenie-o-naborze-kandydatow-do-rady-nadzorczej-panstwowego-funduszu-rehabilitacji-osob-niepelnosprawnych/" target="_blank" rel="noopener">&#128279; https://niepelnosprawni.gov.pl/ogloszenie-o-naborze-kandydatow-do-rady-nadzorczej-panstwowego-funduszu-rehabilitacji-osob-niepelnosprawnych/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">27 May 2026 ... w terminie do dnia 8 czerwca 2026 r. O zachowaniu terminu decyduje data wpływu do Ministerstwa Rodziny, Pracy i Polityki Społecznej. Integralną ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Wszystkie aktualności
+27 maja 2026
+Ogłoszenie o naborze kandydatów do Rady Nadzorczej Państwowego Funduszu Rehabilitacji Osób Niepełnosprawnych
+Pełnomocnik Rządu do Spraw Osób Niepełnosprawnych, działając na podstawie § 1 ust. 1 rozporządzenia Ministra Pracy i Polityki Socjalnej z dnia 26 marca 1998 r. w sprawie szczegółowych zasad i trybu powoływania oraz odwoływania członków Rady Nadzorczej Państwowego Funduszu Rehabilitacji Osób Niepełnosprawnych, a także szczegółowych zasad działania Rady Nadzorczej i szkolenia jej członków oraz wysokości ich wynagrodzenia za udział w posiedzeniach Rady (Dz. U. z 2023 r. poz. 525),
+ogłasza nabór kandydatów na członków Rady Nadzorczej Państwowego Funduszu Rehabilitacji Osób Niepełnosprawnych
+.
+Zgłoszenie kandydata powinno zawierać wypełniony kwestionariusz osobowy wraz z  dokumentami i oświadczeniami wskazanymi w kwestionariuszu.
+Zgłoszenia należy składać albo przesyłać na adres:
+Ministerstwo Rodziny, Pracy i Polityki Społecznej
+Biuro Pełnomocnika Rządu do Spraw Osób Niepełnosprawnych
+Nowogrodzka 1/3/5, 00-513 Warszawa
+w terminie do dnia
+8 czerwca 2026 r.
+O zachowaniu terminu decyduje data wpływu do Ministerstwa Rodziny, Pracy i Polityki Społecznej.
+Integralną część ogłoszenia stanowią załączniki:
+kwestionariusz osobowy oraz oświadczenia kandydata na członka organu nadzorczego państwowej osoby prawnej;
+klauzula informacyjna dotycząca przetwarzania danych osobowych przez Ministerstwo Rodziny, Pracy i Polityki Społecznej;
+klauzula informacyjna dotycząca przetwarzania danych osobowych w Radzie do spraw spółek z udziałem Skarbu Państwa i państwowych osób prawnych.
+Maja Nowak
+Pełnomocnik Rządu do Spraw Osób Niepełnosprawnych
+Sekretarz Stanu
+Pliki do pobrania
+Kwestionariusz-osobowy-oraz-oswiadczenia-kandydata.docx
+(Kwestionariusz-osobowy-oraz-oswiadczenia-kandydata.docx,
+Ilość pobrań: 239            – 40,53 KB)
+Klauzula-informacyjna-dotyczaca-przetwarzania-danych-osobowych-przez-Ministerstwo-Rodziny-Pracy-i-Polityki-Spolecznej.docx
+(Klauzula-informacyjna-dotyczaca-przetwarzania-danych-osobowych-przez-Ministerstwo-Rodziny-Pracy-i-Polityki-Spolecznej.docx,
+Ilość pobrań: 125            – 19,20 KB)
+Klauzula-informacyjna-dotyczaca-przetwarzania-danych-osobowych-w-Radzie-do-spraw-spolek-z-udzialem-Skarbu-Panstwa-i-panstwowych-osob-prawnych.docx
+(Klauzula-informacyjna-dotyczaca-przetwarzania-danych-osobowych-w-Radzie-do-spraw-spolek-z-udzialem-Skarbu-Panstwa-i-panstwowych-osob-prawnych.docx,
+Ilość…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="http://bip.gogolin.pl/18229/ogloszenie-o-naborze-do-rejestru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-prawa-handlowego-z-udzialem-gminy-gogolin.html" target="_blank" rel="noopener">Ogłoszenie o naborze do rejestru kandydatów na członków rad ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.gogolin.pl</span>
+    </div>
+    <a class="url-link" href="http://bip.gogolin.pl/18229/ogloszenie-o-naborze-do-rejestru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-prawa-handlowego-z-udzialem-gminy-gogolin.html" target="_blank" rel="noopener">&#128279; http://bip.gogolin.pl/18229/ogloszenie-o-naborze-do-rejestru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-prawa-handlowego-z-udzialem-gminy-gogolin.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ponadto osoba wskazana przez Burmistrza Gogolina na członka rady nadzorczej spółki prawa handlowego z udziałem Gminy Gogolin, urodzona przez dniem 1 sierpnia ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Ponadto osoba wskazana przez Burmistrza Gogolina na członka rady nadzorczej spółki prawa handlowego z udziałem Gminy Gogolin, urodzona przez dniem 1 sierpnia ...</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-7">
+  <div class="card-header">
+    <div class="card-number">7</div>
+    <div class="card-title">
+      <a href="https://minsk-maz.pl/komunikaty-i-ogloszenia/uwaga-trwa-nabor-na-czlonkow-rad-nadzorczych-w-miejskich-spolkach" target="_blank" rel="noopener">Uwaga! Trwa nabór na członków rad nadzorczych w miejskich spółkach | Miasto Mińsk Mazowiecki</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 03.06.2026</span>
+      <span class="meta-pill">&#127760; minsk-maz.pl</span>
+    </div>
+    <a class="url-link" href="https://minsk-maz.pl/komunikaty-i-ogloszenia/uwaga-trwa-nabor-na-czlonkow-rad-nadzorczych-w-miejskich-spolkach" target="_blank" rel="noopener">&#128279; https://minsk-maz.pl/komunikaty-i-ogloszenia/uwaga-trwa-nabor-na-czlonkow-rad-nadzorczych-w-miejskich-spolkach</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Nabór na członka Rady Nadzorczej spółek SIM oraz MOSiR w Mińsku Mazowieckim ... 08–22.06.2026. Obwieszczenie o wszczęciu postępowania. Wojewoda Mazowiecki ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Komunikaty i ogłoszenia
+Uwaga! Trwa nabór na członków rad nadzorczych w miejskich spółkach
+Uwaga! Trwa nabór na członków rad nadzorczych w miejskich spółkach
+03.06.2026
+Udostępnij
+E-mail
+Facebook
+X
+Copy link
+Kopiuj link
+Nabór na członka Rady Nadzorczej spółek SIM oraz MOSiR w Mińsku Mazowieckim
+Uwaga! Trwa nabór na członków rad nadzorczych w miejskich spółkach:
+członka Rady Nadzorczej Społecznej Inicjatywy Mieszkaniowej w Mińsku Mazowieckim Sp. z o.o.
+członka Rady Nadzorczej Miejskiego Ośrodka Sportu i Rekreacji w Mińsku Mazowieckim Sp. z o.o.
+Szczegóły w ogłoszeniu:
+Nabór na członka Rady Nadzorczej Społecznej Inicjatywy Mieszkaniowej w Mińsku Mazowieckim
+Nabór na członka Rady Nadzorczej Miejskiego Ośrodka Sportu i Rekreacji w Mińsku Mazowieckim
+Powrót
+Zobacz także
+18.06.2026
+Bon ciepłowniczy
+10–24.06.2026
+Obwieszczenie o wszczęciu postępowania - działka nr 8099/2
+Wojewoda Mazowiecki zawiadamia, że zostało wszczęte postępowanie w sprawie stwierdzenia nabycia z mocy prawa prawa własności nieruchomości położonej w obrębie ewidencyjnym 0001 Mińsk Mazowiecki.
+10–24.06.2026
+Obwieszczenie o wszczęciu postępowania - działka nr 1116/1
+Wojewoda Mazowiecki zawiadamia, że zostało wszczęte postępowanie w sprawie stwierdzenia nabycia z mocy prawa prawa własności nieruchomości położonej w obrębie ewidencyjnym 0001 Mińsk Mazowiecki.
+08–22.06.2026
+Obwieszczenie o wszczęciu postępowania - działka nr 641/3
+Wojewoda Mazowiecki zawiadamia, że zostało wszczęte postępowanie w sprawie stwierdzenia nabycia z mocy prawa prawa własności nieruchomości położonej w obrębie ewidencyjnym 0001 Mińsk Mazowiecki.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-8">
+  <div class="card-header">
+    <div class="card-number">8</div>
+    <div class="card-title">
+      <a href="https://biznes.pap.pl/wiadomosci/firmy/mo-bruk-sa-162026-zgloszenie-kandydatow-na-czlonkow-rady-nadzorczej-w-zwiazku-z" target="_blank" rel="noopener">MO-BRUK SA (16/2026) Zgłoszenie kandydatów na członków Rady ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 29 Czerwca 2026</span>
+      <span class="meta-pill">&#127760; biznes.pap.pl</span>
+    </div>
+    <a class="url-link" href="https://biznes.pap.pl/wiadomosci/firmy/mo-bruk-sa-162026-zgloszenie-kandydatow-na-czlonkow-rady-nadzorczej-w-zwiazku-z" target="_blank" rel="noopener">&#128279; https://biznes.pap.pl/wiadomosci/firmy/mo-bruk-sa-162026-zgloszenie-kandydatow-na-czlonkow-rady-nadzorczej-w-zwiazku-z</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">6 days ago · Strona Główna Firmy MO-BRUK SA (16/2026) Zgłoszenie Kandydatów Na Członków Rady Nadzorczej W Związku Z Pkt 8 Lit. I Porządku Obrad Zwyczajnego Walnego Zgromadzenia Akcjonariuszy Spółki Zwołanego Na Dzień 29 Czerwca 2026 R.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content"></div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-9">
+  <div class="card-header">
+    <div class="card-number">9</div>
+    <div class="card-title">
+      <a href="https://www.pb.pl/gielda/nanogroup-s-a-zgloszenie-kandydatur-na-czlonkow-rady-nadzorczej-nanogroup-s-a-9155848" target="_blank" rel="noopener">NANOGROUP S.A.: Zgłoszenie kandydatur na członków Rady ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 25 maja 2026</span>
+      <span class="meta-pill">&#127760; www.pb.pl</span>
+    </div>
+    <a class="url-link" href="https://www.pb.pl/gielda/nanogroup-s-a-zgloszenie-kandydatur-na-czlonkow-rady-nadzorczej-nanogroup-s-a-9155848" target="_blank" rel="noopener">&#128279; https://www.pb.pl/gielda/nanogroup-s-a-zgloszenie-kandydatur-na-czlonkow-rady-nadzorczej-nanogroup-s-a-9155848</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">1 day ago · Oświadczenia kandydatów na członków Rady Nadzorczej stanowią załączniki do niniejszego raportu bieżącego. Noty biograficzne Panów Jakuba Tataka oraz Tomasza H. Zastawnego załączono do niniejszego raportu bieżącego. Noty biograficzne osób będących dotychczas członkami Rady ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Spis treści:
+1. RAPORT BIEŻĄCY
+2. MESSAGE (ENGLISH VERSION)
+3. INFORMACJE O PODMIOCIE
+4. PODPISY OSÓB REPREZENTUJĄCYCH SPÓŁKĘ
+Spis załączników:
+NNG_osw_kan_RN_JGA.pdf
+NNG_osw_kan_RN_JTA.pdf
+NNG_osw_kan_RN_LGO.pdf
+NNG_osw_kan_RN_RPL.pdf
+NNG_osw_kan_RN_TWE.pdf
+NNG_osw_kan_RN_TZA.pdf
+bio_JTA.pdf
+bio_TZA.pdf
+KOMISJA NADZORU FINANSOWEGO
+Raport bieżący nr
+26
+/
+2026
+Data sporządzenia:
+2026-06-22
+Skrócona nazwa emitenta
+NANOGROUP S.A.
+Temat
+Zgłoszenie kandydatur na członków Rady Nadzorczej NanoGroup S.A.
+Podstawa prawna
+Art. 56 ust. 1 pkt 2 Ustawy o ofercie – informacje bieżące i okresowe
+Treść raportu:
+Zarząd NanoGroup S.A. („Spółka”, „Emitent”), w nawiązaniu do raportu bieżącego nr 21/2026 z dnia 25 maja 2026 r. o zwołaniu na 25 czerwca 2026 r. Zwyczajnego Walnego Zgromadzenia, w którego porządku obrad przewidziano podjęcie uchwał w sprawie powołania członków Rady Nadzorczej Spółki kolejnej kadencji, informuje, że 22 czerwca 2026 r. Spółka otrzymała od Prezesa Zarządu i jednocześnie akcjonariusza Spółki Przemysława Mazurka zgłoszenie kandydatur do Rady Nadzorczej Spółki. Zgłoszone zostały następujące kandydatury:
+- Pana Jerzego Garlickiego,
+- Pana Tadeusza Wesołowskiego,
+- Pana Łukasza Gołębiewskiego,
+- Pana Rafała Płókarza,
+- Pana Tomasza H. Zastawnego,
+- Pana Jakuba Tataka.
+Oświadczenia kandydatów na członków Rady Nadzorczej stanowią załączniki do niniejszego raportu bieżącego. Noty biograficzne Panów Jakuba Tataka oraz Tomasza H. Zastawnego załączono do niniejszego raportu bieżącego. Noty biograficzne osób będących dotychczas członkami Rady Nadzorczej, czyli pozostałych kandydatów znajdują się na stronie internetowej spółki.
+Załączniki
+Plik
+Opis
+NNG_osw_kan_RN_JGA.pdf
+NNG_osw_kan_RN_JTA.pdf
+NNG_osw_kan_RN_LGO.pdf
+NNG_osw_kan_RN_RPL.pdf
+NNG_osw_kan_RN_TWE.pdf
+NNG_osw_kan_RN_TZA.pdf
+bio_JTA.pdf
+bio_TZA.pdf
+MESSAGE (ENGLISH VERSION)
+INFORMACJE O PODMIOCIE
+&gt;&gt;&gt;
+NANOGROUP SPÓŁKA AKCYJNA
+(pełna nazwa emitenta)
+NANOGROUP S.A.
+Usługi inne (uin)
+(skrócona nazwa emitenta)
+(sektor wg. klasyfikacji GPW w W-wie)
+02-532
+Warszawa
+(kod pocztowy)
+(miejscowość)
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-10">
+  <div class="card-header">
+    <div class="card-number">10</div>
+    <div class="card-title">
+      <a href="https://bip.gogolin.pl/18229/ogloszenie-o-naborze-do-rejestru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-prawa-handlowego-z-udzialem-gminy-gogolin.html" target="_blank" rel="noopener">Ogłoszenie o naborze do rejestru kandydatów na ... - Gogolin</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.gogolin.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.gogolin.pl/18229/ogloszenie-o-naborze-do-rejestru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-prawa-handlowego-z-udzialem-gminy-gogolin.html" target="_blank" rel="noopener">&#128279; https://bip.gogolin.pl/18229/ogloszenie-o-naborze-do-rejestru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-prawa-handlowego-z-udzialem-gminy-gogolin.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Osoby zainteresowane umieszczeniem swojej kandydatury w rejestrze kandydatów na członków rad nadzorczych spółek prawa handlowego z udziałem Gminy Gogolin, spełniające warunki określone w treści ogłoszenia jako wymagania niezbędne, proszone są o składanie wymaganych dokumentów na adres: Urząd Miejski w Gogolinie, ul.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Osoby zainteresowane umieszczeniem swojej kandydatury w rejestrze kandydatów na członków rad nadzorczych spółek prawa handlowego z udziałem Gminy Gogolin, spełniające warunki określone w treści ogłoszenia jako wymagania niezbędne, proszone są o składanie wymaganych dokumentów na adres: Urząd Miejski w Gogolinie, ul.</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-06-23 17:42 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>

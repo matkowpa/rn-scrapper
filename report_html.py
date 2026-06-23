@@ -13,86 +13,126 @@ from scraper import Announcement
 # CSS osadzony w pliku (bez zewnętrznych zasobów)
 # ---------------------------------------------------------------------------
 _CSS = """
-* { box-sizing: border-box; margin: 0; padding: 0; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f4f6f9;
-    color: #2c3e50;
-    padding: 24px 16px;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
 }
-.container { max-width: 960px; margin: 0 auto; }
 
-/* Nagłówek strony */
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
 header {
-    background: #1a3a5c;
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
     color: #fff;
-    border-radius: 10px;
-    padding: 28px 32px 20px;
-    margin-bottom: 28px;
-}
-header h1 { font-size: 1.7rem; margin-bottom: 8px; }
-header .meta { font-size: 0.88rem; opacity: 0.85; line-height: 1.8; }
-header .badge {
-    display: inline-block;
-    background: #2ecc71;
-    color: #fff;
-    border-radius: 12px;
-    padding: 2px 12px;
-    font-size: 0.82rem;
-    margin-left: 8px;
-    vertical-align: middle;
-}
-
-/* Ostrzeżenie metodyczne */
-.notice {
-    background: #fff8e1;
-    border-left: 4px solid #f39c12;
-    border-radius: 6px;
-    padding: 12px 16px;
-    margin-bottom: 24px;
-    font-size: 0.9rem;
-}
-
-/* Filtr info */
-.filter-info {
-    background: #e8f4fd;
-    border-left: 4px solid #3498db;
-    border-radius: 6px;
-    padding: 12px 16px;
-    margin-bottom: 28px;
-    font-size: 0.9rem;
-}
-
-/* Karta ogłoszenia */
-.card {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    margin-bottom: 24px;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
     overflow: hidden;
 }
-.card-header {
-    background: #1a3a5c;
-    color: #fff;
-    padding: 14px 20px;
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
     align-items: flex-start;
-    gap: 12px;
 }
-.card-header h2 {
-    font-size: 1.0rem;
-    font-weight: 600;
-    line-height: 1.4;
-    flex: 1;
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
 }
-.card-header a { color: #aad4f5; text-decoration: none; }
-.card-header a:hover { text-decoration: underline; }
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
 .card-number {
-    background: rgba(255,255,255,0.18);
-    border-radius: 50%;
-    min-width: 30px;
-    height: 30px;
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -100,97 +140,139 @@ header .badge {
     font-weight: 700;
     flex-shrink: 0;
 }
-.card-body { padding: 18px 20px; }
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
 
-/* Tabela metadanych */
-.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 0.88rem; }
-.meta-table td { padding: 6px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
-.meta-table td:first-child { font-weight: 600; color: #555; width: 130px; white-space: nowrap; }
-.meta-table a { color: #2980b9; word-break: break-all; }
+.card-body { padding: 16px 20px; }
 
-/* Skrót */
-.section-label {
-    font-size: 0.8rem;
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
     font-weight: 700;
-    color: #888;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    color: #a0aec0;
     margin-bottom: 6px;
-    margin-top: 14px;
 }
 .summary-box {
-    background: #f8f9fa;
-    border-left: 3px solid #95a5a6;
-    border-radius: 4px;
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
     padding: 10px 14px;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     font-style: italic;
-    color: #555;
-    line-height: 1.6;
+    color: #4a5568;
+    line-height: 1.65;
 }
 
-/* Szczegóły – rozwijane */
+/* ── Expandable details ───────────────────────────── */
 details { margin-top: 12px; }
 summary {
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 600;
-    color: #2980b9;
+    color: #2563eb;
     padding: 6px 0;
     list-style: none;
     user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
-summary::before { content: "▶ "; font-size: 0.7em; }
-details[open] summary::before { content: "▼ "; }
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
 .details-content {
-    background: #fdfdfd;
-    border: 1px solid #e9ecef;
-    border-radius: 6px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
     padding: 14px;
     margin-top: 8px;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     line-height: 1.7;
     white-space: pre-wrap;
     word-break: break-word;
-    max-height: 420px;
+    max-height: 400px;
     overflow-y: auto;
-    color: #444;
+    color: #4a5568;
 }
 
-/* Brak wyników */
+/* ── Empty state ──────────────────────────────────── */
 .empty {
     text-align: center;
     padding: 60px 20px;
-    color: #888;
-    font-size: 1.1rem;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
 }
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
 
-/* Stopka */
+/* ── Footer ───────────────────────────────────────── */
 footer {
     text-align: center;
-    font-size: 0.8rem;
-    color: #999;
-    margin-top: 32px;
-    padding-top: 16px;
-    border-top: 1px solid #ddd;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
 }
-
-/* Date badge */
-.date-badge {
-    display: inline-block;
-    background: #e8f8f0;
-    color: #27ae60;
-    border: 1px solid #a9dfbf;
-    border-radius: 12px;
-    padding: 2px 10px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-.date-unknown {
-    background: #fef9e7;
-    color: #b7950b;
-    border-color: #f9e79f;
-}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
 """
 
 
@@ -200,10 +282,9 @@ def _e(text: str) -> str:
 
 
 def _render_card(idx: int, ann: Announcement) -> str:
-    date_label = ann.date or "—"
-    date_class = "date-badge" if ann.date_parsed else "date-badge date-unknown"
+    date_label = ann.date or "brak daty"
+    date_class = "meta-pill date-badge" if ann.date_parsed else "meta-pill date-unknown"
 
-    # Skróć szczegóły do rozsądnej długości
     details_lines = [ln.strip() for ln in ann.details.splitlines() if ln.strip()]
     details_text = "\n".join(details_lines[:60])
     if len(details_lines) > 60:
@@ -212,30 +293,21 @@ def _render_card(idx: int, ann: Announcement) -> str:
     return f"""
 <div class="card" id="ann-{idx}">
   <div class="card-header">
-    <span class="card-number">{idx}</span>
-    <h2><a href="{_e(ann.url)}" target="_blank" rel="noopener">{_e(ann.title)}</a></h2>
+    <div class="card-number">{idx}</div>
+    <div class="card-title">
+      <a href="{_e(ann.url)}" target="_blank" rel="noopener">{_e(ann.title)}</a>
+    </div>
   </div>
   <div class="card-body">
-    <table class="meta-table">
-      <tr>
-        <td>Data ogłoszenia</td>
-        <td><span class="{date_class}">{_e(date_label)}</span></td>
-      </tr>
-      <tr>
-        <td>Źródło</td>
-        <td>{_e(ann.source_domain)}</td>
-      </tr>
-      <tr>
-        <td>Link</td>
-        <td><a href="{_e(ann.url)}" target="_blank" rel="noopener">{_e(ann.url)}</a></td>
-      </tr>
-    </table>
-
-    <div class="section-label">Skrót ogłoszenia</div>
+    <div class="meta-row">
+      <span class="{date_class}">&#128197; {_e(date_label)}</span>
+      <span class="meta-pill">&#127760; {_e(ann.source_domain)}</span>
+    </div>
+    <a class="url-link" href="{_e(ann.url)}" target="_blank" rel="noopener">&#128279; {_e(ann.url)}</a>
+    <div class="label">Skrót ogłoszenia</div>
     <div class="summary-box">{_e(ann.summary)}</div>
-
     <details>
-      <summary>Pokaż pełne szczegóły (treść pobrana ze strony)</summary>
+      <summary>Pokaż pełne szczegóły</summary>
       <div class="details-content">{_e(details_text)}</div>
     </details>
   </div>
@@ -273,9 +345,16 @@ def generate_html_report(
     if not announcements:
         cards_html = """
 <div class="empty">
+  <span class="empty-icon">&#128269;</span>
   Brak ogłoszeń spełniających kryteria daty.<br>
   <small>Spróbuj ponownie lub dostosuj zapytania w pliku <code>scraper.py</code>.</small>
 </div>"""
+
+    filter_banner = ""
+    if cutoff_info:
+        unknown_note = (f" Ogłoszeń bez rozpoznanej daty: <strong>{date_unknown_count}</strong> (oznaczone żółto)."
+                        if date_unknown_count else "")
+        filter_banner = f'<div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> {cutoff_info}{unknown_note}</div></div>'
 
     return f"""<!DOCTYPE html>
 <html lang="pl">
@@ -286,36 +365,34 @@ def generate_html_report(
   <style>{_CSS}</style>
 </head>
 <body>
-<div class="container">
 
   <header>
-    <h1>Ogłoszenia na stanowisko Członka Rady Nadzorczej</h1>
-    <div class="meta">
-      Data wygenerowania: <strong>{now_str}</strong> &nbsp;|&nbsp;
-      Znaleziono ogłoszeń: <strong>{count}</strong>
-      <span class="badge">HTML</span>
-      <br>
-      Źródło danych: DuckDuckGo (region: pl-pl) + bezpośrednie pobieranie stron
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; {now_str}</span>
+      <span class="header-chip chip-green">&#9679; {count} ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
     </div>
   </header>
 
-  <div class="notice">
-    <strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące
-    stanowiska <em>członka rady nadzorczej</em>. Ogłoszenia na stanowiska zarządcze
-    (np. członek zarządu, prezes zarządu) zostały odfiltrowane.
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    {filter_banner}
+
+    <div class="section-heading">Lista ogłoszeń ({count})</div>
+    {cards_html}
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; {now_str} &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
   </div>
 
-  {f'<div class="filter-info">🗓 <strong>Filtr daty:</strong> {cutoff_info}' +
-   (f' Ogłoszenia bez rozpoznanej daty: <strong>{date_unknown_count}</strong> (oznaczone żółto).' if date_unknown_count else '') +
-   '</div>' if cutoff_info else ''}
-
-  {cards_html}
-
-  <footer>
-    Raport wygenerowany automatycznie &nbsp;·&nbsp; {now_str}
-    &nbsp;·&nbsp; Projekt RN &nbsp;·&nbsp; Dane: DuckDuckGo / ddgs
-  </footer>
-
-</div>
 </body>
 </html>"""
