@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-06-24 21:16</span>
+      <span class="header-chip chip-green">&#9679; 6 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>24.05.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>3</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (6)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://miastoryn.pl/ogloszenie-o-naborze-kandydatow-na-czlonkow-rady-nadzorczej-przedsiebiorstwa-gospodarki/" target="_blank" rel="noopener">Proszę czekać…</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; miastoryn.pl</span>
+    </div>
+    <a class="url-link" href="https://miastoryn.pl/ogloszenie-o-naborze-kandydatow-na-czlonkow-rady-nadzorczej-przedsiebiorstwa-gospodarki/" target="_blank" rel="noopener">&#128279; https://miastoryn.pl/ogloszenie-o-naborze-kandydatow-na-czlonkow-rady-nadzorczej-przedsiebiorstwa-gospodarki/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ogłoszenie o naborze kandydatów na członków Rady Nadzorczej Przedsiębiorstwa Gospodarki Komunalnej i Mieszkaniowej w Rynie sp. z o.o. Burmistrz Miasta i Gminy Ryn ogłasza nabór na członków Rady Nadzorczej Przedsiębiorstwa Gospodarki Komunalnej i Mieszkaniowej w Rynie sp. z o.o. zwanej dalej „Spółką” · Liczba członków rady nadzorczej przewidywanych do powołania w naborze: 3 osoby · Kandydat na członka rady nadzorczej spełniać musi następujące wymagania (zgodnie z art.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Loader
+Proszę czekać na weryfikację żądania…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">PILNE! Praca: Członek rady nadzorczej - Czerwiec 2026 - 7607 ofert Pracy - JOOBLE.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; pl.jooble.org</span>
+    </div>
+    <a class="url-link" href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://pl.jooble.org/praca-członek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Praca: Członek rady nadzorczej. 149.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Praca: Członek rady nadzorczej. 149.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 23 czerwca 2026</span>
+      <span class="meta-pill">&#127760; bip.goldap.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">&#128279; https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Nabór dokumentów aplikacyjnych potrwa do 25 czerwca 2025 r. Kandydatom, którzy odpowiedzieli na ogłoszenie, a nie zostali wybrani na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały nie przysługuje możliwość odwołania się.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Na Skróty
+Budżet
+Ogłoszenia o Naborze
+Nieruchomości gminne
+Sprzedaż Nieruchomości
+Dzierżawa i użyczenia
+Najem
+Uchwały
+Wybory
+Informacja publiczna
+Petycje
+Petycje do Rady Miejskiej
+Petycje do Burmistrza Gołdapi
+Archiwum BIP
+BIP GOV
+ePUAP
+Profil Zaufany
+CEIDG
+e-SESJA
+Dziennik Ustaw
+Dziennik Urzędowy Woj. Warmińsko-Mazurskiego
+Strona główna
+Nabory
+Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały
+Aktualizacja informacji z rozstrzygnięcia naboru na stanowisko urzędnicze ds. kadr i płac
+Informacja  o rozstrzygnięciu  naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych- ½ etatu
+Informacja Burmistrza Gołdapi z dnia 23 czerwca 2026 r. o zamiarze ogłoszenia konkursu  na kandydata/ kandydatkę na stanowisko Dyrektora/Dyrektorki Biblioteki Publicznej w Gołdapi
+Informacja o nierozstrzygnięciu  naboru na wolne stanowisko urzędnicze do spraw obrony cywilnej,  ochrony ludności i dostępności w Wydziale ds. Administracyjnych  Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na do spraw projektów inwestycyjnych w Wydziale Inwestycji  i Rozwoju Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na kierownicze stanowisko urzędnicze Dyrektora Ośrodka Sportu i Rekreacji w Gołdapi
+INFORMACJA O NIEROZSTRZYGNIĘCIU NABORU NA STANOWISKO URZĘDNICZE AUDYTORA WEWNĘTRZNEGO
+Informacja o nierozstrzygnięciu naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych
+Informacja o nierozstrzygnięciu naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych - ½ etatu
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  do spraw nadzoru inwestorskiego w Wydziale Inwestycji i Rozwoju Urzędu Miejskiego  w Gołdapi
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  do spraw nadzoru inwestorskiego w Wydziale Inwestycji i Rozwoju Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wew…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://bip.wodzislaw-slaski.pl/res/serwisy/pliki/29717565?version=1.0" target="_blank" rel="noopener">Ogłoszenie o naborze kandydatów na członków Rady Nadzorczej spółki ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.wodzislaw-slaski.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.wodzislaw-slaski.pl/res/serwisy/pliki/29717565?version=1.0" target="_blank" rel="noopener">&#128279; https://bip.wodzislaw-slaski.pl/res/serwisy/pliki/29717565?version=1.0</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">z siedzibą w Wodzisławiu Śląskim Prezydent Miasta Wodzisławia Ślaskiego ogłasza nabór kandydatów na członków Rady Nadzorczej spółki ...Domaro sp. z o.o. z siedzibą w Wodzisławiu Śląskim.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">%PDF-1.6
+%äüöß
+2 0 obj
+&lt;&gt;
+stream
+x��[I�,�
+ޟ_��@w&lt;��Mé�S��
+��]�&quot;���ߏ-ْ�r
+}//�p�Ow�%�ҧ���z��&gt;�}S7�Pf���?L�o�ӏ�ӷ�����?���#¿���1}��1���=�a�}����Uߴ�}��קү�{*���,|w/�T&gt;~t����1»�u���}�S0ŏ9~���uO
+�⋆�&gt;�����Ҙ�6�kF�D�&amp;Ȝ�C鄼0&quot;N@�.I�}�0��MW�
+Y�
+��?~i�����;d��mY�$ZS�$
+i5|�$�u2E�$T��Z_�i|�	o_$L���t�PyMF`�D(�xʫ�ό�:��~���V
+2� �
+�
+8��twZ-r�% *�J��W�a���A��D
+E�
+�x7��o�ox��Y+θ.��C�jT��xv��=	�3&#x27;�8����I��@#	��P�5�Ԏ�G�#G
+&#x27;=4j7�1*��,����$���QT;g=���i|���O���W�W��L�q���B����f��+ ~�8
+���%v�`�
+t�q�_D{	o	nFg&amp;N@�(	5\_��~|؍������	:1����. b�L���}ȫ~��9d���K�D�+������6.�[��Z�\��?MhƠ
+�
+�Ҩ��&quot;o���?[$]�0M�_1Kʴa�L:�xq�#Q���N�G��ۛ6Q&quot;���L����e�&#x27;QE[NG�e+�����
+d&lt;�G��*x4�
+�6�D�hWJ]C`���	_���7ΫJ@�b}��B�.*�q�g�)��)�{X2TN���E)����aw�b3�b!�v	}���|��c|k&quot;N͘ �,=�eҭ�BvN
+᱔��M
+��&#x27;��_]��r�	eS`&quot;V8��5���ȗ	�YBS�ӫU̹_n8�
+Ъ�ʥd���A�X
+�&quot;&#x27;�|�Q΀~=Ig8.1H w:(U\�k�\!b�ǇSF�~�u���-�%&lt;�
+�
+���&amp;�\����ݨ%��
+���/
+s���Aδ
+�s�rs,Kb�c��=B;���,�k8R�����ߐ��U��w�u@\&quot;��2�
+)y]Pi���fM@�3̞ƹ\!s*�=
+�TNVx͙�&amp;�
+9�XNn&#x27;����&#x27;AS��aDy��Ta���E��!�H��}���y�펽\�=����Wلj`��Q�(A4� zx�Ȧ��CX�*:8�:��;�;�1B����b�6X�&lt;���=
+��$c[S�\��KB���\�TqMOx`�A
+�Kx
+���U��$%�O�0Z��h�k�F�%��M��+��C
+(�[|r����%m)��4��
+�R�����O
+yc��9e�#;gڪ�g�!��AM4�&amp;\Wr��af�L�9,bg�xTc���[�w�4�؄�L��
+m.��=��ˆ)��ܦ�_D��&quot;{���Bd1t �@��t�Ie���@i����^����}{ڔW�d�跱Q��*:��(��y��Vz0�i2[�	K�.��vs�%�IvI�����Rb�diǄ��b4�Lg7ƱeS��cE�rfU��6��&gt;��6
+�h��JM6�����~��Ǹ�t�����{sj
+��;��n4Ȟo(�}T�=����R�40���
+�~٫]rW�[��c�h3;Z��y$�w�jE.�K��/4�M����i,�9�/@X?�I3�|2&amp;�l���.�X
+,a��U��&amp;��v�͞��.��_R�^����=	��*�]EJl�&quot;GO
+K�fTcÌ���⵾��B)R�X�a
+�6���J������9�?���[��}
+⣤����
+�&#x27;�u�&gt;w����|�˖��8)[ڔW�C#���ֻ
+quu� `�)��#U*DR�[Ca��=�;)m�[�/�I�N	(��@��[؈�^H��.N:��H�T������
+��gі�0�A]O�I
+5!��]����&quot;��cc�C�zӪI�
+�mS�c]܈�zp���	&#x27;tñ�mTa��&lt;;㞮mv`Z�Df�I�(cr%��J��3^9
+W4\%��\l�r&amp;�`�z�\vRʡ�=6\}�,]iOi�r&quot;
+2CJ�&gt;�Sm�;���x���NpJ�~.��`L�}FbS4Vġ�i߸���x�eMJ��{6�o¦���*)ݓ�+mX^:q��
+`;�
+��J}�����q&#x27;ؕ�Qd�E�_��D.���4 2H��-��X�f�ZK.��6�[=
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://wydminy.pl/wp-content/uploads/2026/06/ogloszenie-o-naborze-do-Rady-Nadzorczej-ZUOK-Spytkowo.pdf" target="_blank" rel="noopener">PDF 30c-9-20260608153602</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 2026-06-08</span>
+      <span class="meta-pill">&#127760; wydminy.pl</span>
+    </div>
+    <a class="url-link" href="https://wydminy.pl/wp-content/uploads/2026/06/ogloszenie-o-naborze-do-Rady-Nadzorczej-ZUOK-Spytkowo.pdf" target="_blank" rel="noopener">&#128279; https://wydminy.pl/wp-content/uploads/2026/06/ogloszenie-o-naborze-do-Rady-Nadzorczej-ZUOK-Spytkowo.pdf</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">2) Kandydatom, którzy odpowiedzieli na ogłoszenie, a nie zostali wybrani na członków Rady Nadzorczej Spółki nie przysługuje możliwość odwołania się. 3) Bez rozpoznania pozostawia się zgłoszenia kandydatów, które nie spełniają wymogów formalnych. 11-500 Giż</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">%PDF-1.4
+%����
+1 0 obj
+&lt;&gt;/Contents [ 4 0 R ]
+/Rotate 0
+&gt;&gt;
+endobj
+5 0 obj
+&lt;&gt;
+stream
+�����JFIF����������
+30C-9 Q76���C�		
+
+
+
+
+$.&#x27; &quot;,#
+(7),01444&#x27;9=82&lt;.342�������������
+�������}�!1AQa&quot;q2���#B��R��$3br�
+%&amp;&#x27;()*456789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz����������������������������������������������������������������������������
+	&quot;u������?��.�(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��(��QEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQER
+ԴQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQ��EQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQEQE…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://biznes.pap.pl/wiadomosci/firmy/mo-bruk-sa-162026-zgloszenie-kandydatow-na-czlonkow-rady-nadzorczej-w-zwiazku-z" target="_blank" rel="noopener">MO-BRUK SA (16/2026) Zgłoszenie kandydatów na członków Rady Nadzorczej w związku z pkt 8 lit. i porządku obrad Zwyczajnego Walnego Zgromadzenia Akcjonariuszy Spółki zwołanego na dzień 29 czerwca 2026 r.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 29 czerwca 2026</span>
+      <span class="meta-pill">&#127760; biznes.pap.pl</span>
+    </div>
+    <a class="url-link" href="https://biznes.pap.pl/wiadomosci/firmy/mo-bruk-sa-162026-zgloszenie-kandydatow-na-czlonkow-rady-nadzorczej-w-zwiazku-z" target="_blank" rel="noopener">&#128279; https://biznes.pap.pl/wiadomosci/firmy/mo-bruk-sa-162026-zgloszenie-kandydatow-na-czlonkow-rady-nadzorczej-w-zwiazku-z</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Zarząd Mo-BRUK S.A. (&quot;Emitent&quot;, &quot;Spółka&quot;) informuje, że w dniu 17 czerwca 2026 r. do Spółki wpłynęło od Monto Group Fundacja Rodzinna - uprawnionego akcjonariusza reprezentującego co najmniej jedną dwudziestą kapitału zakładowego Spółki, zgłoszenie kandydatur Pana Pawła Ziółkowskiego i Pana Wiktora Mokrzyckiego na członków Rady Nadzorczej Spółki. Otrzymane zgłoszenie ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Profil:
+Mo-Bruk SA
+Publikacja:
+2026-06-17 19:33
+MO-BRUK SA (16/2026) Zgłoszenie kandydatów na członków Rady Nadzorczej w związku z pkt 8 lit. i porządku obrad Zwyczajnego Walnego Zgromadzenia Akcjonariuszy Spółki zwołanego na dzień 29 czerwca 2026 r.
+Raport bieżący z plikiem 16/2026
+Podstawa prawna: Art. 56 ust. 1 pkt 2 Ustawy o ofercie - informacje bieżące i okresowe
+Zarząd Mo-BRUK S.A. (&quot;Emitent&quot;, &quot;Spółka&quot;) informuje, że w dniu 17 czerwca 2026 r. do Spółki wpłynęło od Monto Group Fundacja Rodzinna - uprawnionego akcjonariusza reprezentującego co najmniej jedną dwudziestą kapitału zakładowego Spółki, zgłoszenie kandydatur Pana Pawła Ziółkowskiego i Pana Wiktora Mokrzyckiego na członków Rady Nadzorczej Spółki.
+Otrzymane zgłoszenie dotyczy pkt 8 lit.i opublikowanego porządku obrad Zwyczajnego Walnego Zgromadzenia Akcjonariuszy Spółki (podjęcie uchwały w sprawie wyboru członków Rady Nadzorczej Spółki).
+Zarząd Mo-BRUK S.A. poniżej przekazuje informacje nt. kandydatów w formie notek biograficznych.
+Pan Paweł Ziółkowski jest absolwentem Szkoły Głównej Handlowej w Warszawie, gdzie uzyskał tytuł magistra finansów i rachunkowości oraz licencjat z metod ilościowych w ekonomii i systemach informacyjnych. Ukończył również Business Course na London School of Economics. W latach 2015-2021 zdobywał międzynarodowe doświadczenie w Londynie, pracując w globalnych bankach inwestycyjnych Barclays Capital oraz Deutsche Bank. Pan Paweł Ziółkowski specjalizuje się w doradztwie strategicznym oraz fuzjach i przejęciach (M_A), posiadając ponad 10-letnie doświadczenie w sektorach infrastruktury, energii, gospodarki odpadów oraz telekomunikacji i technologii. Obecnie pełni rolę Dyrektora w firmie doradczej Alvarez _ Marsal (A_M), globalnym liderze w zakresie doradztwa strategicznego, transformacji operacyjnej oraz finansowania i realizacji projektów inwestycyjnych. Paweł Ziółkowski pełni obecnie funkcję Członka Rady Nadzorczej Mo-BRUK S.A. oraz Członka Komitetu Audytu.
+Pan Wiktor Mokrzycki jest przedstawicielem drugiej generacji w Mo-BRUK SA i jednocześnie jej współtwórcą. Od młodych lat zaangażowany w sprawy ochrony środowiska oraz budowanie firmy rodzinnej. Doświadczony w przetwarzaniu odpadów, budowaniu i realizacji strategii proekologicznej oraz zarządzaniu zespołem handlowym w branży ochrony środowiska w Polsce i UE. Posiada wiedzę z zakresu spółek publicznych na GPW, ESG, inwestycji kapitałowych. Posiada wykształcenie wyższe w kierunku inżynierii środowiska i zarządzania.
+Jedn…</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-06-24 21:16 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
