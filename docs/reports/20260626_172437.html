@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-06-26 17:24</span>
+      <span class="header-chip chip-green">&#9679; 7 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>26.05.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>7</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (7)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://www.powiatwodzislawski.pl/ogloszenie-o-naborze-kandydatow-na-kadencje-2016-2019-do-rady-nadzorczej-pks-sp-z-o-o-w-raciborzu.html" target="_blank" rel="noopener">Ogłoszenie o naborze kandydatów na kadencję 2016 - 2019 do Rady Nadzorczej PKS sp. z o.o. w Raciborzu - Powiat Wodzisławski</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.powiatwodzislawski.pl</span>
+    </div>
+    <a class="url-link" href="https://www.powiatwodzislawski.pl/ogloszenie-o-naborze-kandydatow-na-kadencje-2016-2019-do-rady-nadzorczej-pks-sp-z-o-o-w-raciborzu.html" target="_blank" rel="noopener">&#128279; https://www.powiatwodzislawski.pl/ogloszenie-o-naborze-kandydatow-na-kadencje-2016-2019-do-rady-nadzorczej-pks-sp-z-o-o-w-raciborzu.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Zarząd Powiatu Raciborskiego ogłasza nabór kandydatów na członków rady nadzorczej spółki PKS w Raciborzu SP. z o.o. Liczba członków przewidywana do powołania: 3. Ogłoszenie – przejdź.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Odczytaj tekst
+Stop
+OGŁOSZENIE – PRZEJDŹ</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">PILNE! Praca: Członek rady nadzorczej - Czerwiec 2026 - 7607 ofert Pracy - JOOBLE.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; pl.jooble.org</span>
+    </div>
+    <a class="url-link" href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://pl.jooble.org/praca-członek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">...Rada Nadzorcza Robotniczej Spółdzielni Mieszkaniowej „Ursus” w Warszawie ogłasza K O N K U R S na stanowisko Członka Zarządu ds. ekonomiczno - finansowych - Głównego Księgowego I.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">...Rada Nadzorcza Robotniczej Spółdzielni Mieszkaniowej „Ursus” w Warszawie ogłasza K O N K U R S na stanowisko Członka Zarządu ds. ekonomiczno - finansowych - Głównego Księgowego I.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://www.pracuj.pl/praca/członek+rady+nadzorczej;kw" target="_blank" rel="noopener">Praca członek+rady+nadzorczej – Pracuj.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.pracuj.pl</span>
+    </div>
+    <a class="url-link" href="https://www.pracuj.pl/praca/członek+rady+nadzorczej;kw" target="_blank" rel="noopener">&#128279; https://www.pracuj.pl/praca/członek+rady+nadzorczej;kw</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Czas publikacji ogłoszenia · 24h · 3 dni · 7 dni · 14 dni · 30 dni · Dodatkowe · Oferty bezpośrednio od pracodawcy · Pобота · Without Polish language · Pokaż oferty · Praca · członek rady nadzorczej</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Przejdź do wyszukiwarki
+Przejdź do ofert
+Przejdź do filtrów
+Przejdź do stopki
+Hej! Jakiej pracy szukasz?
+Stanowisko, firma, słowo kluczowe
+Kategoria
+Lokalizacja
+Odległość
+Szukaj
+Kryteria wyszukiwania
+Filtry
+Wyszukiwanie zaawansowane
+Przejdź do wyszukiwarki
+Przejdź do ofert
+Przejdź do filtrów
+Przejdź do stopki
+Zapisz wyszukiwanie
+A to pech: 0 ofert
+z podanymi kryteriami
+Nie znaleźliśmy ofert, które spełniałyby podane przez Ciebie kryteria wyszukiwania
+Ale nie przejmuj się, zobacz co możesz zrobić:
+Zmień lub
+wyczyść filtry
+Upewnij się, że nie ma żadnych literówek we wpisanych frazach
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej" target="_blank" rel="noopener">Strona Główna | Produkty | Krajowa Grupa Spożywcza S.A.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.kgssa.pl</span>
+    </div>
+    <a class="url-link" href="https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Czytaj więcej (Ogłoszenie Rady Nadzorczej Krajowej Grupy Spożywczej S.A. o postępowaniu kwalifikacyjnym na stanowisko Członka Zarządu Krajowej Grupy Spożywczej S.A.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Produkty
+Produkty dla handlu detalicznego
+Produkty B2B</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://langas.pl/pakiet-omnibus-i-czym-jest-i-co-zmienil-w-obowiazkach-esg-zarzadu-i-rady-nadzorczej/" target="_blank" rel="noopener">Pakiet Omnibus I – czym jest i co zmienił... - Langas Group</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; langas.pl</span>
+    </div>
+    <a class="url-link" href="https://langas.pl/pakiet-omnibus-i-czym-jest-i-co-zmienil-w-obowiazkach-esg-zarzadu-i-rady-nadzorczej/" target="_blank" rel="noopener">&#128279; https://langas.pl/pakiet-omnibus-i-czym-jest-i-co-zmienil-w-obowiazkach-esg-zarzadu-i-rady-nadzorczej/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Co zarząd i rada nadzorcza powinni zrobić w 2026 roku – checklist. Jeśli z całego artykułu masz zapamiętać listę działań, oto ona: Ustal status spółki względem nowych progów – czy nadal podlegasz, od kiedy, w którym etapie.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Co zarząd i rada nadzorcza powinni zrobić w 2026 roku – checklist. Jeśli z całego artykułu masz zapamiętać listę działań, oto ona: Ustal status spółki względem nowych progów – czy nadal podlegasz, od kiedy, w którym etapie.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">Ogłoszenie o naborze uzupełniającym kandydatów na członków rady nadzorczej</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; um_jaslo.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">&#128279; https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-7">
+  <div class="card-header">
+    <div class="card-number">7</div>
+    <div class="card-title">
+      <a href="https://bip.um.slupsk.pl/file/49811" target="_blank" rel="noopener">[PDF] Ogłoszenie o drugim naborze kandydatów do Rady Nadzorczej ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.um.slupsk.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.um.slupsk.pl/file/49811" target="_blank" rel="noopener">&#128279; https://bip.um.slupsk.pl/file/49811</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Przy powołaniu kandydatów w skład rady nadzorczej uwzględnia się: • wymagany skład zawodowy (prawnik, ekonomista, specjalista branżowy);.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">%PDF-1.4
+%äüöß
+2 0 obj
+&lt;&gt;
+stream
+x��ZIo����W����u�JY���6��
+��� �$�����Z{�h{
+|��L9&lt;�)����֛_��J��j]���?��s����&gt;1����=�f_xzy(0�5⢗_��o0L/����`���y68�Hi����m��|�l��-�
+Nn��rr�m=�&#x27;^p���-؊���{�ҹ�-p��&lt;]�l�|�����çW%]�I�;Iq�&#x27;Na�	K��
+�f�ѓ�X�3�M���g;����Q�w�o�p�	r��L�1���2�c�Y(os�G\`��y��P
+izA���&quot;�A�{���$|Pi�ǰ���4d;�ę��Yl c�iHѨ�
+��
+# �J�r&amp;x�i� �CT�
+���QH���6�cS�c�X����3�D����l
+�C���V�H�3_����4�bd-$�&amp;����M&quot;������D��R@���P���%�xQ� Z�g��:�:l��i��r�h���e��P5�Θ�j���;�!އ����Sķ=�W~�&amp;x���C�P�:�ɉ���Eq���c�\xo.�7J�_X��Ϭ
+ư`L
+~c\��x*/z,U���4���n}&amp;����
+1&gt;�UL���&quot;̞�$
+Yd2��m�E��� �h���A��
+��s1´�dv�ba�i�a���z�IEg�,U�����VxT�0;�kot^V2M��U-��l�#�_k�g�jB��4Ft���\,�R��A���+�NV�U����{���`$�#E4�
+iA�Cp
+vD;
+�h.�SF�xf��Ԝ�w����L��2ti8�,�	�Ҩ���K����3�.�%�
+9k����;�G���9�}�}cwո�hy�ԔH��@U�Q��Τ�������pӤ`�B�iw�X4P�;��6Q1(���%h�p��
+3p���V-�*:|�X��e�Nm(�X���𣱊xf�q�Ű�%�S�^5GgI/�X9�H���o.+�kx�
+&#x27;�Ԫ�HM���$�*q�Ic�r��;
+�B0!����d��b
+AU�\C6�꿣i��V]zmR\
+�`��*��M5�E���9���G;4�;.��gqkq���6L4�@k]�������������?=�i��y
+�����oo)_�_�u	-HE17���*��9F�`WtN�S˳f�zo�j?.F�ڒ�L�`iit�^�,�/��.1�
+�YS���	��&amp;]T p&lt;��!�ْ�W[�B��!R\�K�k��c��DY6��Q�ss�ε�3�������\&lt;�_^��&lt;����A��
+�,��`�g9w&gt;A����!���Y�H������k�s�YD+�J
+�
+��ڢ9��,�\�Z�V&amp;$��c�7��諬AZ�CA[�0A�x�*�n~��Ҵ���-���8�N�k
+%�3O���&#x27;߅� _���L(\�A���S��&gt;[
+ű,�l�;0���pGb���Z�|�j��0����M
+��椨V�62h���&gt;�	������&quot;��� 䆦�eR��	��s�V&amp;�u�ԎP
+���`ȡB�y�̥
+R)��^z&lt;�ʗӅ�^�3C�?(^*2?XAf��=����Եpf�ڮ�0�����ޱKlC�)|
+�6Og��~��,�Z��6h-������J���&#x27;�}YZà�cS/m
+�utl:
+f��CP����:�E~_����&quot;�GApP�h��F)@��_m�*�{�Ȑ�:�E��[�S=��
+ROU�c�up��
+i��i:�F�&lt;�cSh?{�yTL��qLkz���d
+�|0�/B�%�A�P�f%�xYQ��J���&#x27;n5�fl[�]j�U�Q�� ʓ&gt;��`h�f���&lt;�z���N�F=���ʝ��!�I�������1	$�?�j�js���������X&gt;�7��M
+�kkj�qW綀�Q1J��C�7d�ꕡ�|�S�Wga�ܾ�&quot;�n��J?���&amp;Y��84��W�cO���ƭk7�k�F���WBѠ�EW{�g��:6*���J��	Ѣ�C�Q|��_�z�Ք&amp;(��&amp;���!�TU)�s�hǳ͈�W��q��:ˉ#�&gt;7�/-�5�t
+j;���K2&quot;��
+���aࠒ	Y��1��ȃ-��1{�H8�
+�����]�dHЫ�J��{�b�kk�h:��BS�n���
+�q
+��fu2�:����MQ��S?E,q���#=�o�u_�~��}��AK�:� |����3����0�A����4^��ϔ�e��
+���dk�⩟Sp�:���X��THi�+����{�r,��Z��JW��U��,��
+�k��в���[��u�v�
+��]{䒸|�̌�=����SG��ZX*:��`ꄃB&#x27;�cV~��}xߡ~���4����h�q
+�Zsz���f֨bh
+z�J�p����|b��*c�k{����~(�[��J���`�k+���K�����
+�vaJ+�㓳s�s�������g�}�e�G۵�B`|}d�
+x�&gt;��d5�~����_
+\��]mPt{����
+PBV�Bz�.��{ I�㥻�������2��������=��
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-06-26 17:24 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
