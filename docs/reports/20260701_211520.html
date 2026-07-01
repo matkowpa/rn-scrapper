@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-07-01 21:15</span>
+      <span class="header-chip chip-green">&#9679; 13 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>01.06.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>11</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (13)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">PILNE! Praca: Członek rady nadzorczej - Czerwiec 2026 - 7607 ofert Pracy - JOOBLE.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; pl.jooble.org</span>
+    </div>
+    <a class="url-link" href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://pl.jooble.org/praca-członek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Praca: Członek rady nadzorczej. 149.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Praca: Członek rady nadzorczej. 149.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://bip.mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-mazowieckiej-agencji-energetycznej.html" target="_blank" rel="noopener">Nabór kandydatów do Rady Nadzorczej Mazowieckiej Agencji Energetycznej - Witryna Mazovia.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.mazovia.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-mazowieckiej-agencji-energetycznej.html" target="_blank" rel="noopener">&#128279; https://bip.mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-mazowieckiej-agencji-energetycznej.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ogłoszenie nr 1/2023 o naborze kandydatów do Rady Nadzorczej spółki „Mazowiecka Agencja Energetyczna” Sp.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Ogłoszenie nr 1/2023 o naborze kandydatów do Rady Nadzorczej spółki „Mazowiecka Agencja Energetyczna” Sp.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej?tresc=3196" target="_blank" rel="noopener">Strona Główna | Produkty | Krajowa Grupa Spożywcza S.A.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.kgssa.pl</span>
+    </div>
+    <a class="url-link" href="https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej?tresc=3196" target="_blank" rel="noopener">&#128279; https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej?tresc=3196</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ogłoszenie Rady Nadzorczej Krajowej Grupy Spożywczej S.A. o postępowaniu kwalifikacyjnym na stanowisko Członka Zarządu Krajowej Grupy Spożywczej S.A. z siedzibą w Toruniu odpowiedzialnego za obszar produkcyjno-inwestycyjny i surowcowy Spółki.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Produkty
+Produkty dla handlu detalicznego
+Produkty B2B</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3" target="_blank" rel="noopener">LEX</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; sip.lex.pl</span>
+    </div>
+    <a class="url-link" href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3" target="_blank" rel="noopener">&#128279; https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">499 oraz z 2026 r. poz. 160 i 177) na zasadach wskazanych w tym przepisie. Art. 20. [Wprowadzanie wymagań wobec kandydatów na członków organów nadzorczych w spółkach-córkach] 1. Podmiot uprawniony do wykonywania praw z akcji należących do Skarbu Państwa lub państwowa osoba prawna, w zakresie wykonywania praw z akcji w spółce, z wyłączeniem spółki w upadłości, są obowiązane podejmować działania mające na celu wprowadzenie do statutów spółek, wobec których spółka z udziałem Skarbu Państwa lub państwowej osoby prawnej jest przedsiębiorcą dominującym w rozumieniu art.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">This Site required Java Script support by browser</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/przeprowadzanie-postepowania-kwalifikacyjnego-na-stanowisko-czlonka-17019588" target="_blank" rel="noopener">LEX</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; sip.lex.pl</span>
+    </div>
+    <a class="url-link" href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/przeprowadzanie-postepowania-kwalifikacyjnego-na-stanowisko-czlonka-17019588" target="_blank" rel="noopener">&#128279; https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/przeprowadzanie-postepowania-kwalifikacyjnego-na-stanowisko-czlonka-17019588</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">3. Rada nadzorcza powiadamia organ wykonujący uprawnienia Skarbu Państwa w spółce o wynikach postępowania kwalifikacyjnego, o powołaniu kandydata na stanowisko członka zarządu spółki oraz przesyła uchwałę rady nadzorczej wraz z protokołem z postępowania kwalifikacyjnego. § 13. Rozporządzenie wchodzi w życie po upływie 7 dni od dnia ogłoszenia.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">This Site required Java Script support by browser</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-spolki-warszawska-kolej-dojazdowa.html" target="_blank" rel="noopener">Nabór kandydatów do Rady Nadzorczej spółki Warszawska Kolej Dojazdowa - Witryna Mazovia.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; mazovia.pl</span>
+    </div>
+    <a class="url-link" href="https://mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-spolki-warszawska-kolej-dojazdowa.html" target="_blank" rel="noopener">&#128279; https://mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-spolki-warszawska-kolej-dojazdowa.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">BIP · Komunikaty · Komunikaty · Ogłoszenie o naborze do Radny Nadzorczej WKD · Rozmiar: 19.71 KB, DOCX · Zgłoszenie kandydata · Rozmiar: 24.08 KB, DOCX · Podmiot udostępniający: Urząd Marszałkowski Województwa Mazowieckiego w Warszawie · Wytworzył: Teodor Sikora ·</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">BIP · Komunikaty · Komunikaty · Ogłoszenie o naborze do Radny Nadzorczej WKD · Rozmiar: 19.71 KB, DOCX · Zgłoszenie kandydata · Rozmiar: 24.08 KB, DOCX · Podmiot udostępniający: Urząd Marszałkowski Województwa Mazowieckiego w Warszawie · Wytworzył: Teodor Sikora ·</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-7">
+  <div class="card-header">
+    <div class="card-number">7</div>
+    <div class="card-title">
+      <a href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">Ogłoszenie o naborze uzupełniającym kandydatów na członków rady nadzorczej</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; um_jaslo.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">&#128279; https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-8">
+  <div class="card-header">
+    <div class="card-number">8</div>
+    <div class="card-title">
+      <a href="https://bip.skarzysko.pl/artykul/21/283/ogloszenie-o-naborze-kandydata-na-czlonka-rady-nadzorczej" target="_blank" rel="noopener">Ogłoszenie o naborze kandydata na członka Rady Nadzorczej - Tablica ogłoszeń - Biuletyn Informacji Publicznej Miasto Skarżysko-Kamienna</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.skarzysko.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.skarzysko.pl/artykul/21/283/ogloszenie-o-naborze-kandydata-na-czlonka-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://bip.skarzysko.pl/artykul/21/283/ogloszenie-o-naborze-kandydata-na-czlonka-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">http://www.bip.gov.pl/ - Otwiera się w nowym oknie Biuletyn Informacji Publicznej Miasto Skarżysko-Kamienna</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">http://www.bip.gov.pl/ - Otwiera się w nowym oknie Biuletyn Informacji Publicznej Miasto Skarżysko-Kamienna</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-9">
+  <div class="card-header">
+    <div class="card-number">9</div>
+    <div class="card-title">
+      <a href="https://www.dorzeczebialej.pl/ogloszenie-o-naborze-kandydata-do-rady-nadzorczej-spolki-komunalnej/" target="_blank" rel="noopener">Ogłoszenie o naborze kandydata do Rady Nadzorczej Spółki...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.dorzeczebialej.pl</span>
+    </div>
+    <a class="url-link" href="https://www.dorzeczebialej.pl/ogloszenie-o-naborze-kandydata-do-rady-nadzorczej-spolki-komunalnej/" target="_blank" rel="noopener">&#128279; https://www.dorzeczebialej.pl/ogloszenie-o-naborze-kandydata-do-rady-nadzorczej-spolki-komunalnej/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Liczba członków Rady Nadzorczej przewidywanych do powołania: 1. Podstawowa działalność Spółki: gospodarka wodno – ściekowa, odbiór odpadów komunalnych. Kandydat do Rady Nadzorczej Spółki, zgodnie z art. 10a ust.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Liczba członków Rady Nadzorczej przewidywanych do powołania: 1. Podstawowa działalność Spółki: gospodarka wodno – ściekowa, odbiór odpadów komunalnych. Kandydat do Rady Nadzorczej Spółki, zgodnie z art. 10a ust.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-10">
+  <div class="card-header">
+    <div class="card-number">10</div>
+    <div class="card-title">
+      <a href="https://finteo.pl/slownik-pojec-prawnych/czlonek-rady-nadzorczej" target="_blank" rel="noopener">Członek rady nadzorczej | Finteo</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; finteo.pl</span>
+    </div>
+    <a class="url-link" href="https://finteo.pl/slownik-pojec-prawnych/czlonek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://finteo.pl/slownik-pojec-prawnych/czlonek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Członek rady nadzorczej to osoba pełniąca funkcję nadzoru nad działalnością spółki kapitałowej, będąca wybrana i powołana do rady nadzorczej w oparciu o przepisy prawa oraz statut danej organizacji.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">« Wróć
+Finteo
+Słownik pojęć prawnych
+Członek rady nadzorczej
+Członek rady nadzorczej w kontekście Upadłości Konsumenckiej
+Członek rady nadzorczej
+to osoba pełniąca funkcję nadzoru nad działalnością spółki kapitałowej, będąca wybrana i powołana do rady nadzorczej w oparciu o przepisy prawa oraz statut danej organizacji. Rada nadzorcza jest organem kontrolno-doradczym, który sprawuje nadzór nad działalnością zarządu oraz reprezentuje interesy akcjonariuszy i udziałowców. Członkowie rady nadzorczej mają obowiązek strzeżenia interesów spółki oraz jej akcjonariuszy, dbać o przestrzeganie prawa, a także wykonywać swoje obowiązki z należytą starannością. W przypadku spółek akcyjnych i spółek z ograniczoną odpowiedzialnością, rada nadzorcza jest obowiązkowym organem, który powołuje się zgodnie z przepisami Kodeksu spółek handlowych. W przypadku spółek z ograniczoną odpowiedzialnością, rada nadzorcza może być powołana na wniosek wspólników lub na mocy postanowień statutu spółki. Członkowie rady nadzorczej są wybierani przez walne zgromadzenie, a w przypadku spółek z ograniczoną odpowiedzialnością - przez wspólników. Członkowie rady nadzorczej mogą być wybierani spośród osób fizycznych, które posiadają pełną zdolność do czynności prawnych. Przepisy mogą także wymagać, aby część członków rady nadzorczej posiadała określone kwalifikacje zawodowe bądź doświadczenie.
+Przykład zastosowania w postępowaniu upadłościowym:
+W sytuacji ogłoszenia upadłości spółki, członkowie rady nadzorczej odgrywają kluczową rolę w procesie upadłościowym. Zgodnie z przepisami prawa upadłościowego, rada nadzorcza ma obowiązek pilnego zawiadomienia sądu o zaistniałej sytuacji, gdy uzna, że spółka jest niewypłacalna lub zagrożona niewypłacalnością. Członkowie rady nadzorczej mogą być także wezwani do współpracy z syndykiem masy upadłości, który zarządza majątkiem upadłego dłużnika, oraz do udzielania informacji na temat sytuacji finansowej spółki, jej majątku i zobowiązań.
+Przykład zastosowania w postępowaniu oddłużeniowym:
+W przypadku spółki, która przystąpiła do postępowania oddłużeniowego, członkowie rady nadzorczej mają obowiązek współpracy z zarządem spółki w procesie restrukturyzacji zadłużenia i wdrażania planu naprawczego. Członkowie rady nadzorczej są odpowiedzialni za monitorowanie działań zarządu spółki oraz za weryfikowanie, czy podejmowane kroki są zgodne z planem naprawczym. Rada nadzorcza może także zlecić niezależne badanie sytuacji finansowej spółki, aby mieć pewność, że działan…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-11">
+  <div class="card-header">
+    <div class="card-number">11</div>
+    <div class="card-title">
+      <a href="https://www.deblin.pl/szczegoly-aktualnosci/nabor-kandydatow-do-rady-nadzorczej-mzgk-sp-z-oo-w-deblinie-2425" target="_blank" rel="noopener">Nabór kandydatów do Rady Nadzorczej MZGK Sp. z o.o. w Dęblinie</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 10 czerwca 2026</span>
+      <span class="meta-pill">&#127760; www.deblin.pl</span>
+    </div>
+    <a class="url-link" href="https://www.deblin.pl/szczegoly-aktualnosci/nabor-kandydatow-do-rady-nadzorczej-mzgk-sp-z-oo-w-deblinie-2425" target="_blank" rel="noopener">&#128279; https://www.deblin.pl/szczegoly-aktualnosci/nabor-kandydatow-do-rady-nadzorczej-mzgk-sp-z-oo-w-deblinie-2425</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Liczba członków Rady Nadzorczej przewidywanych do powołania wynosi 3 osoby, w tym 1 reprezentant pracowników Spółki. Zgłoszenia kandydatów przyjmowane są do dnia 10 czerwca 2026 r. do godz. 14:00 w siedzibie Urzędu Miasta Dęblin, ul.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Ważny
+Ostrzeżenia meteorologiczne: upał
+Strona główna
+Nabór kandydatów do Rady Nadzorczej MZGK Sp. z o.o. w Dęblinie
+Aktualności
+Gospodarka Komunalna
+Oferty Pracy
+Nabór kandydatów do Rady Nadzorczej MZGK Sp. z o.o. w Dęblinie
+Data utworzenia: 29.05.2026
+Burmistrz Miasta Dęblin ogłasza
+nabór kandydatów na członków Rady Nadzorczej Miejskiego Zakładu Gospodarki Komunalnej Sp. z o.o. w Dęblinie
+, w związku z upływem kadencji dotychczasowej Rady Nadzorczej.
+Liczba członków Rady Nadzorczej przewidywanych do powołania wynosi 3 osoby
+, w tym
+1 reprezentant pracowników Spółki
+.
+Zgłoszenia kandydatów przyjmowane są
+do dnia 10 czerwca 2026 r. do godz. 14:00
+w siedzibie
+Urzędu Miasta Dęblin, ul. Rynek 12, 08-530 Dęblin
+, w godzinach pracy Urzędu.
+Kandydaci zobowiązani są do złożenia kompletu wymaganych, wypełnionych i podpisanych dokumentów, zgodnie ze wzorami stanowiącymi załączniki do Zarządzenia Nr 94.2026 Burmistrza Miasta Dęblin z dnia 29 maja 2026 r.
+Wymagane dokumenty obejmują m.in.
+kwestionariusz osobowy kandydata
+,
+oświadczenie kandydata
+, kopię dyplomu potwierdzającego wykształcenie wyższe, dokument potwierdzający zdanie egzaminu lub posiadanie uprawnień zwalniających z obowiązku jego zdania oraz dokumenty potwierdzające co najmniej 5-letni okres pracy.
+Zgłoszenia złożone po terminie lub niespełniające wymogów formalnych pozostawia się bez rozpoznania.
+Postępowanie może zostać zakończone bez rozstrzygnięcia, bez podania przyczyny.
+Szczegółowe informacje, wymagania wobec kandydatów oraz wzory dokumentów dostępne są w
+Zarządzeniu Nr 94.2026 Burmistrza Miasta Dęblin.
+Drukuj
+Zapisz do PDF
+Udostępnij:
+tekst alt
+tekst alt
+tekst alt
+Trwa generowanie PDF...</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-12">
+  <div class="card-header">
+    <div class="card-number">12</div>
+    <div class="card-title">
+      <a href="https://www.money.pl/gielda/komunikaty/7301876440872001.html" target="_blank" rel="noopener">HDR Wybór Rady Nadzorczej z dnia 27 czerwca 2026 r.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 27 czerwca 2026</span>
+      <span class="meta-pill">&#127760; www.money.pl</span>
+    </div>
+    <a class="url-link" href="https://www.money.pl/gielda/komunikaty/7301876440872001.html" target="_blank" rel="noopener">&#128279; https://www.money.pl/gielda/komunikaty/7301876440872001.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">HDR Zgłoszenie kandydata na Członka Rady Nadzorczej Emitenta.Wirtualna Polska Media Spółka Akcyjna z siedzibą w Warszawie, będącej właścicielem niniejszego serwisu, bez względu na sposób ich eksploracji i wykorzystaną metodę (manualną lub zautomatyzowaną technikę...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">HYDROTOR: strona spółki
+27.06.2026, 14:45
+HDR Wybór Rady Nadzorczej z dnia 27 czerwca 2026 r.
+Zarząd PHS Hydrotor SA w Tucholi informuje, że w dniu 27 czerwca 2026 r. Zwyczajne Walne Zgromadzenie PHS Hydrotor S.A. podjęło uchwały dotyczące wyboru Członków Rady Nadzorczej na kolejna kadencję.  Zgłoszeni  zostali  następujące kandydaci:
+1.Bodziachowski Ryszard
+2.Chrapkiewicz Ewa
+3.Guzowska Monika
+4.Kropiński Wacław
+5.Leonkiewicz Jakub
+6.Murawski Marcin
+ZWZA podjęło uchwałę nr 18/VI/2026 w sprawie ustalenia ilości członków Rady Nadzorczej w składzie pięcioosobowym. Zgromadzenie akcjonariuszy dokonało wyboru Rady Nadzorczej zgodnie z Regulaminem Wyborów Rady Nadzorczej PHS Hydrotor SA: „Za wybranych uważa się tych kandydatów, którzy uzyskali najwyższą ilość głosów”.  Do Rady Nadzorczej nie wszedł Pan Leonkiewicz Jakub w związku z otrzymaniem najmniejszej liczby głosów.
+Skład nowo powołanej Rady Nadzorczej ukonstytuował się w następujący sposób:
+1.Bodziachowski Ryszard – Przewodniczący Rady Nadzorczej
+2.Kropiński Wacław – zastępca Przewodniczącego Rady Nadzorczej
+3.Chrapkiewicz Ewa – Sekretarz
+4.Guzowska Monika – Członek Rady Nadzorczej
+5.Murawski Marcin – Członek Radny Nadzorczej
+Rada Nadzorcza na pierwszym posiedzeniu Rady dokonała wyboru Komitetu Audytu w składzie trzyosobowym. Komitet Audytu spośród siebie dokonał wyboru przewodniczącego. Skład nowo powołanego Komitetu Audytu ukonstytuował się w następujący sposób:
+1.Murawski Marcin – Przewodniczący Komitetu Audytu
+2.Kropiński Wacław – Członek Komitetu Audytu
+3.Guzowska Monika – Członek Komitetu Audytu
+Podstawa prawna:
+§ 20 ust. 1 pkt 6) -  9) Rozporządzenia Ministra Finansów z dnia 6 czerwca 2025 r. w sprawie informacji bieżących i okresowych przekazywanych przez emitentów papierów wartościowych oraz warunków uznawania za równoważne informacji wymaganych przepisami prawa państwa niebędącego państwem członkowskim (Dz.U. poz. 755)
+Załączniki
+Pobierz załącznik 1
+Pobierz załącznik 2
+Pobierz załącznik 3
+Pobierz załącznik 4
+Pobierz załącznik 5
+Pobierz załącznik 6
+Inne komunikaty
+Data
+Tytuł
+Kurs
+Zmiana
+2026-06-29
+HDR Lista akcjonariuszy posiadający 5 % liczby głosów na Zwyczajnym Walnym Zgromadzeniu w dniu 27 czerwca 2026 r,
+14,20
+0,00
+2026-06-27
+HDR Wybór Rady Nadzorczej z dnia 27 czerwca 2026 r.
+14,20
+0,00
+2026-06-27
+HDR Uchwały Zwyczajnego Walnego Zgromadzenia spółki Hydrotor SA z dnia 27 czerwca 2026 r.
+14,20
+0,00
+2026-06-26
+HDR Zgłoszenie kandydata na Członka Rady Nadzorczej Emitenta
+14,60
+-2,05
+2026-06-24
+…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-13">
+  <div class="card-header">
+    <div class="card-number">13</div>
+    <div class="card-title">
+      <a href="https://invest-park.com.pl/wp-content/uploads/2024/06/Zalacznik-nr-1-do-Uchwaly-RN-Ogloszenie-nabor-na-stanowisko-Prezesa-Zarzadu.pdf" target="_blank" rel="noopener">Załącznik nr 1 do uchwały Rady Nadzorczej Wałbrzyskiej Specjalnej...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; invest-park.com.pl</span>
+    </div>
+    <a class="url-link" href="https://invest-park.com.pl/wp-content/uploads/2024/06/Zalacznik-nr-1-do-Uchwaly-RN-Ogloszenie-nabor-na-stanowisko-Prezesa-Zarzadu.pdf" target="_blank" rel="noopener">&#128279; https://invest-park.com.pl/wp-content/uploads/2024/06/Zalacznik-nr-1-do-Uchwaly-RN-Ogloszenie-nabor-na-stanowisko-Prezesa-Zarzadu.pdf</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Rada Nadzorcza, po zakończeniu postępowania kwalifikacyjnego, powiadomi kandydatów uczestniczących w postępowaniu o jego wynikach na wskazany przez kandydata, w zgłoszeniu do postępowania, adres poczty elektronicznej. Strona 3 z 4.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Rada Nadzorcza, po zakończeniu postępowania kwalifikacyjnego, powiadomi kandydatów uczestniczących w postępowaniu o jego wynikach na wskazany przez kandydata, w zgłoszeniu do postępowania, adres poczty elektronicznej. Strona 3 z 4.</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-07-01 21:15 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
