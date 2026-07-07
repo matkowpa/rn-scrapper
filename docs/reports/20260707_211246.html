@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-07-07 21:12</span>
+      <span class="header-chip chip-green">&#9679; 7 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>07.06.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>7</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (7)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">PILNE! Praca: Członek rady nadzorczej - Czerwiec 2026 - 7607 ofert Pracy - JOOBLE.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; pl.jooble.org</span>
+    </div>
+    <a class="url-link" href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://pl.jooble.org/praca-członek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Praca: Członek rady nadzorczej. 149.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Praca: Członek rady nadzorczej. 149.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://www.pracuj.pl/praca/członek+rady+nadzorczej;kw" target="_blank" rel="noopener">Praca członek+rady+nadzorczej – Pracuj.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.pracuj.pl</span>
+    </div>
+    <a class="url-link" href="https://www.pracuj.pl/praca/członek+rady+nadzorczej;kw" target="_blank" rel="noopener">&#128279; https://www.pracuj.pl/praca/członek+rady+nadzorczej;kw</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Czas publikacji ogłoszenia · 24h · 3 dni · 7 dni · 14 dni · 30 dni · Dodatkowe · Oferty bezpośrednio od pracodawcy · Pобота · Without Polish language · Pokaż oferty · Praca · członek rady nadzorczej</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Przejdź do wyszukiwarki
+Przejdź do ofert
+Przejdź do filtrów
+Przejdź do stopki
+Hej! Jakiej pracy szukasz?
+Stanowisko, firma, słowo kluczowe
+Kategoria
+Lokalizacja
+Odległość
+Szukaj
+Kryteria wyszukiwania
+Filtry
+Wyszukiwanie zaawansowane
+Przejdź do wyszukiwarki
+Przejdź do ofert
+Przejdź do filtrów
+Przejdź do stopki
+Zapisz wyszukiwanie
+A to pech: 0 ofert
+z podanymi kryteriami
+Nie znaleźliśmy ofert, które spełniałyby podane przez Ciebie kryteria wyszukiwania
+Ale nie przejmuj się, zobacz co możesz zrobić:
+Zmień lub
+wyczyść filtry
+Upewnij się, że nie ma żadnych literówek we wpisanych frazach
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej" target="_blank" rel="noopener">Strona Główna | Produkty | Krajowa Grupa Spożywcza S.A.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.kgssa.pl</span>
+    </div>
+    <a class="url-link" href="https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Czytaj więcej (Ogłoszenie Rady Nadzorczej Krajowej Grupy Spożywczej S.A. o postępowaniu kwalifikacyjnym na stanowisko Członka Zarządu Krajowej Grupy Spożywczej S.A.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Produkty
+Produkty dla handlu detalicznego
+Produkty B2B</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3" target="_blank" rel="noopener">LEX</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; sip.lex.pl</span>
+    </div>
+    <a class="url-link" href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3" target="_blank" rel="noopener">&#128279; https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">499 oraz z 2026 r. poz. 160 i 177) na zasadach wskazanych w tym przepisie. Art. 20. [Wprowadzanie wymagań wobec kandydatów na członków organów nadzorczych w spółkach-córkach] 1. Podmiot uprawniony do wykonywania praw z akcji należących do Skarbu Państwa lub państwowa osoba prawna, w zakresie wykonywania praw z akcji w spółce, z wyłączeniem spółki w upadłości, są obowiązane podejmować działania mające na celu wprowadzenie do statutów spółek, wobec których spółka z udziałem Skarbu Państwa lub państwowej osoby prawnej jest przedsiębiorcą dominującym w rozumieniu art.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">This Site required Java Script support by browser</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/przeprowadzanie-postepowania-kwalifikacyjnego-na-stanowisko-czlonka-17019588" target="_blank" rel="noopener">LEX</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; sip.lex.pl</span>
+    </div>
+    <a class="url-link" href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/przeprowadzanie-postepowania-kwalifikacyjnego-na-stanowisko-czlonka-17019588" target="_blank" rel="noopener">&#128279; https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/przeprowadzanie-postepowania-kwalifikacyjnego-na-stanowisko-czlonka-17019588</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">3. Rada nadzorcza powiadamia organ wykonujący uprawnienia Skarbu Państwa w spółce o wynikach postępowania kwalifikacyjnego, o powołaniu kandydata na stanowisko członka zarządu spółki oraz przesyła uchwałę rady nadzorczej wraz z protokołem z postępowania kwalifikacyjnego. § 13. Rozporządzenie wchodzi w życie po upływie 7 dni od dnia ogłoszenia.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">This Site required Java Script support by browser</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">Ogłoszenie o naborze uzupełniającym kandydatów na członków rady nadzorczej</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; um_jaslo.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">&#128279; https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-7">
+  <div class="card-header">
+    <div class="card-number">7</div>
+    <div class="card-title">
+      <a href="https://trybunal.gov.pl/postepowanie-i-orzeczenia/komunikaty-prasowe/komunikaty-przed/art/6797-zasady-i-tryb-wyboru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-skarbu-panstwa" target="_blank" rel="noopener">Trybunał Konstytucyjny: Zasady i tryb wyboru kandydatów na członków rad nadzorczych spółek Skarbu Państwa.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; trybunal.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://trybunal.gov.pl/postepowanie-i-orzeczenia/komunikaty-prasowe/komunikaty-przed/art/6797-zasady-i-tryb-wyboru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-skarbu-panstwa" target="_blank" rel="noopener">&#128279; https://trybunal.gov.pl/postepowanie-i-orzeczenia/komunikaty-prasowe/komunikaty-przed/art/6797-zasady-i-tryb-wyboru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-skarbu-panstwa</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Wskazanie przez Ministra Skarbu ... kwalifikacyjne, odbywające się w trybie publicznym, poprzez ogłoszenie o naborze zamieszczane na stronach internetowych Ministerstwa Skarbu Państwa (MSP)....</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Wskazanie przez Ministra Skarbu ... kwalifikacyjne, odbywające się w trybie publicznym, poprzez ogłoszenie o naborze zamieszczane na stronach internetowych Ministerstwa Skarbu Państwa (MSP)....</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-07-07 21:12 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
