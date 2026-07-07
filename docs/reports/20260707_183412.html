@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-07-07 18:34</span>
+      <span class="header-chip chip-green">&#9679; 7 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>07.06.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>4</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (7)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://pozezdrze.pl/wiadomosci/1/wiadomosc/244741/ogloszenie_o_naborze_dla_kandydatow_na_czlonka_rady_nadzorczej_w" target="_blank" rel="noopener">Gmina Pozezdrze</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 11 czerwca 2026</span>
+      <span class="meta-pill">&#127760; pozezdrze.pl</span>
+    </div>
+    <a class="url-link" href="https://pozezdrze.pl/wiadomosci/1/wiadomosc/244741/ogloszenie_o_naborze_dla_kandydatow_na_czlonka_rady_nadzorczej_w" target="_blank" rel="noopener">&#128279; https://pozezdrze.pl/wiadomosci/1/wiadomosc/244741/ogloszenie_o_naborze_dla_kandydatow_na_czlonka_rady_nadzorczej_w</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Przewodniczący Zarządu MZMGO w Giżycku ogłasza nabór dla kandydatów na członka Rady Nadzorczej w Spółce ZUOK Spytkowo, w której Mazurski Związek posiada udziały. Szczegóły ogłoszenia w załączeniu.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Ogłoszenie o naborze dla kandydatów na członka Rady Nadzorczej w Spółce ZUOK Spytkowo
+Przewodniczący Zarządu MZMGO w Giżycku ogłasza nabór dla kandydatów na członka Rady Nadzorczej w Spółce ZUOK Spytkowo, w której Mazurski Związek posiada udziały. Szczegóły ogłoszenia w załączeniu.
+Opublikowano:
+11 czerwca 2026 12:44
+Kategoria:
+Aktualności
+Wydrukuj
+Facebook.com
+Załączniki:
+ogłoszenie o naborze do Rady Nadzorczej ZUOK Spytkowo [
+1.25
+MB]
+Załącznik nr 1 - kwestionariusz osobowy (1) [
+23.77
+KB]
+Załącznik nr 2 - Oświadczenie RODO [
+17.75
+KB]
+Załącznik nr 3 - Klauzula informacyjna [
+20.71
+KB]
+Wyświetleń:
+93</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">Praca Członek rady nadzorczej (Pilne!) - 2026 - Aktualne ... - Jooble</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; pl.jooble.org</span>
+    </div>
+    <a class="url-link" href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://pl.jooble.org/praca-członek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Praca: Członek rady nadzorczej. 151.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Praca: Członek rady nadzorczej. 151.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://bip.nowydwormaz.pl/public/getFile?id=501330" target="_blank" rel="noopener">Ogłoszenie o naborze kandydatów na członka Rady Nadzorczej Spółki z ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.nowydwormaz.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.nowydwormaz.pl/public/getFile?id=501330" target="_blank" rel="noopener">&#128279; https://bip.nowydwormaz.pl/public/getFile?id=501330</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">2. Osoby zainteresowane udziałem w postępowaniu proszone są o składanie ofert zawierających zgłoszenie kandydata na członka Rady Nadzorczej wraz z oświadczeniem; w potwierdzających posiadanie uprawnień kserokopii dokumentów potwierdzających posiadane wykształcenie.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">2. Osoby zainteresowane udziałem w postępowaniu proszone są o składanie ofert zawierających zgłoszenie kandydata na członka Rady Nadzorczej wraz z oświadczeniem; w potwierdzających posiadanie uprawnień kserokopii dokumentów potwierdzających posiadane wykształcenie.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://bip.wodzislaw-slaski.pl/res/serwisy/pliki/29717565?version=1.0" target="_blank" rel="noopener">Ogłoszenie o naborze kandydatów na członków Rady Nadzorczej spółki ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.wodzislaw-slaski.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.wodzislaw-slaski.pl/res/serwisy/pliki/29717565?version=1.0" target="_blank" rel="noopener">&#128279; https://bip.wodzislaw-slaski.pl/res/serwisy/pliki/29717565?version=1.0</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Kandydaci na członka Rady Nadzorczej zobowiązani są do przedłożenia następujących dokumentów: Wypełniony kwestionariusz osobowy stanowiący załącznik do niniejszego ogłoszenia,</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Kandydaci na członka Rady Nadzorczej zobowiązani są do przedłożenia następujących dokumentów: Wypełniony kwestionariusz osobowy stanowiący załącznik do niniejszego ogłoszenia,</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://media.bnpparibas.pl/pr/156543/nowa-rada-nadzorcza-bgz" target="_blank" rel="noopener">Nowa Rada Nadzorcza BGŻ | Informacja prasowa</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; media.bnpparibas.pl</span>
+    </div>
+    <a class="url-link" href="https://media.bnpparibas.pl/pr/156543/nowa-rada-nadzorcza-bgz" target="_blank" rel="noopener">&#128279; https://media.bnpparibas.pl/pr/156543/nowa-rada-nadzorcza-bgz</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">9) Michał Stępniewski - Członek Rady Nadzorczej – Skarb Państwa. Ponadto Rada Nadzorcza 10 stycznia odwołała z funkcji pierwszego wiceprezesa Zarządu Marka Olesia, powołując go na stanowisko wiceprezesa Zarządu.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">10 stycznia tego roku Nadzwyczajne Walne Zgromadzenie Akcjonariuszy BGŻ S.A. zatwierdziło nowy skład Rady Nadzorczej banku. Przewodniczącą RN BGŻ S.A. została Agata Rowińska.
+Aktualny skład Rady Nadzorczej:
+1)
+Agata Rowińska
+- Przewodnicząca Rady Nadzorczej - Skarb Państwa
+2)
+Diederik
+van Slingelandt
+- Wiceprzewodniczący Rady Nadzorczej – Rabobank International
+3)
+Małgorzata Kołakowska
+- Członek Rady Nadzorczej - EBOiR
+4)
+Elżbieta Mączyńska
+- Członek Rady Nadzorczej – członek niezależny
+5)
+Marek Moczulski
+- Członek Rady Nadzorczej – członek niezależny
+6)
+Jerzy Plewa
+- Członek Rady Nadzorczej – Skarb Państwa
+7)
+Harry de Roo
+- Członek Rady Nadzorczej – Rabobank International
+8)
+Andrzej Różycki
+- Członek Rady Nadzorczej – członek niezależny
+9)
+Michał Stępniewski
+- Członek Rady Nadzorczej – Skarb Państwa
+Ponadto Rada Nadzorcza 10 stycznia odwołała z funkcji pierwszego wiceprezesa Zarządu Marka Olesia, powołując go na stanowisko wiceprezesa Zarządu. Jednocześnie RN BGŻ S.A. powołała
+na stanowisko pierwszego wiceprezesa Zarządu Roberta Jana van Zadelhoff.
+Z tym samym dniem rezygnację z pełnienia funkcji wiceprezesa Zarządu złożył Jacek Ratajczyk.
+Z końcem 2004 r. rezygnację ze stanowiska wiceprezesa Zarządu BGŻ S.A. złożył również Henryk Antosiak.
+W wyniku tych zmian Zarząd BGŻ S.A. liczy obecnie 5 osób.
+Alternatywne formaty</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 23 czerwca 2026</span>
+      <span class="meta-pill">&#127760; bip.goldap.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">&#128279; https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">kwestionariusz osobowy kandydata na członka Rady Nadzorczej spółki, w której gmina Gołdap posiada udziały/akcje (załącznik nr 1 do niniejszego ogłoszenia), ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Na Skróty
+Budżet
+Ogłoszenia o Naborze
+Nieruchomości gminne
+Sprzedaż Nieruchomości
+Dzierżawa i użyczenia
+Najem
+Uchwały
+Wybory
+Informacja publiczna
+Petycje
+Petycje do Rady Miejskiej
+Petycje do Burmistrza Gołdapi
+Archiwum BIP
+BIP GOV
+ePUAP
+Profil Zaufany
+CEIDG
+e-SESJA
+Dziennik Ustaw
+Dziennik Urzędowy Woj. Warmińsko-Mazurskiego
+Strona główna
+Nabory
+Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały
+Aktualizacja informacji z rozstrzygnięcia naboru na stanowisko urzędnicze ds. kadr i płac
+Informacja  o rozstrzygnięciu  naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych- ½ etatu
+Informacja Burmistrza Gołdapi z dnia 23 czerwca 2026 r. o zamiarze ogłoszenia konkursu  na kandydata/ kandydatkę na stanowisko Dyrektora/Dyrektorki Biblioteki Publicznej w Gołdapi
+Informacja o nierozstrzygnięciu  naboru na wolne stanowisko urzędnicze do spraw obrony cywilnej,  ochrony ludności i dostępności w Wydziale ds. Administracyjnych  Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na do spraw projektów inwestycyjnych w Wydziale Inwestycji  i Rozwoju Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na kierownicze stanowisko urzędnicze Dyrektora Ośrodka Sportu i Rekreacji w Gołdapi
+INFORMACJA O NIEROZSTRZYGNIĘCIU NABORU NA STANOWISKO URZĘDNICZE AUDYTORA WEWNĘTRZNEGO
+Informacja o nierozstrzygnięciu naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych
+Informacja o nierozstrzygnięciu naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych - ½ etatu
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  do spraw nadzoru inwestorskiego w Wydziale Inwestycji i Rozwoju Urzędu Miejskiego  w Gołdapi
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  do spraw nadzoru inwestorskiego w Wydziale Inwestycji i Rozwoju Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wew…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-7">
+  <div class="card-header">
+    <div class="card-number">7</div>
+    <div class="card-title">
+      <a href="https://www.poczta-polska.pl/" target="_blank" rel="noopener">Wybierz wygodę – bez awizo</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 1 lipca 2026</span>
+      <span class="meta-pill">&#127760; www.poczta-polska.pl</span>
+    </div>
+    <a class="url-link" href="https://www.poczta-polska.pl/" target="_blank" rel="noopener">&#128279; https://www.poczta-polska.pl/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Rada Nadzorcza. Misja i Strategia. Nasze Standardy.Zmiany w opłatach dla przesyłek spoza Unii Europejskiej od 1 lipca 2026 r.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Wybierz wygodę – bez awizo
+Zleć doręczenie „Polecony do skrzynki”
+lub zacznij korzystać z ePoleconego
+Sprawdź
+Startuje komercjalizacja
+nieruchomości Poczty Polskiej
+Odkryj nieruchomości specjalne
+Platforma Usług Cyfrowych
+Szybki dostęp do korespondencji i usług online
+w jednym miejscu!
+Sprawdź jak to działa!
+Twoje pliki też potrzebują strefy komfortu.
+Poznaj zalety e-Archiwum Poczty Polskiej
+Wypróbuj
+Previous
+Next
+Śledzenie przesyłki
+Sprawdź
+Nadaj przesyłkę
+Wyceń przesyłkę
+Znajdź punkt
+Znajdź kod pocztowy
+Sprawdź dokąd wysyłamy
+Abonament RTV
+Zgłoś żądanie online
+Opłać mandat
+Nadaj przekaz
+Wybierz wygodę – bez awizo!
+Previous
+Next
+Oferta
+Poczta Polska to nie tylko listy i paczki. Poznaj szeroki wachlarz naszych usług
+i wybierz rozwiązanie dopasowane do swoich potrzeb
+Usługi kurierskie i paczkowe
+Więcej
+e-Poczta
+Więcej
+Usługi finansowe
+Więcej
+eSklep
+Więcej
+Previous
+Next
+Aktualności dla Ciebie
+Przejdź do wszystkich
+Poczta Polska nie sprzedaje zwróconych przesyłek
+W związku z pojawiającymi się w mediach społecznościowych materiałami sugerującymi, […]
+Zobacz
+Przywracamy możliwość nadawania przesyłek pocztowych do Kataru i Kuwejtu
+Poczta Polska informuje, że od dnia 08.07.2026 zostaje wznowione przyjmowanie […]
+Zobacz
+Przesyłki
+Zmiany w opłatach dla przesyłek spoza Unii Europejskiej od 1 lipca 2026 r.
+Od 1 lipca 2026 r. zmienią się zasady naliczania opłat […]
+Zobacz
+Wygodne płatności on-line
+Sprawdź
+Usługi, które mogą Cię zainteresować
+Pocztex
+Zobacz
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-07-07 18:34 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
