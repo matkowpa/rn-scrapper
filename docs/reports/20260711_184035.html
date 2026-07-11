@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-07-11 18:40</span>
+      <span class="header-chip chip-green">&#9679; 8 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>11.06.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>6</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (8)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://bip.wodzislaw-slaski.pl/res/serwisy/pliki/29717565?version=1.0" target="_blank" rel="noopener">Ogłoszenie o naborze kandydatów na członków Rady Nadzorczej ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.wodzislaw-slaski.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.wodzislaw-slaski.pl/res/serwisy/pliki/29717565?version=1.0" target="_blank" rel="noopener">&#128279; https://bip.wodzislaw-slaski.pl/res/serwisy/pliki/29717565?version=1.0</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Prezydent Miasta Wodzisławia Ślaskiego ogłasza nabór kandydatów na członków Rady. Nadzorczej spółki ...Domaro sp. z o.o. z siedzibą w Wodzisławiu Śląskim.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Prezydent Miasta Wodzisławia Ślaskiego ogłasza nabór kandydatów na członków Rady. Nadzorczej spółki ...Domaro sp. z o.o. z siedzibą w Wodzisławiu Śląskim.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://www.powiat-sepolno.pl/plik,1878,zgloszenie-kandydata-na-czlonka-rady-nadzorczej.doc" target="_blank" rel="noopener">Ogłoszenie nr 1 o naborze kandydatów do Rady Nadzorczej</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.powiat-sepolno.pl</span>
+    </div>
+    <a class="url-link" href="https://www.powiat-sepolno.pl/plik,1878,zgloszenie-kandydata-na-czlonka-rady-nadzorczej.doc" target="_blank" rel="noopener">&#128279; https://www.powiat-sepolno.pl/plik,1878,zgloszenie-kandydata-na-czlonka-rady-nadzorczej.doc</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">KANDYDATA NA CZŁONKA RADY NADZORCZEJ. Ja, niżej podpisany: 1. Imię ... w odpowiedzi na Ogłoszenie naborze kandydatów do Rady Nadzorczej spółki NOVUM-MED Sp.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">��ࡱ�����������������&gt;����	���������������7����������9��������������6������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������q`�����������������
+���bjbjqPqP�������������������.&quot;��:�:���������������������������������������������������������������������������������������������������������������������������(�������
+�������
+�������
+�������
+������
+�����(������#��h���
+�������
+�������
+�������
+�������
+�������
+�������
+�������
+������u&quot;�����w&quot;������w&quot;������w&quot;������w&quot;������w&quot;������w&quot;��$���v$��h���&amp;�������&quot;��-��������������������������
+�����������������������
+�������
+�������
+�������
+�������&quot;���������������������������
+���������������
+�������&quot;�����_
+������_
+������_
+�������
+��
+����������
+�������������
+������u&quot;��������������_
+�������������������������������������������������������
+������u&quot;��������������_
+������_
+������[
+�������������������������������������������������������������������������� �������
+�������
+��
+������P����������
+�������
+��^����
+�������������i&quot;��
+����&quot;��0���#�������
+�����&#x27;������&#x27;
+��.����&#x27;��(��� ���������������������������������������������������������������������� ������&#x27;���������������������!�������
+�������
+������_
+�������
+�������
+���������������������������������������
+�������
+�������
+�������&quot;�������&quot;��������������������������������������U
+��
+������������������������������������
+�������
+�������
+������#�������
+�������
+�������
+�������
+��������������(������(������(��d���
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://fs.siteor.com/zrfpk/files/Downloads/20151210144930/20151210_ZRFPK_-_Ogłoszenie_o_naborze_kandydatów_do_RN_PZ.pdf?1449758971" target="_blank" rel="noopener">Ogłoszenie o naborze kandydatów na członków Rady Nadzorczej ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; fs.siteor.com</span>
+    </div>
+    <a class="url-link" href="https://fs.siteor.com/zrfpk/files/Downloads/20151210144930/20151210_ZRFPK_-_Ogłoszenie_o_naborze_kandydatów_do_RN_PZ.pdf?1449758971" target="_blank" rel="noopener">&#128279; https://fs.siteor.com/zrfpk/files/Downloads/20151210144930/20151210_ZRFPK_-_Ogłoszenie_o_naborze_kandydatów_do_RN_PZ.pdf?1449758971</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Kandydaci do składu Rady Nadzorczej spółki Pożyczki Zachodniopomorskie Sp. z o.o. z siedzibą w. Szczecinie powinni spełniać następujące wymagania:.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">%PDF-1.5
+%����
+1 0 obj
+&lt;&gt;&gt;&gt;
+endobj
+2 0 obj
+&lt;&gt;
+endobj
+3 0 obj
+&lt;&gt;/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] &gt;&gt;/MediaBox[ 0 0 595.32 866.88] /Contents 4 0 R/Group&lt;&gt;/Tabs/S/StructParents 0&gt;&gt;
+endobj
+4 0 obj
+&lt;&gt;
+stream
+x��\ێ
+9r}���.`:��$�\
+hew6����7���v�Y��X�XX_oAF0/���`T]UI&amp;�8q�u���N��Ͽ�������Ӈ������~��փO����;}R�?}
+a����!�o����:�
+����wN��8��/�߽���ϧ�\�������!�S�`��/J��vJ�`���WQ:��I��|}
+ӫ~����޹��-��Ք�ڵ�N馁�Tl�K�0Fq�_��������im{V�A�=�ny�ig.�LsY;ۙN�J���9]m��e��)��7\ަk`������?g�gK�
+���~��Y
+�aKs��L�
+ION�*�hr�_&gt;}|���%c��`���O�d�U&quot;��I3آ&#x27;E�(Dk�SrR�=��4�l�k�Η��8���ы5=�&amp;��|�����q�J���M{�O���h�MEn
+���+�
+��L�(OQ
+l�=�k��]��o��ҖA8Z�I�0�|ն�[�H���ʵ��&#x27;��$��NI�#�6���e6A�����I��e�uS���V�
+��GW�[��G�[:�(��H�-Z���L�B���4ί�M�~^���v`m
+�ݨ�iݮ[�k����c8�
+��qܙ1�L��K�i:�&quot;7;�
+&gt;˞�!�-F
+r�2��N?�#�G��%ۮ���]m�������Ɉ�?�~&gt;��Ƽ�E�F&#x27;G��ֵ�ή���`�1��&#x27;���o縸�r�	����a��
+�x
+F���=�t(P@J��n?���j�.�&quot;/�n�C	��H�w�&quot;��
+���ƫ��R���/�J���r���+��7p7��/
+=YUnc�&#x27;7Y*ؚQk��#���aκ`8�t:�&quot;
+�\�8�{�|&gt;K}1��[�2EYȔa$�
+����,���&quot;�&lt;���rH��ujZ
+\9y�ө+�Y�2���
+�lM�69�iG�
+�t+��N݆!L8�ހ�)
+��]���
+���S����P��_v�~K�|}=���U��og���˧�ߒR}I��=8�1��I�kws~esZ�!aR�S�+,����a�b�з
+4QՓ#ҝ)�_����O(|��U��Q���[��5M��\�tK���a�9��Kר�lX�4W�s�`�k�˟����z��Fy
+�G6��%���cҧ�9���xf�sKO��*�B�Hb����G�z������pd�
+JGE��G����ؕ�-͐�Cc44�%��i&quot;b��BQe%W~�\%�eQ����8x���ǐ����#�9}6�l`�&quot;�c(N�|*܎���F`�
+��Os#�s`S��&#x27;�3/e����B9��� 9
+:�G�����݀����	�&quot;&quot;5]f+���
+�)��R��If�
+�_��D̢����(�\��h�
+P�8
+#�Ek�8)����)�M&gt;���Ǝ�&gt;ť�*�_xZ�t�Q�����9�$��d;2�@��K�Ɏ����q��� �N`�P������|�
+x�&#x27;1�nx0�Y��������1��L���
+�(���ʐey��� 4��e�գ�;-�J7�]C�`)
+҂
+3�zg��	[
+i*t/����0:��?9k3���0�䣳Hf\v�mX&gt;:�,��i���+���ajiZiN��\g6&#x27;�η��@ռ�0�@�|$;��i8|��1V��炋�2�Ϩ�H�8�VL�;�3�$֒:ll��~�����)�7��j����+O0���/��/7�i~�&#x27;�̧,�_�p����+��6��G���G�!
+�K\�q
+��E&amp;`�`��L���TE3��2��sぅS4�S��}��
+}
+�EƊ����*��ot6#s��\T�9�Ac������_�
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">Praca Członek rady nadzorczej (Pilne!) - 2026 - Aktualne ... - Jooble</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; pl.jooble.org</span>
+    </div>
+    <a class="url-link" href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://pl.jooble.org/praca-członek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Praca: Członek rady nadzorczej. 135.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Praca: Członek rady nadzorczej. 135.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://www.smzychlin.pl/wp-content/uploads/2026/07/Ogloszenie-konkurs-na-czlonkow-Zarzadu.pdf" target="_blank" rel="noopener">PDF Ogłoszenie O Konkursie Na Stanowisko Członka Zarządu</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 2026-07-06</span>
+      <span class="meta-pill">&#127760; www.smzychlin.pl</span>
+    </div>
+    <a class="url-link" href="https://www.smzychlin.pl/wp-content/uploads/2026/07/Ogloszenie-konkurs-na-czlonkow-Zarzadu.pdf" target="_blank" rel="noopener">&#128279; https://www.smzychlin.pl/wp-content/uploads/2026/07/Ogloszenie-konkurs-na-czlonkow-Zarzadu.pdf</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">5/21 w terminie do dnia 17 sierpnia 2026 roku włącznie - z dopiskiem „Przewodniczący Rady Nadzorczej - konkurs na stanowisko członka Zarządu&quot;. zgod,nie z Rozporządzeniem Parlamentu Europejskiego i Rady Europy (UE} 2016/679 z dnia 27 kwietnia 2016 roku (rozporządzenie RODO) w sprawie ochrony osób fizycznych w związku z przetwarzanie</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">%PDF-1.6
+%����
+36 0 obj
+&lt;&gt;stream
+h�D�Q
+�P
+���~��3M���D$�C �C
+��ؿoސ
+�휏3���6��������d�ᑛ{���B9
+��С(���
+oM%�� !���M�
+j6��
+j&amp;����^E�Z�
+D�^Y�֘}}��t�ǜ���j9.�r�=���I��&lt;N:a�����ϋ�S�Z�w�ҍ�poLaM��a��
+0���D\
+endstream
+endobj
+37 0 obj
+&lt;&gt;stream
+hޜбj�0�W9�V0�;;r!�ۆxɐ�S���G�R�J���2�tQ�
+B�/}�Ġ���@
+���%�a�ª�d����
+2=���w�{7�6ӬUV�b��l��\������ԉ�[�c|��2|���W۹��#������%؄��q�ք%�1s����z�K�ܞ�a4Y�á�J�0�Ô��ܩ��&lt;�2�N�%(8Q��($�S�M���E�0
+endstream
+endobj
+1 0 obj
+&lt;&gt;
+endobj
+6 0 obj
+&lt;&gt;stream
+2026-07-06T18:27:27+02:00
+2026-07-06T18:26:15+02:00
+2026-07-06T18:27:27+02:00
+application/pdf
+uuid:1a19dcc4-120a-44bd-8e27-6cd6b827abad
+uuid:42113f6a-0049-4644-8353-17de1a9ab188
+endstream
+endobj
+8 0 obj
+&lt;&gt;
+endobj
+13 0 obj
+&lt;&gt;stream
+H��Wˎ[���+���~��!��;#d!^8H��J�l���WwW_^*�e	Cr8���q�ԩO�T��[.g��+�-f���_?����Gw~���ӧS��ξ�&lt;�?�B�[*y|���&amp;Öb�o\�O�İ9����r�G�@�B�/��_���z�z��{W}��^
+�d������~:9&lt;
+�������|�t���9�-A��Q��
+��|
+�7����E�9p㏛�
+yȌZ
+�1�
+���E��
+U�E��o৉7I�x̹����͋��|Sǒ\�Wg{z���,�k�߹=��#��m+��������W))�������u�U
+B.R,6|�B��m�g�K
+2~��&#x27; +:��*��U�z�,P�4Fm�[����!�b N��ޝOV���5p���
+_y��2�
+�
+9�h������$���ѿ�W�^�F���&#x27;/
+[&quot;�3y����?���g�K�[4WF�Y|��|��Y��b�z��H�ğ�fq������\¸
+ys�[Q�t
+*=?3)���6����
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3" target="_blank" rel="noopener">LEX</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; sip.lex.pl</span>
+    </div>
+    <a class="url-link" href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3" target="_blank" rel="noopener">&#128279; https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Podmiot uprawniony do wykonywania praw z akcji należących do Skarbu Państwa lub państwowa osoba prawna, w zakresie wykonywania praw z akcji w spółce, jako kandydata na członka organu nadzorczego wskazuje osobę, posiadającą pozytywną opinię Rady do spraw spółek z udziałem Skarbu Państwa i państwowych osób prawnych, o której ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">This Site required Java Script support by browser</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-7">
+  <div class="card-header">
+    <div class="card-number">7</div>
+    <div class="card-title">
+      <a href="https://radiolodz.pl/oswiadczenie-marcina-golaszewskiego-kandydata-na-czlonka-rady-nadzorczej,91224/" target="_blank" rel="noopener">Oświadczenie Marcina Gołaszewskiego, kandydata na członka rady...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; radiolodz.pl</span>
+    </div>
+    <a class="url-link" href="https://radiolodz.pl/oswiadczenie-marcina-golaszewskiego-kandydata-na-czlonka-rady-nadzorczej,91224/" target="_blank" rel="noopener">&#128279; https://radiolodz.pl/oswiadczenie-marcina-golaszewskiego-kandydata-na-czlonka-rady-nadzorczej,91224/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Podpisane oświadczenie Marcina Gołaszewskiego. Kluczowym dokumentem w sprawie jest oświadczenie, jakie Marcin Gołaszewski złożył przed objęciem funkcji w radzie nadzorczej spółki w Zduńskiej Woli.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Podpisane oświadczenie Marcina Gołaszewskiego. Kluczowym dokumentem w sprawie jest oświadczenie, jakie Marcin Gołaszewski złożył przed objęciem funkcji w radzie nadzorczej spółki w Zduńskiej Woli.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-8">
+  <div class="card-header">
+    <div class="card-number">8</div>
+    <div class="card-title">
+      <a href="https://mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-spolki-warszawska-kolej-dojazdowa.html" target="_blank" rel="noopener">Nabór kandydatów do Rady Nadzorczej spółki Warszawska Kolej Dojazdowa - Witryna Mazovia.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 11.06.2026</span>
+      <span class="meta-pill">&#127760; mazovia.pl</span>
+    </div>
+    <a class="url-link" href="https://mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-spolki-warszawska-kolej-dojazdowa.html" target="_blank" rel="noopener">&#128279; https://mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-spolki-warszawska-kolej-dojazdowa.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">11.06.2026 · Strona główna · BIP · Komunikaty · Komunikaty · Ogłoszenie o naborze do Radny Nadzorczej WKD · Rozmiar: 19.71 KB, DOCX · Zgłoszenie kandydata · Rozmiar: 24.08 KB, DOCX · Podmiot udostępniający: Urząd Marszałkowski Województwa Mazowieckiego w Warszawie ·</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">11.06.2026 · Strona główna · BIP · Komunikaty · Komunikaty · Ogłoszenie o naborze do Radny Nadzorczej WKD · Rozmiar: 19.71 KB, DOCX · Zgłoszenie kandydata · Rozmiar: 24.08 KB, DOCX · Podmiot udostępniający: Urząd Marszałkowski Województwa Mazowieckiego w Warszawie ·</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-07-11 18:40 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
