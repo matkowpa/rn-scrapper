@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-07-16 16:03</span>
+      <span class="header-chip chip-green">&#9679; 6 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>16.06.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>6</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (6)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej?tresc=3190" target="_blank" rel="noopener">Strona Główna | Produkty | Krajowa Grupa Spożywcza S.A.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.kgssa.pl</span>
+    </div>
+    <a class="url-link" href="https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej?tresc=3190" target="_blank" rel="noopener">&#128279; https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej?tresc=3190</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ogłoszenia Rady Nadzorczej. Ogłoszenie Rady Nadzorczej Krajowej Grupy Spożywczej S.A. o postępowaniu kwalifikacyjnym na stanowisko Członka Zarządu Krajowej Grupy Spożywczej S.A. z siedzibą w Toruniu odpowiedzialnego za obszar ekonomiczno-finansowy Spółki.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Produkty
+Produkty dla handlu detalicznego
+Produkty B2B</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://www.srodmiescie.lodz.pl/author/m-brzezinskisrodmiescie-lodz-pl/page/2/" target="_blank" rel="noopener">M Brzeziński, Autor w serwisie Spółdzielnia Mieszkaniowa...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.srodmiescie.lodz.pl</span>
+    </div>
+    <a class="url-link" href="https://www.srodmiescie.lodz.pl/author/m-brzezinskisrodmiescie-lodz-pl/page/2/" target="_blank" rel="noopener">&#128279; https://www.srodmiescie.lodz.pl/author/m-brzezinskisrodmiescie-lodz-pl/page/2/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Poniżej zamieszczamy skan komunikatu Rady Nadzorczej nr 3/2018 oraz wykresy z analizami porównawczymi w SM.Poniżej zamieszczamy skany dokumentów dotyczących konkursu na stanowisko Członka Zarządu ds.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Poniżej zamieszczamy skan komunikatu Rady Nadzorczej nr 3/2018 oraz wykresy z analizami porównawczymi w SM.Poniżej zamieszczamy skany dokumentów dotyczących konkursu na stanowisko Członka Zarządu ds.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://relacje.jhmdevelopment.pl/spolka/rada-nadzorcza/" target="_blank" rel="noopener">Rada Nadzorcza - JHM Development S.A.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; relacje.jhmdevelopment.pl</span>
+    </div>
+    <a class="url-link" href="https://relacje.jhmdevelopment.pl/spolka/rada-nadzorcza/" target="_blank" rel="noopener">&#128279; https://relacje.jhmdevelopment.pl/spolka/rada-nadzorcza/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Rada Nadzorcza. Anna Więzowska – Przewodnicząca Rady Nadzorczej. Pani Anna Maria Więzowska jest radcą prawnym, pełni funkcję Dyrektora Działu Prawnego MIRBUD S.A. Odbyła aplikację radcowską w Okręgowej Izbie Radców Prawnych w Łodzi.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Rada Nadzorcza
+Anna Więzowska – Przewodnicząca Rady Nadzorczej
+Pani Anna Maria Więzowska jest radcą prawnym, pełni funkcję Dyrektora Działu Prawnego MIRBUD S.A. Odbyła aplikację radcowską w Okręgowej Izbie Radców Prawnych w Łodzi. Ukończyła Akademię Spółek w Szkole Głównej Handlowej, Podyplomowe Studium Prawa Podatkowego na Uniwersytecie Łódzkim, Prawo restrukturyzacyjne i upadłościowe na Uczelni Łazarskiego w Warszawie, jest wpisana na listę kandydatów na członków rad nadzorczych spółek z udziałem Skarbu Państwa. Obecnie zasiada także w Radzie Nadzorczej MARYWILSKA 44 Sp. z o.o., KOBYLARNIA S.A. Od ponad 10 lat specjalizuje się w obsłudze prawnej spółek z branży budowlanej oraz deweloperskiej.
+Pani Anna Maria Więzowska nie wykonuje działalności konkurencyjnej w stosunku do JHM DEVELOPMENT S. A. z siedzibą w Skierniewicach, nie uczestniczy w spółce konkurencyjnej jako wspólnik spółki cywilnej, spółki osobowej lub jako członek organu spółki kapitałowej, ani też nie uczestniczy w innej konkurencyjnej osobie prawnej jako członek jej organu. Pani Anna Maria Więzowska nie figuruje w Rejestrze Dłużników Niewypłacalnych prowadzonym na podstawie ustawy o KRS.
+Agnieszka Bujnowska – Sekretarz Rady Nadzorczej
+Pani Agnieszka Bujnowska ukończyła Uniwersytet Łódzki Wydział Zarządzania, specjalność: rachunkowość, analiza finansowa przedsiębiorstw; ponadto złożyła z wynikiem pozytywnym egzamin dla członków rad nadzorczych w spółkach Skarbu Państwa – Dyplom Ministra Skarbu Państwa nr 2262/2007. Ponadto ukończyła certyfikowane szkolenia między innymi w zakresie: Implementacja MAR; CSRD i ESRS: system Europejskich Standardów Raportowania Zrównoważonego Rozwoju, Raportowanie zagadnień ESG zgodnie z nowymi przepisami; Finansowa informacja poufna.
+Pani Agnieszka Bujnowska nie wykonuje działalności konkurencyjnej w stosunku do MIRBUD S.A. z siedzibą w Skierniewicach, nie uczestniczy w spółce konkurencyjnej jako wspólnik spółki cywilnej, spółki osobowej lub jako członek organu spółki kapitałowej, ani też nie uczestniczy w innej konkurencyjnej osobie prawnej jako członek jej organu. Pani Agnieszka Bujnowska nie figuruje w Rejestrze Dłużników Niewypłacalnych prowadzonym na podstawie ustawy o KRS. Aktualnie Pani Agnieszka Bujnowska pełni funkcję Przewodniczącej Rady Nadzorczej w spółce prowadzącej działalność w zakresu lokalnego transportu zbiorowego polegającego na wykonywaniu przewozów o charakterze użyteczności publicznej, nie jest to działalność konkurencyjna w stosunku do dział…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://radiolodz.pl/oswiadczenie-marcina-golaszewskiego-kandydata-na-czlonka-rady-nadzorczej,91224/" target="_blank" rel="noopener">Oświadczenie Marcina Gołaszewskiego, kandydata na członka rady...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; radiolodz.pl</span>
+    </div>
+    <a class="url-link" href="https://radiolodz.pl/oswiadczenie-marcina-golaszewskiego-kandydata-na-czlonka-rady-nadzorczej,91224/" target="_blank" rel="noopener">&#128279; https://radiolodz.pl/oswiadczenie-marcina-golaszewskiego-kandydata-na-czlonka-rady-nadzorczej,91224/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">BIP. Rada programowa. Polityka prywatności.Przewodniczący Rady Miejskiej w Łodzi zasiadał wcześniej w radzie nadzorczej spółki komunalnej w Pabianicach. Miasto Zduńska Wola jest właścicielem spółki Miejskiego Przedsiębiorstwa Gospodarki Komunalnej w Zduńskiej Woli.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">BIP. Rada programowa. Polityka prywatności.Przewodniczący Rady Miejskiej w Łodzi zasiadał wcześniej w radzie nadzorczej spółki komunalnej w Pabianicach. Miasto Zduńska Wola jest właścicielem spółki Miejskiego Przedsiębiorstwa Gospodarki Komunalnej w Zduńskiej Woli.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://finteo.pl/slownik-pojec-prawnych/czlonek-rady-nadzorczej" target="_blank" rel="noopener">Członek rady nadzorczej | Finteo</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; finteo.pl</span>
+    </div>
+    <a class="url-link" href="https://finteo.pl/slownik-pojec-prawnych/czlonek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://finteo.pl/slownik-pojec-prawnych/czlonek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Członek rady nadzorczej to osoba pełniąca funkcję nadzoru nad działalnością spółki kapitałowej, będąca wybrana i powołana do rady nadzorczej w oparciu o przepisy prawa oraz statut danej organizacji.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Członek rady nadzorczej to osoba pełniąca funkcję nadzoru nad działalnością spółki kapitałowej, będąca wybrana i powołana do rady nadzorczej w oparciu o przepisy prawa oraz statut danej organizacji.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://invest-park.com.pl/wp-content/uploads/2024/06/Zalacznik-nr-1-do-Uchwaly-RN-Ogloszenie-nabor-na-stanowisko-Prezesa-Zarzadu.pdf" target="_blank" rel="noopener">Załącznik nr 1 do uchwały Rady Nadzorczej Wałbrzyskiej Specjalnej...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; invest-park.com.pl</span>
+    </div>
+    <a class="url-link" href="https://invest-park.com.pl/wp-content/uploads/2024/06/Zalacznik-nr-1-do-Uchwaly-RN-Ogloszenie-nabor-na-stanowisko-Prezesa-Zarzadu.pdf" target="_blank" rel="noopener">&#128279; https://invest-park.com.pl/wp-content/uploads/2024/06/Zalacznik-nr-1-do-Uchwaly-RN-Ogloszenie-nabor-na-stanowisko-Prezesa-Zarzadu.pdf</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Rada Nadzorcza, po zakończeniu postępowania kwalifikacyjnego, powiadomi kandydatów uczestniczących w postępowaniu o jego wynikach na wskazany przez kandydata, w zgłoszeniu do postępowania, adres poczty elektronicznej. Strona 3 z 4.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Rada Nadzorcza, po zakończeniu postępowania kwalifikacyjnego, powiadomi kandydatów uczestniczących w postępowaniu o jego wynikach na wskazany przez kandydata, w zgłoszeniu do postępowania, adres poczty elektronicznej. Strona 3 z 4.</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-07-16 16:03 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
