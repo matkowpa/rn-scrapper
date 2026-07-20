@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-07-20 13:28</span>
+      <span class="header-chip chip-green">&#9679; 8 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>20.06.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>6</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (8)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">Praca Członek rady nadzorczej (Pilne!) - 2026 - Aktualne ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; pl.jooble.org</span>
+    </div>
+    <a class="url-link" href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://pl.jooble.org/praca-członek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Praca: Członek rady nadzorczej. 113.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Praca: Członek rady nadzorczej. 113.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://murapol.pl/media/700310/download/Sprawozdanie+RN+z+działalności+PL.pdf?v=1&amp;no-count=1" target="_blank" rel="noopener">Sprawozdanie Rady Nadzorczej</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; murapol.pl</span>
+    </div>
+    <a class="url-link" href="https://murapol.pl/media/700310/download/Sprawozdanie+RN+z+działalności+PL.pdf?v=1&amp;no-count=1" target="_blank" rel="noopener">&#128279; https://murapol.pl/media/700310/download/Sprawozdanie+RN+z+działalności+PL.pdf?v=1&amp;no-count=1</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Kandydat na niezależnego członka Rady Nadzorczej składa Spółce, przed jego powołaniem do składu Rady Nadzorczej, pisemne oświadczenie o spełnieniu kryteriów niezależności.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">%PDF-1.5
+%����
+2 0 obj
+&lt;&lt;
+/Type /Catalog
+/Version /1#2E5
+/Pages 4 0 R
+/PieceInfo 5 0 R
+&gt;&gt;
+endobj
+41 0 obj
+&lt;&lt;
+/Filter /FlateDecode
+/Length 945
+&gt;&gt;
+stream
+x��W]k;}7�?�c{��f�����NJ/
+�4Ї�}%M��޶���he{
+���5^���
+�3�������^_\o�n�^��}��?��޿{�4�z����
+k��R�8�qɣ�?O��r��f���B@4��͗�B߶��I�!k��|���|�p�K����J��f�����n�^..e��\^o�����P]4)����hf`���`n^`!��i
+0?30)ُ��# �}��w�`af`6�c��y�QȆp
+�430G�x
+�
+tr�)0ߡH���d&gt;S0!�:�IGpZ�
+��!p�M���K��gy���0k��\{�8,�u��(�;.T�eX!E���Y6�����
+R���f��fD�`R�EP��%AZ��[��n
+��îU7h5
+��dU�#�����6�H�&gt;�H	^�@G��c��?�+�����c_w=��.�nn�����߯���`\[�����M�&#x27;�%����p����a
+2��R�Q,&amp;�MⱤ��s�U���&gt;�v(g��X��r�
+%���I(J]Z�
+&gt;
+stream
+x��][�$��~o��P����u��jv��`�0
+�aaw�z��Y��!��T�����6��T�2
+E|��T�/���w?]
+�|��/��7��������o�������|��ϟ�B��hz!�ʅ��tY�����������ӷ�?}y�J&quot;.�����&amp;z1f1L\�&quot;��O�Ƕ���������/?�O&amp;|���O���Qz���?&gt;&quot;
+Q���t��??z�}��6y���r)��0o��
+�`���X��/.�,;@X�	+�NV
+O�ve�_�D�ֶ&#x27;q��#3�O~c����v���#�
+�8||վ���Ǜ(ZPj�}�7����iD�Q���׉�S�ވ� ����m��p��CfJ=y.,mGT����p������Qx��zҼ�;2iY��x6���,&gt;f�
+־���l_�}�1��t�����i�5�B.�v��
+�	�ϯ0���
+φ���q�1�;;d��&quot;M��ڐZ�����&amp;
+�_�jX���@�y�����D��qUN]
+�;��N�o΢e�Z7N���3h�}�)|DЭQ%���&lt;&amp;��I��P,JX䘾=�ѩ�:���ʵG�+g��$c�!��ЧG�0Љ��[�&lt;��d�[��
+$�H���	�ys��
+�L҆ZI��:j5�N�s�Ie�&quot;߱LR�?�Nz��3��&quot;y�&quot;�
+x��hDр��
+��,�-�vf
+���qvų�9��cչ������;�L��7H�cW�:׿���^�ٰ4`��X�M5
+�f�-[��w�rC� ��\Z�Oq�&gt;	S��o�N��DQL����d�P�^!�r
+a��
+�2�3��3Pq�QK�#�߭�.
+t�0�%;��Aq2�X�J���7�M�N��6��7O���u�c��
+��z�gΈ�����{
+���^��ـJ{c
+!�)���:ډܺ�NO�0.Y��:�|U���qR��:~����E������{�wy�
+q
+�7���J&lt;ѵ/���)^�ܜ�A�|0�*�9�
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej?tresc=3192" target="_blank" rel="noopener">Strona Główna | Produkty | Krajowa Grupa Spożywcza S.A.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.kgssa.pl</span>
+    </div>
+    <a class="url-link" href="https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej?tresc=3192" target="_blank" rel="noopener">&#128279; https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej?tresc=3192</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ogłoszenia Rady Nadzorczej. Ogłoszenie Rady Nadzorczej Krajowej Grupy Spożywczej S.A. o postępowaniu kwalifikacyjnym na stanowisko Członka Zarządu Krajowej Grupy Spożywczej S.A. z siedzibą w Toruniu odpowiedzialnego za obszar handlu i marketingu Spółki.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Produkty
+Produkty dla handlu detalicznego
+Produkty B2B</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://www.bankier.pl/wiadomosc/BUMECH-S-A-Rezygnacja-czlonka-Rady-Nadzorczej-9165929.html" target="_blank" rel="noopener">BUMECH S.A.: Rezygnacja członka Rady Nadzorczej - Bankier.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 9 lipca 2026</span>
+      <span class="meta-pill">&#127760; www.bankier.pl</span>
+    </div>
+    <a class="url-link" href="https://www.bankier.pl/wiadomosc/BUMECH-S-A-Rezygnacja-czlonka-Rady-Nadzorczej-9165929.html" target="_blank" rel="noopener">&#128279; https://www.bankier.pl/wiadomosc/BUMECH-S-A-Rezygnacja-czlonka-Rady-Nadzorczej-9165929.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Rezygnacja członka Rady Nadzorczej. Podstawa prawna. Art.1 pkt 2 Ustawy o ofercie – informacje bieżące i okresowe. Treść raportu: Bumech S.A. informuje, iż Pan Józef Aleszczyk złożył rezygnację z pełnionej funkcji członka Rady Nadzorczej Spółki z dniem 9 lipca 2026 roku.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Spis treści:
+1. RAPORT BIEŻĄCY
+2. MESSAGE (ENGLISH VERSION)
+3. INFORMACJE O PODMIOCIE
+4. PODPISY OSÓB REPREZENTUJĄCYCH SPÓŁKĘ
+KOMISJA NADZORU FINANSOWEGO
+Raport bieżący nr
+30
+/
+2026
+Data sporządzenia:
+2026-07-09
+Skrócona nazwa emitenta
+BUMECH S.A.
+Temat
+Rezygnacja członka Rady Nadzorczej
+Podstawa prawna
+Art. 56 ust. 1 pkt 2 Ustawy o ofercie – informacje bieżące i okresowe
+Treść raportu:
+Bumech S.A. informuje, iż Pan Józef Aleszczyk złożył rezygnację z pełnionej funkcji członka Rady Nadzorczej Spółki  z dniem 9 lipca 2026 roku.
+MESSAGE (ENGLISH VERSION)
+INFORMACJE O PODMIOCIE
+&gt;&gt;&gt;
+BUMECH SPÓŁKA AKCYJNA
+(pełna nazwa emitenta)
+BUMECH S.A.
+Elektromaszynowy (ele)
+(skrócona nazwa emitenta)
+(sektor wg. klasyfikacji GPW w W-wie)
+40-389
+Katowice
+(kod pocztowy)
+(miejscowość)
+Krakowska
+191
+(ulica)
+(numer)
+32 789 38 50
+32 789 38 51
+(telefon)
+(fax)
+sekretariat@bumech.pl
+www.bumech.pl
+(e-mail)
+(www)
+954-00-05-359
+272129154
+(NIP)
+(REGON)
+PODPISY OSÓB REPREZENTUJĄCYCH SPÓŁKĘ
+Data
+Imię i Nazwisko
+Stanowisko/Funkcja
+Podpis
+2026-07-09
+Jonasz Drabek
+Prezes Zarządu
+2026-07-09
+Andrzej Bukowczyk
+Wiceprezes Zarządu
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://www.hsw.pl/wp-content/uploads/2026/07/Ogloszenie-o-wszczeciu-postepowania-kwalifikacyjnego.pdf" target="_blank" rel="noopener">PDF Ogłoszenie O Wszczęciu Postępowania Kwalifikacyjnego</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 2026-07-16</span>
+      <span class="meta-pill">&#127760; www.hsw.pl</span>
+    </div>
+    <a class="url-link" href="https://www.hsw.pl/wp-content/uploads/2026/07/Ogloszenie-o-wszczeciu-postepowania-kwalifikacyjnego.pdf" target="_blank" rel="noopener">&#128279; https://www.hsw.pl/wp-content/uploads/2026/07/Ogloszenie-o-wszczeciu-postepowania-kwalifikacyjnego.pdf</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">W toku rozmowy kwalifikacyjnej Rada Nadzorcza HSW S.A., oceni w szczególności: wiedzę o zakresie działalności Spółki oraz o sektorze, w którym działa Spółka, znajomość zasad funkcjonowania spółek handlowych, w szczególności spółek z udziałem Skarbu Państwa,</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">%PDF-1.7
+%����
+1 0 obj
+&lt;&gt;/Metadata 274 0 R/ViewerPreferences 275 0 R&gt;&gt;
+endobj
+2 0 obj
+&lt;&gt;
+endobj
+3 0 obj
+&lt;&gt;/ExtGState&lt;&gt;/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] &gt;&gt;/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group&lt;&gt;/Tabs/S/StructParents 0&gt;&gt;
+endobj
+4 0 obj
+&lt;&gt;
+stream
+x��][s��~w���&lt;�[�w
+�T����IN|6�����d��GQ
+Ŏ��Rٿ~�@�23�MK3^?X�\��h|_wl���p�j�Ξ����YC��8\�iV�m���z�m�&gt;��}����u��
+i��-gM&#x27;hkXs}����i�
+?z���&#x27;{ژ֨��o��ä�
+��e�ъ��5������%%͛[t�����/��rF��J�v#��|��/�n�R������e?�g���
+���ux�����L��g�6�����V��Du�d�-�vO��b�O�۽��ȝ����	�
+�����u��p�����5e����[c����1�����5.;{M����4�����s;����W
+��d�
+��1?N�f}������M3�?:������?�haZ�&amp;m�~�᫏������\o������{��bu��k��^�w�
+p϶���
+Q��w]KeMf3{u���Ԫ{2u�%�V����s�(�iu�?��5_6{��kuU����q~�������� ~v��W�0W���a~ky�{�j�]~8_o:���Wol�U��f�mM��/+6�jIJ[�}3ՒT��}3Ւ�kU���Z�oq%S�����+
+�a���&quot;���X��s�NM�
+_hDI0&gt;�`� ��vDk�
+f��xjq��N��%�}K�
+Z��p +����QD}
+K�Ŗ���X��o)�ץ��RI�CX�}I�mwY
+��V��b.�G�B�cDl;���wO��s6�6���,zg/��
+8�ӫ���&#x27;�s��o���Û0{��Yu���&gt;�ᓞ��C�}�Y���զV��FJ�A��f͊V�*oV�C�ݸۇ��
+�����S%����J�{�f��`�����P�������Z���������O0~�a2�cM�j7�d咴\V�:������N@e&#x27;g�U���|z�w���Kk
+^A�A���5t_�a
+��V�
+X
+7e���s�[Y�I���&#x27;����&#x27;�A
+��{F�B��d�cL4���L|#
+D&quot;&#x27;P&quot;
+����
+I�xw�R�)yb�]�L�R�J5$�6�ǩԃX|��t��ӭҰ�N�x��b��so�m#,6�H춅/zE�����ۏ�
+K��,PԺ::�n���@��&gt;�����Nt~�i��T��*�,�i�Ðu~��e|y��
+@�&lt;&quot;߯���O����FL��Oz��=�G�Rb���C�{��)�*����D�_DG��\���)�f ����pXe�0�pg��&quot;
+��TyY�~*�-�%�Ҡr��^gC�z�&lt;�,�Нy�#�
+R�[B��)[,�&#x27;�W�}������f�������ТyY�eC�m
+���CQq&amp;�Q��Y꿃�c�S\q���4��Im�#矔R��@�;�o§��y�
+@�
+ő��+5.K{_�-
+���@q����hr���N=��=&quot;G���4:�\+
+Q�kZ�t
+���9���Z��.�
+��9��Ǖ��o��c��U ��
+�-��4D�*�AK͍����+p0�Y
+zy�V���U����3&#x27;�������8�*���{�
+:G����:6J˃��;�]�J0�YH�����,�ׂk��4�f&amp;�|�L��f�k;Zi�.��BBO�&gt;`kz�����H��v/�X���X��&#x27;k^��Dː5AT+�a��A����z?G�;���jy/��4
+���rZ���]
+��&#x27;9G�Q��4W�\b�����~��&gt;
+~���w��vms�9|8�_Z��i\�����#�=���.o֔@��ҤH+a��y�O䒧�Ot`�u����V�e���	�Qr�|$��j$
+Α�|���l\R�	��:K���iIvT�)mr�ݩ�h6�t+���q;�L}�
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://emonitoring.poczta-polska.pl/?lang=en" target="_blank" rel="noopener">emonitoring.poczta-polska.pl/?lang=en</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; emonitoring.poczta-polska.pl</span>
+    </div>
+    <a class="url-link" href="https://emonitoring.poczta-polska.pl/?lang=en" target="_blank" rel="noopener">&#128279; https://emonitoring.poczta-polska.pl/?lang=en</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Władze Spółki. Zarząd. Rada Nadzorcza. Misja i Strategia. Sprawozdania finansowe.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">By selecting the tracking option you can check the current status of your shipment, both of Poczta Polska as well as foreign operators.
+Poczta Polska S.A. makes available Certified Customs Declaration not earlier than 7 calendar days after delivery or collection.
+Instrukcja pobrania poświadczonego zgłoszenia celnego
+Below are links to web pages where you can track shipments beyond Polish borders:
+Letters
+Parcels
+EMS courier shipments
+In order to to find registered shipment, please type in the box the number (for example:
+0015900773312345678, PX0000000013, RR123456789PL, CP123456789PL, VV123456789PL, EE123456789PL
+) listed on the postal receipt, without any spaces or parentheses, and press
+[Search]
+.
+If the number is incorrect or the system does not list a shipment with the specified number, the following message will be displayed:
+The given package number is incorrect
+If no number is typed in the box, the following message will be displayed:
+Please give the package number
+If the number is correct, the shipping information and event log for the parcel will be displayed. If the shipping information does not conform to the information on the postal receipt, please check if you have entered the number correctly.
+The system currently provides information about the following types of shipments:
+domestic:
+postal parcel,
+POCZTEX,
+cash on delivery package,
+declared value packages,
+BUSINESS PACKAGE,
+DIMENSIONAL WEIGHT PACKAGE
+international:
+EMS,
+postal parcel.
+In the case of registered letters, only dispatch and delivery date may be displayed, without tracking information.
+The information displayed is for reference only and may not constitute the basis for any claim against Poczta Polska.
+All questions related to the tracking of shipments and search system can be submitted by e-mail:
+kontakt@poczta-polska.pl
+Poczta Polska S.A. provides network service (web service) which may be used to create applications for tracking postal shipments. The service is availbale at:
+http://tt.poczta-polska.pl
+.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-7">
+  <div class="card-header">
+    <div class="card-number">7</div>
+    <div class="card-title">
+      <a href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">Ogłoszenie o naborze uzupełniającym kandydatów na członków rady nadzorczej</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; um_jaslo.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">&#128279; https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-8">
+  <div class="card-header">
+    <div class="card-number">8</div>
+    <div class="card-title">
+      <a href="https://bip.gogolin.pl/10823/ogloszenie-o-naborze-do-rejestru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-prawa-handlowego-z-udzialem-gminy-gogolin.html" target="_blank" rel="noopener">Ogłoszenie o naborze do rejestru kandydatów na członków rad nadzorczych spółek prawa handlowego z udziałem Gminy Gogolin - Urząd Miejski w Gogolinie</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.gogolin.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.gogolin.pl/10823/ogloszenie-o-naborze-do-rejestru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-prawa-handlowego-z-udzialem-gminy-gogolin.html" target="_blank" rel="noopener">&#128279; https://bip.gogolin.pl/10823/ogloszenie-o-naborze-do-rejestru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-prawa-handlowego-z-udzialem-gminy-gogolin.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Kandydat na członka Rady Nadzorczej nie może wykonywać zajęć, które pozostawałyby w sprzeczności z ich obowiązkami albo mogłyby wywołać podejrzenie o stronniczość lub interesowność. Kandydaci, którzy złożyli dokumenty w niniejszym naborze zostaną powiadomieni o wpisie do „Rejestru kandydatów na członków rad nadzorczych spółek prawa handlowego z udziałem Gminy Gogolin” lub o przyczynach nieumieszczenia w w/w rejestrze.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Kandydat na członka Rady Nadzorczej nie może wykonywać zajęć, które pozostawałyby w sprzeczności z ich obowiązkami albo mogłyby wywołać podejrzenie o stronniczość lub interesowność. Kandydaci, którzy złożyli dokumenty w niniejszym naborze zostaną powiadomieni o wpisie do „Rejestru kandydatów na członków rad nadzorczych spółek prawa handlowego z udziałem Gminy Gogolin” lub o przyczynach nieumieszczenia w w/w rejestrze.</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-07-20 13:28 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
