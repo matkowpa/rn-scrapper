@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-07-21 16:08</span>
+      <span class="header-chip chip-green">&#9679; 7 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>21.06.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>4</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (7)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://www.hsw.pl/wp-content/uploads/2026/07/Ogloszenie-o-wszczeciu-postepowania-kwalifikacyjnego.pdf" target="_blank" rel="noopener">PDF Załącznik nr 1 do Uchwały Rady Nadzorczej HSW S.A. Huty Stalowa Wola S ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 2026-07-16</span>
+      <span class="meta-pill">&#127760; www.hsw.pl</span>
+    </div>
+    <a class="url-link" href="https://www.hsw.pl/wp-content/uploads/2026/07/Ogloszenie-o-wszczeciu-postepowania-kwalifikacyjnego.pdf" target="_blank" rel="noopener">&#128279; https://www.hsw.pl/wp-content/uploads/2026/07/Ogloszenie-o-wszczeciu-postepowania-kwalifikacyjnego.pdf</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">OGŁOSZENIE O WSZCZĘCIU POSTĘPOWANIA KWALIFIKACYJNEGO na stanowisko Członka Zarządu Huty Stalowa Wola S.A. z siedzibą w Stalowej Woli pod adresem: ul. gen. T. Kasprzyckiego 8, 37-450 Stalowa Wola</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">%PDF-1.7
+%����
+1 0 obj
+&lt;&gt;/Metadata 274 0 R/ViewerPreferences 275 0 R&gt;&gt;
+endobj
+2 0 obj
+&lt;&gt;
+endobj
+3 0 obj
+&lt;&gt;/ExtGState&lt;&gt;/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] &gt;&gt;/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group&lt;&gt;/Tabs/S/StructParents 0&gt;&gt;
+endobj
+4 0 obj
+&lt;&gt;
+stream
+x��][s��~w���&lt;�[�w
+�T����IN|6�����d��GQ
+Ŏ��Rٿ~�@�23�MK3^?X�\��h|_wl���p�j�Ξ����YC��8\�iV�m���z�m�&gt;��}����u��
+i��-gM&#x27;hkXs}����i�
+?z���&#x27;{ژ֨��o��ä�
+��e�ъ��5������%%͛[t�����/��rF��J�v#��|��/�n�R������e?�g���
+���ux�����L��g�6�����V��Du�d�-�vO��b�O�۽��ȝ����	�
+�����u��p�����5e����[c����1�����5.;{M����4�����s;����W
+��d�
+��1?N�f}������M3�?:������?�haZ�&amp;m�~�᫏������\o������{��bu��k��^�w�
+p϶���
+Q��w]KeMf3{u���Ԫ{2u�%�V����s�(�iu�?��5_6{��kuU����q~�������� ~v��W�0W���a~ky�{�j�]~8_o:���Wol�U��f�mM��/+6�jIJ[�}3ՒT��}3Ւ�kU���Z�oq%S�����+
+�a���&quot;���X��s�NM�
+_hDI0&gt;�`� ��vDk�
+f��xjq��N��%�}K�
+Z��p +����QD}
+K�Ŗ���X��o)�ץ��RI�CX�}I�mwY
+��V��b.�G�B�cDl;���wO��s6�6���,zg/��
+8�ӫ���&#x27;�s��o���Û0{��Yu���&gt;�ᓞ��C�}�Y���զV��FJ�A��f͊V�*oV�C�ݸۇ��
+�����S%����J�{�f��`�����P�������Z���������O0~�a2�cM�j7�d咴\V�:������N@e&#x27;g�U���|z�w���Kk
+^A�A���5t_�a
+��V�
+X
+7e���s�[Y�I���&#x27;����&#x27;�A
+��{F�B��d�cL4���L|#
+D&quot;&#x27;P&quot;
+����
+I�xw�R�)yb�]�L�R�J5$�6�ǩԃX|��t��ӭҰ�N�x��b��so�m#,6�H춅/zE�����ۏ�
+K��,PԺ::�n���@��&gt;�����Nt~�i��T��*�,�i�Ðu~��e|y��
+@�&lt;&quot;߯���O����FL��Oz��=�G�Rb���C�{��)�*����D�_DG��\���)�f ����pXe�0�pg��&quot;
+��TyY�~*�-�%�Ҡr��^gC�z�&lt;�,�Нy�#�
+R�[B��)[,�&#x27;�W�}������f�������ТyY�eC�m
+���CQq&amp;�Q��Y꿃�c�S\q���4��Im�#矔R��@�;�o§��y�
+@�
+ő��+5.K{_�-
+���@q����hr���N=��=&quot;G���4:�\+
+Q�kZ�t
+���9���Z��.�
+��9��Ǖ��o��c��U ��
+�-��4D�*�AK͍����+p0�Y
+zy�V���U����3&#x27;�������8�*���{�
+:G����:6J˃��;�]�J0�YH�����,�ׂk��4�f&amp;�|�L��f�k;Zi�.��BBO�&gt;`kz�����H��v/�X���X��&#x27;k^��Dː5AT+�a��A����z?G�;���jy/��4
+���rZ���]
+��&#x27;9G�Q��4W�\b�����~��&gt;
+~���w��vms�9|8�_Z��i\�����#�=���.o֔@��ҤH+a��y�O䒧�Ot`�u����V�e���	�Qr�|$��j$
+Α�|���l\R�	��:K���iIvT�)mr�ݩ�h6�t+���q;�L}�
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">Praca Członek rady nadzorczej (Pilne!) - 2026 - Aktualne ... - Jooble</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; pl.jooble.org</span>
+    </div>
+    <a class="url-link" href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://pl.jooble.org/praca-członek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Praca: Członek rady nadzorczej. 145.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Praca: Członek rady nadzorczej. 145.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://www.polimex-mostostal.pl/sites/default/files/attachments/2026-07/PxM_ogłoszenie+o+wszczęciu+postępowania+kwalifikacyjnego_16072026_AP.pdf" target="_blank" rel="noopener">PDF Ogłoszenie o wszczęciu postępowania kwalifikacyjnego</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.polimex-mostostal.pl</span>
+    </div>
+    <a class="url-link" href="https://www.polimex-mostostal.pl/sites/default/files/attachments/2026-07/PxM_ogłoszenie+o+wszczęciu+postępowania+kwalifikacyjnego_16072026_AP.pdf" target="_blank" rel="noopener">&#128279; https://www.polimex-mostostal.pl/sites/default/files/attachments/2026-07/PxM_ogłoszenie+o+wszczęciu+postępowania+kwalifikacyjnego_16072026_AP.pdf</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">§ 1 - Informacje ogólne Rada Nadzorcza Polimex Mostostal S.A. (dalej jako: „Spółka&quot;) z siedzibą w Warszawie przy Al. Jana Pawła II 12, 00-124 Warszawa ogłasza wszczęcie postępowania kwalifikacyjnego na stanowiska:</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">§ 1 - Informacje ogólne Rada Nadzorcza Polimex Mostostal S.A. (dalej jako: „Spółka&quot;) z siedzibą w Warszawie przy Al. Jana Pawła II 12, 00-124 Warszawa ogłasza wszczęcie postępowania kwalifikacyjnego na stanowiska:</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://www.rp.pl/prawo-w-polsce/art44854621-koniec-latwej-sciezki-do-rad-nadzorczych-panstwowych-spolek-poklosie-afery-collegium-humanum" target="_blank" rel="noopener">Koniec łatwej ścieżki do rad nadzorczych państwowych spółek. Pokłosie afery Collegium Humanum</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 21.07.2026</span>
+      <span class="meta-pill">&#127760; www.rp.pl</span>
+    </div>
+    <a class="url-link" href="https://www.rp.pl/prawo-w-polsce/art44854621-koniec-latwej-sciezki-do-rad-nadzorczych-panstwowych-spolek-poklosie-afery-collegium-humanum" target="_blank" rel="noopener">&#128279; https://www.rp.pl/prawo-w-polsce/art44854621-koniec-latwej-sciezki-do-rad-nadzorczych-panstwowych-spolek-poklosie-afery-collegium-humanum</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Doświadczenie w zarządzaniu dużym przedsiębiorstwem będzie premiowane przy obsadzaniu rad nadzorczych spółek z udziałem Skarbu Państwa. Takie rozwiązanie znalaz</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Reklama
+Prawo
+Prawo dla Ciebie
+Prawo w Polsce
+Koniec łatwej ścieżki do rad nadzorczych państwowych spółek. Pokłosie afery Collegium Humanum
+Doświadczenie w zarządzaniu dużym przedsiębiorstwem będzie premiowane przy obsadzaniu rad nadzorczych spółek z udziałem Skarbu Państwa. Takie rozwiązanie znalazło się w projekcie ustawy, do którego dotarła „Rzeczpospolita”.
+Aktualizacja:
+21.07.2026 17:40
+Publikacja:
+21.07.2026 04:56
+Minister aktywów państwowych Wojciech Balczun na konferencji prasowej „Neutralność polityczna i wysoki standard kompetencji - MAP podnosi poprzeczkę w spółkach z udziałem Skarbu Państwa”, która odbyła się w lutym br.
+Foto: PAP/Tomasz Gzell
+Jolanta Szymczyk-Przewoźna
+Z naszych informacji wynika, że na wpis do wykazu prac legislacyjnych Rady Ministrów czeka przygotowany przez Ministerstwo Aktywów Państwowych projekt nowelizacji ustawy o zasadach zarządzania mieniem państwowym.
+Reklama
+Reklama
+„Kluczowe stanowiska powinny być powierzane profesjonalistom, którzy rozumieją zarówno specyfikę rynku, jak i wagę odpowiedzialności związanej z zarządzaniem majątkiem państwowym” – pisze w założeniach do projektu MAP.
+Zgodnie z obecnie obowiązującą treścią art. 19 ustawy o zasadach zarządzania mieniem państwowym kandydat na członka rady nadzorczej musi mieć wykształcenie wyższe, minimum 5-letnie doświadczenie zawodowe i dodatkowo spełniać jeden z wymogów. Wśród nich jest posiadanie stopnia naukowego doktora nauk ekonomicznych, prawnych lub technicznych czy tytułu radcy prawnego, adwokata, biegłego rewidenta, doradcy podatkowego, doradcy inwestycyjnego lub doradcy restrukturyzacyjnego. Ewentualnie dyplomu Master of Business Administration (MBA) czy zdanego państwowego egzaminu dla członków rad nadzorczych spółek Skarbu Państwa. Projekt przewiduje poszerzenie tego katalogu o doświadczenie w zarządzaniu dużym przedsiębiorstwem przez co najmniej 5 lat. Duże przedsiębiorstwo to takie, które zatrudnia 250 lub więcej pracowników albo którego roczny obrót jest większy niż równowartość 50 mln euro lub suma bilansowa przekracza 43 mln euro.
+Dodatkowo zgodnie z projektem nie wystarczy już 5 lat doświadczenia zawodowego, by zasiadać w radzie nadzorczej spółki z udziałem Skarbu Państwa. MAP chce, by było to 7 lat.
+Czytaj więcej
+Forum Gospodarcze „Rzeczpospolitej”
+Wojciech Balczun: Państwowe spółki są dziś narzędziem bezpieczeństwa gospodarczego
+– Żyjemy w specyficznym świecie, w którym pewne zasady stały się już nieaktualne – mówił na Forum Gospodarczym „Rzeczpospol…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 23 czerwca 2026</span>
+      <span class="meta-pill">&#127760; bip.goldap.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">&#128279; https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Nabór dokumentów aplikacyjnych potrwa do 25 czerwca 2025 r. Kandydatom, którzy odpowiedzieli na ogłoszenie, a nie zostali wybrani na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały nie przysługuje możliwość odwołania się.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Na Skróty
+Budżet
+Ogłoszenia o Naborze
+Nieruchomości gminne
+Sprzedaż Nieruchomości
+Dzierżawa i użyczenia
+Najem
+Uchwały
+Wybory
+Informacja publiczna
+Petycje
+Petycje do Rady Miejskiej
+Petycje do Burmistrza Gołdapi
+Archiwum BIP
+BIP GOV
+ePUAP
+Profil Zaufany
+CEIDG
+e-SESJA
+Dziennik Ustaw
+Dziennik Urzędowy Woj. Warmińsko-Mazurskiego
+Strona główna
+Nabory
+Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały
+Aktualizacja informacji z rozstrzygnięcia naboru na stanowisko urzędnicze ds. kadr i płac
+Informacja  o rozstrzygnięciu  naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych- ½ etatu
+Informacja Burmistrza Gołdapi z dnia 23 czerwca 2026 r. o zamiarze ogłoszenia konkursu  na kandydata/ kandydatkę na stanowisko Dyrektora/Dyrektorki Biblioteki Publicznej w Gołdapi
+Informacja o nierozstrzygnięciu  naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – Audytorki Wewnętrznej 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu  naboru na wolne stanowisko urzędnicze do spraw obrony cywilnej,  ochrony ludności i dostępności w Wydziale ds. Administracyjnych  Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na do spraw projektów inwestycyjnych w Wydziale Inwestycji  i Rozwoju Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na kierownicze stanowisko urzędnicze Dyrektora Ośrodka Sportu i Rekreacji w Gołdapi
+INFORMACJA O NIEROZSTRZYGNIĘCIU NABORU NA STANOWISKO URZĘDNICZE AUDYTORA WEWNĘTRZNEGO
+Informacja o nierozstrzygnięciu naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych
+Informacja o nierozstrzygnięciu naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych - ½ etatu
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  do spraw nadzoru inwestorskiego w Wydziale Inwestycji i Rozwoju Urzędu Miejskiego  w Gołdapi
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  do spraw nadzoru inwestorskiego w Wydziale Inwestycji i Rozwoju Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko …</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://www.pracuj.pl/praca/członek+rady+nadzorczej;kw" target="_blank" rel="noopener">Praca członek+rady+nadzorczej – Pracuj.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.pracuj.pl</span>
+    </div>
+    <a class="url-link" href="https://www.pracuj.pl/praca/członek+rady+nadzorczej;kw" target="_blank" rel="noopener">&#128279; https://www.pracuj.pl/praca/członek+rady+nadzorczej;kw</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Czas publikacji ogłoszenia · 24h · 3 dni · 7 dni · 14 dni · 30 dni · Dodatkowe · Oferty bezpośrednio od pracodawcy · Pобота · Without Polish language · Pokaż oferty · Praca · członek rady nadzorczej</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Przejdź do wyszukiwarki
+Przejdź do ofert
+Przejdź do filtrów
+Przejdź do stopki
+Hej! Jakiej pracy szukasz?
+Stanowisko, firma, słowo kluczowe
+Kategoria
+Lokalizacja
+Odległość
+Szukaj
+Kryteria wyszukiwania
+Filtry
+Wyszukiwanie zaawansowane
+Przejdź do wyszukiwarki
+Przejdź do ofert
+Przejdź do filtrów
+Przejdź do stopki
+Zapisz wyszukiwanie
+A to pech: 0 ofert
+z podanymi kryteriami
+Nie znaleźliśmy ofert, które spełniałyby podane przez Ciebie kryteria wyszukiwania
+Ale nie przejmuj się, zobacz co możesz zrobić:
+Zmień lub
+wyczyść filtry
+Upewnij się, że nie ma żadnych literówek we wpisanych frazach
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+‌
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-7">
+  <div class="card-header">
+    <div class="card-number">7</div>
+    <div class="card-title">
+      <a href="https://trybunal.gov.pl/postepowanie-i-orzeczenia/komunikaty-prasowe/komunikaty-przed/art/6797-zasady-i-tryb-wyboru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-skarbu-panstwa" target="_blank" rel="noopener">Trybunał Konstytucyjny: Zasady i tryb wyboru kandydatów na członków rad nadzorczych spółek Skarbu Państwa.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; trybunal.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://trybunal.gov.pl/postepowanie-i-orzeczenia/komunikaty-prasowe/komunikaty-przed/art/6797-zasady-i-tryb-wyboru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-skarbu-panstwa" target="_blank" rel="noopener">&#128279; https://trybunal.gov.pl/postepowanie-i-orzeczenia/komunikaty-prasowe/komunikaty-przed/art/6797-zasady-i-tryb-wyboru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-skarbu-panstwa</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Wskazanie przez Ministra Skarbu ... kwalifikacyjne, odbywające się w trybie publicznym, poprzez ogłoszenie o naborze zamieszczane na stronach internetowych Ministerstwa Skarbu Państwa (MSP)....</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Wskazanie przez Ministra Skarbu ... kwalifikacyjne, odbywające się w trybie publicznym, poprzez ogłoszenie o naborze zamieszczane na stronach internetowych Ministerstwa Skarbu Państwa (MSP)....</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-07-21 16:08 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
