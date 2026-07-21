@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-07-21 12:11</span>
+      <span class="header-chip chip-green">&#9679; 6 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>21.06.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>3</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (6)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">Praca Członek rady nadzorczej (Pilne!) - 2026 - Aktualne ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; pl.jooble.org</span>
+    </div>
+    <a class="url-link" href="https://pl.jooble.org/praca-członek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://pl.jooble.org/praca-członek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Praca: Członek rady nadzorczej. 113.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Praca: Członek rady nadzorczej. 113.000+ aktualnych ofert pracy. Konkurencyjne wynagrodzenie. Pełny etat, praca tymczasowa, niepełny etat. Powiadomienia o nowych ofertach pracy. Szybko &amp; bezpłatnie. Zacznij nową karierę już teraz!</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://www.hsw.pl/wp-content/uploads/2026/07/Ogloszenie-o-wszczeciu-postepowania-kwalifikacyjnego.pdf" target="_blank" rel="noopener">PDF Ogłoszenie O Wszczęciu Postępowania Kwalifikacyjnego</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 2026-07-16</span>
+      <span class="meta-pill">&#127760; www.hsw.pl</span>
+    </div>
+    <a class="url-link" href="https://www.hsw.pl/wp-content/uploads/2026/07/Ogloszenie-o-wszczeciu-postepowania-kwalifikacyjnego.pdf" target="_blank" rel="noopener">&#128279; https://www.hsw.pl/wp-content/uploads/2026/07/Ogloszenie-o-wszczeciu-postepowania-kwalifikacyjnego.pdf</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">W toku rozmowy kwalifikacyjnej Rada Nadzorcza HSW S.A., oceni w szczególności: wiedzę o zakresie działalności Spółki oraz o sektorze, w którym działa Spółka, znajomość zasad funkcjonowania spółek handlowych, w szczególności spółek z udziałem Skarbu Państwa,</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">%PDF-1.7
+%����
+1 0 obj
+&lt;&gt;/Metadata 274 0 R/ViewerPreferences 275 0 R&gt;&gt;
+endobj
+2 0 obj
+&lt;&gt;
+endobj
+3 0 obj
+&lt;&gt;/ExtGState&lt;&gt;/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] &gt;&gt;/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group&lt;&gt;/Tabs/S/StructParents 0&gt;&gt;
+endobj
+4 0 obj
+&lt;&gt;
+stream
+x��][s��~w���&lt;�[�w
+�T����IN|6�����d��GQ
+Ŏ��Rٿ~�@�23�MK3^?X�\��h|_wl���p�j�Ξ����YC��8\�iV�m���z�m�&gt;��}����u��
+i��-gM&#x27;hkXs}����i�
+?z���&#x27;{ژ֨��o��ä�
+��e�ъ��5������%%͛[t�����/��rF��J�v#��|��/�n�R������e?�g���
+���ux�����L��g�6�����V��Du�d�-�vO��b�O�۽��ȝ����	�
+�����u��p�����5e����[c����1�����5.;{M����4�����s;����W
+��d�
+��1?N�f}������M3�?:������?�haZ�&amp;m�~�᫏������\o������{��bu��k��^�w�
+p϶���
+Q��w]KeMf3{u���Ԫ{2u�%�V����s�(�iu�?��5_6{��kuU����q~�������� ~v��W�0W���a~ky�{�j�]~8_o:���Wol�U��f�mM��/+6�jIJ[�}3ՒT��}3Ւ�kU���Z�oq%S�����+
+�a���&quot;���X��s�NM�
+_hDI0&gt;�`� ��vDk�
+f��xjq��N��%�}K�
+Z��p +����QD}
+K�Ŗ���X��o)�ץ��RI�CX�}I�mwY
+��V��b.�G�B�cDl;���wO��s6�6���,zg/��
+8�ӫ���&#x27;�s��o���Û0{��Yu���&gt;�ᓞ��C�}�Y���զV��FJ�A��f͊V�*oV�C�ݸۇ��
+�����S%����J�{�f��`�����P�������Z���������O0~�a2�cM�j7�d咴\V�:������N@e&#x27;g�U���|z�w���Kk
+^A�A���5t_�a
+��V�
+X
+7e���s�[Y�I���&#x27;����&#x27;�A
+��{F�B��d�cL4���L|#
+D&quot;&#x27;P&quot;
+����
+I�xw�R�)yb�]�L�R�J5$�6�ǩԃX|��t��ӭҰ�N�x��b��so�m#,6�H춅/zE�����ۏ�
+K��,PԺ::�n���@��&gt;�����Nt~�i��T��*�,�i�Ðu~��e|y��
+@�&lt;&quot;߯���O����FL��Oz��=�G�Rb���C�{��)�*����D�_DG��\���)�f ����pXe�0�pg��&quot;
+��TyY�~*�-�%�Ҡr��^gC�z�&lt;�,�Нy�#�
+R�[B��)[,�&#x27;�W�}������f�������ТyY�eC�m
+���CQq&amp;�Q��Y꿃�c�S\q���4��Im�#矔R��@�;�o§��y�
+@�
+ő��+5.K{_�-
+���@q����hr���N=��=&quot;G���4:�\+
+Q�kZ�t
+���9���Z��.�
+��9��Ǖ��o��c��U ��
+�-��4D�*�AK͍����+p0�Y
+zy�V���U����3&#x27;�������8�*���{�
+:G����:6J˃��;�]�J0�YH�����,�ׂk��4�f&amp;�|�L��f�k;Zi�.��BBO�&gt;`kz�����H��v/�X���X��&#x27;k^��Dː5AT+�a��A����z?G�;���jy/��4
+���rZ���]
+��&#x27;9G�Q��4W�\b�����~��&gt;
+~���w��vms�9|8�_Z��i\�����#�=���.o֔@��ҤH+a��y�O䒧�Ot`�u����V�e���	�Qr�|$��j$
+Α�|���l\R�	��:K���iIvT�)mr�ݩ�h6�t+���q;�L}�
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 23 czerwca 2026</span>
+      <span class="meta-pill">&#127760; bip.goldap.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">&#128279; https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Nabór dokumentów aplikacyjnych potrwa do 25 czerwca 2025 r. Kandydatom, którzy odpowiedzieli na ogłoszenie, a nie zostali wybrani na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały nie przysługuje możliwość odwołania się.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Na Skróty
+Budżet
+Ogłoszenia o Naborze
+Nieruchomości gminne
+Sprzedaż Nieruchomości
+Dzierżawa i użyczenia
+Najem
+Uchwały
+Wybory
+Informacja publiczna
+Petycje
+Petycje do Rady Miejskiej
+Petycje do Burmistrza Gołdapi
+Archiwum BIP
+BIP GOV
+ePUAP
+Profil Zaufany
+CEIDG
+e-SESJA
+Dziennik Ustaw
+Dziennik Urzędowy Woj. Warmińsko-Mazurskiego
+Strona główna
+Nabory
+Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad Nadzorczych spółek, w których gmina Gołdap posiada udziały
+Aktualizacja informacji z rozstrzygnięcia naboru na stanowisko urzędnicze ds. kadr i płac
+Informacja  o rozstrzygnięciu  naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych- ½ etatu
+Informacja Burmistrza Gołdapi z dnia 23 czerwca 2026 r. o zamiarze ogłoszenia konkursu  na kandydata/ kandydatkę na stanowisko Dyrektora/Dyrektorki Biblioteki Publicznej w Gołdapi
+Informacja o nierozstrzygnięciu  naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – Audytorki Wewnętrznej 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu  naboru na wolne stanowisko urzędnicze do spraw obrony cywilnej,  ochrony ludności i dostępności w Wydziale ds. Administracyjnych  Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na do spraw projektów inwestycyjnych w Wydziale Inwestycji  i Rozwoju Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na kierownicze stanowisko urzędnicze Dyrektora Ośrodka Sportu i Rekreacji w Gołdapi
+INFORMACJA O NIEROZSTRZYGNIĘCIU NABORU NA STANOWISKO URZĘDNICZE AUDYTORA WEWNĘTRZNEGO
+Informacja o nierozstrzygnięciu naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych
+Informacja o nierozstrzygnięciu naboru na stanowisko urzędnicze ds. kadr i płac w Wydziale Obsługi Placówek Oświatowych - ½ etatu
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  do spraw nadzoru inwestorskiego w Wydziale Inwestycji i Rozwoju Urzędu Miejskiego  w Gołdapi
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze  do spraw nadzoru inwestorskiego w Wydziale Inwestycji i Rozwoju Urzędu Miejskiego w Gołdapi
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko urzędnicze Audytora Wewnętrznego – 1 etat (z możliwością obniżenia na cząstkę etatu)
+Informacja o nierozstrzygnięciu naboru na wolne stanowisko …</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://bip.amw.com.pl/uploads/Ogloszenia/2025/Ogloszenie-Rady-Nadzorczej-postepowanie-kwalif-Wiceprezes-Zarzadu.pdf" target="_blank" rel="noopener">PDF RADA NADZORCZA SPÓŁKI AMW SINEVIA SPÓŁKA Z ... - bip.amw.com.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.amw.com.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.amw.com.pl/uploads/Ogloszenia/2025/Ogloszenie-Rady-Nadzorczej-postepowanie-kwalif-Wiceprezes-Zarzadu.pdf" target="_blank" rel="noopener">&#128279; https://bip.amw.com.pl/uploads/Ogloszenia/2025/Ogloszenie-Rady-Nadzorczej-postepowanie-kwalif-Wiceprezes-Zarzadu.pdf</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ocena spełnienia wymogów postępowania kwalifikacyjnego pozostawiona jest Radzie Nadzorczej Spółki AMW SINEVIA Sp. z o. o. Decyzja Rady Nadzorczej w tym zakresie nie podlega zaskarżeniu.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">%PDF-1.5
+%����
+27 0 obj
+&lt;&gt;
+endobj
+xref
+27 8
+0000000015 00000 n
+0000000425 00000 n
+0000000668 00000 n
+0000000849 00000 n
+0000029990 00000 n
+0000030070 00000 n
+0000030214 00000 n
+0000000472 00000 n
+trailer
+&lt;&gt;
+startxref
+0
+%%EOF
+28 0 obj
+&lt;&gt;
+endobj
+34 0 obj
+&lt;&gt;
+stream
+����������� ����������� ���������&quot;3D&quot;3D&quot;3D&quot;3D&quot;3DUfUfUfUfUfUfUfUfUfwwww&quot;3D&quot;3D&quot;3D&quot;3D&quot;3D&quot;3D&quot;3D&quot;3D&quot;3DUf&quot;3DUf
+endstream
+endobj
+29 0 obj
+&lt;&gt;&gt;&gt;&gt;&gt;
+endobj
+30 0 obj
+&lt;&gt;
+stream
+����0������v��	(�������������&#x27;���p���v��	(������������������W��
+y�B&amp;ʯ����hY�^��.Ѥ���w {���Hx����o7y y���!x&gt;Q�t/
+��#&quot;�������
+A��|�l��Z�PBf�&lt;�L�*�:Prf�����S���s
+��Y�]g�ս����������]&quot;BB�L
+����l��&amp;�E���S���M6z�����:0�b&#x27;��BW��`�����W�g�p�lUU�����u��3J���-�_�v��Q��5~�F�w�ε^�=y�����M7�j&lt;#
+�ۂۚb��mH��Y��[�v!nz�K`kS��--BX���&gt;v�X�js�-�&lt;@�P
+ㇼ7y�#�z]������+Q&quot;�RM�Š�aH!�jD���
+Y�O�譴|�x
+d@
+O�q�!��/&gt;�&amp;.��R��n
+SԿ����Y���i��&gt;�����Ѓ-����
+�2(��Me{�}P�=^z�E��YQMN
+�M�_�јI�����&lt;06�U�����	v��M)����M�����_2�Œz������CG �+��� ���r�&quot;I�D��w
+PT�ȸ���5nl��Kn�{�$[�j
+&amp;_��g�h�������՗uJ�*
+ڔ�Osm�
+]V�Mۉ�&#x27;IZ�p^,V��&amp;��
+%z����:��i�
+Q������&lt;��!I:�R�����L�{O�+]ߌ9�C�
+���k�b�[�&#x27;Z�5�3�-3�
+bC�Q�LK��7Ak*��o?��Ʌo�0�s��A�
+��G~Y]�P�2_Sh�J���L�A
+��ی��c�������Qu����
+n4��O
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://bip.um.deblin.pl/pliki/zarzadzenia/2026/z094.2026.pdf" target="_blank" rel="noopener">PDF bip.um.deblin.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.um.deblin.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.um.deblin.pl/pliki/zarzadzenia/2026/z094.2026.pdf" target="_blank" rel="noopener">&#128279; https://bip.um.deblin.pl/pliki/zarzadzenia/2026/z094.2026.pdf</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">1 Ogłasza się nabór kandydatów na członków Rady Nadzorczej Miejskiego Zakładu Gospodarki Komunalnej Sp. z o.o. w Dęblinie, w związku z upływem kadencji dotychczasowej Rady Nadzorczej. Ogłoszenie o naborze stanowi Załącznik nr 1 do niniejszego zarządzenia.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">%PDF-1.3
+%����
+74 0 obj
+&lt;&lt; /Linearized 1
+/L 3756230
+/H [ 1092 267 ]
+/O 79
+/E 576970
+/N 8
+/T 3754632
+&gt;&gt;
+endobj
+xref
+74 27
+0000000016 00000 n
+0000000913 00000 n
+0000000970 00000 n
+0000001469 00000 n
+0000001359 00000 n
+0000001491 00000 n
+0000001651 00000 n
+0000001774 00000 n
+0000001900 00000 n
+0000001922 00000 n
+0000004251 00000 n
+0000004275 00000 n
+0000507342 00000 n
+0000507368 00000 n
+0000508359 00000 n
+0000508654 00000 n
+0000535281 00000 n
+0000535306 00000 n
+0000535331 00000 n
+0000536296 00000 n
+0000537248 00000 n
+0000537537 00000 n
+0000575799 00000 n
+0000575824 00000 n
+0000575849 00000 n
+0000001092 00000 n
+0000001335 00000 n
+trailer
+&lt;&lt;
+/Size 101
+/Prev 3754620
+/Info 57 0 R
+/Root 75 0 R
+/ID[
+]
+&gt;&gt;
+startxref
+0
+%%EOF
+75 0 obj
+&lt;&lt;
+/Type /Catalog
+/Pages 76 0 R
+&gt;&gt;
+endobj
+76 0 obj
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://bip.orzysz.pl/index.php?wiad=16534" target="_blank" rel="noopener">Ogłoszenie o naborze kandydatów na członków Rady Nadzorczej ZUOK Spytkowo - Biuletyn Informacji Publicznej</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 15 lipca 2026</span>
+      <span class="meta-pill">&#127760; bip.orzysz.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.orzysz.pl/index.php?wiad=16534" target="_blank" rel="noopener">&#128279; https://bip.orzysz.pl/index.php?wiad=16534</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ogłoszenie o naborze kandydatów na członków Rady Nadzorczej ZUOK Spytkowo Pliki do pobrania: Ogłoszenie (pdf) 11 cze 2026 09:48 1,25 MB Zał. nr 1 - kwestionariusz osobowy (docx) 11 cze 2026 09:48 0,02 MB Zał. nr 2 - oświadczenie RODO (docx) 11 cze 2026 09:49 0,02 MB Zał. nr 3 - klauzula informacyjna (docx) 11 cze 2026 09:49 0,02 MB</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Ogłoszenie o naborze kandydatów na członków Rady Nadzorczej ZUOK Spytkowo
+Pliki do pobrania:
+Ogłoszenie                    (pdf)
+11 cze 2026 09:48
+1,25 MB
+Zał. nr 1 - kwestionariusz osobowy                    (docx)
+11 cze 2026 09:48
+0,02 MB
+Zał. nr 2 - oświadczenie RODO                    (docx)
+11 cze 2026 09:49
+0,02 MB
+Zał. nr 3 - klauzula informacyjna                    (docx)
+11 cze 2026 09:49
+0,02 MB
+Drukuj</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-07-21 12:11 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
