@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-07-23 12:13</span>
+      <span class="header-chip chip-green">&#9679; 9 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>23.06.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>7</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (9)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://bip.gogolin.pl/10823/ogloszenie-o-naborze-do-rejestru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-prawa-handlowego-z-udzialem-gminy-gogolin.html" target="_blank" rel="noopener">Ogłoszenie o naborze do rejestru kandydatów na członków rad nadzorczych spółek prawa handlowego z udziałem Gminy Gogolin - Urząd Miejski w Gogolinie</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; bip.gogolin.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.gogolin.pl/10823/ogloszenie-o-naborze-do-rejestru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-prawa-handlowego-z-udzialem-gminy-gogolin.html" target="_blank" rel="noopener">&#128279; https://bip.gogolin.pl/10823/ogloszenie-o-naborze-do-rejestru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-prawa-handlowego-z-udzialem-gminy-gogolin.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Kandydat na członka Rady Nadzorczej nie może wykonywać zajęć, które pozostawałyby w sprzeczności z ich obowiązkami albo mogłyby wywołać podejrzenie o stronniczość lub interesowność. Kandydaci, którzy złożyli dokumenty w niniejszym naborze zostaną powiadomieni o wpisie do „Rejestru kandydatów na członków rad nadzorczych spółek prawa handlowego z udziałem Gminy Gogolin” lub o przyczynach nieumieszczenia w w/w rejestrze.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Kandydat na członka Rady Nadzorczej nie może wykonywać zajęć, które pozostawałyby w sprzeczności z ich obowiązkami albo mogłyby wywołać podejrzenie o stronniczość lub interesowność. Kandydaci, którzy złożyli dokumenty w niniejszym naborze zostaną powiadomieni o wpisie do „Rejestru kandydatów na członków rad nadzorczych spółek prawa handlowego z udziałem Gminy Gogolin” lub o przyczynach nieumieszczenia w w/w rejestrze.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-mazowieckiej-agencji-energetycznej.html" target="_blank" rel="noopener">Nabór kandydatów do Rady Nadzorczej Mazowieckiej Agencji Energetycznej - Witryna Mazovia.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; mazovia.pl</span>
+    </div>
+    <a class="url-link" href="https://mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-mazowieckiej-agencji-energetycznej.html" target="_blank" rel="noopener">&#128279; https://mazovia.pl/pl/bip/komunikaty/nabor-kandydatow-do-rady-nadzorczej-mazowieckiej-agencji-energetycznej.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ogłoszenie nr 1/2023 o naborze kandydatów do Rady Nadzorczej spółki „Mazowiecka Agencja Energetyczna” Sp.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Ogłoszenie nr 1/2023 o naborze kandydatów do Rady Nadzorczej spółki „Mazowiecka Agencja Energetyczna” Sp.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3" target="_blank" rel="noopener">LEX</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; sip.lex.pl</span>
+    </div>
+    <a class="url-link" href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3" target="_blank" rel="noopener">&#128279; https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/zasady-zarzadzania-mieniem-panstwowym-18554231/roz-3</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">499 oraz z 2026 r. poz. 160 i 177) na zasadach wskazanych w tym przepisie. Art. 20. [Wprowadzanie wymagań wobec kandydatów na członków organów nadzorczych w spółkach-córkach] 1. Podmiot uprawniony do wykonywania praw z akcji należących do Skarbu Państwa lub państwowa osoba prawna, w zakresie wykonywania praw z akcji w spółce, z wyłączeniem spółki w upadłości, są obowiązane podejmować działania mające na celu wprowadzenie do statutów spółek, wobec których spółka z udziałem Skarbu Państwa lub państwowej osoby prawnej jest przedsiębiorcą dominującym w rozumieniu art.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">This Site required Java Script support by browser</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://www.cire.pl/artykuly/serwis-informacyjny-cire-24/nowy-obowiazek-dla-kandydatow-do-zasiadania-w-radach-nadzorczych-spolek-z-udzialem-skarbu-panstwa" target="_blank" rel="noopener">Nowy obowiązek dla kandydatów do zasiadania w radach nadzorczych spółek z udziałem Skarbu Państwa - SERWIS INFORMACYJNY CIRE 24</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.cire.pl</span>
+    </div>
+    <a class="url-link" href="https://www.cire.pl/artykuly/serwis-informacyjny-cire-24/nowy-obowiazek-dla-kandydatow-do-zasiadania-w-radach-nadzorczych-spolek-z-udzialem-skarbu-panstwa" target="_blank" rel="noopener">&#128279; https://www.cire.pl/artykuly/serwis-informacyjny-cire-24/nowy-obowiazek-dla-kandydatow-do-zasiadania-w-radach-nadzorczych-spolek-z-udzialem-skarbu-panstwa</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Nowy obowiązek dla kandydatów do zasiadania w radach nadzorczych spółek z udziałem Skarbu Państwa</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">You need to enable JavaScript to run this app.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://www.hsw.pl/aktualnosci/ogloszenie-o-wszczeciu-postepowania-kwalifikacyjnego-na-stanowisko-czlonka-zarzadu-huty-stalowa-wola-s-a-3/" target="_blank" rel="noopener">Ogłoszenie o wszczęciu postępowania kwalifikacyjnego na stanowisko Członka Zarządu Huty Stalowa Wola S.A.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 30 lipca 2026</span>
+      <span class="meta-pill">&#127760; www.hsw.pl</span>
+    </div>
+    <a class="url-link" href="https://www.hsw.pl/aktualnosci/ogloszenie-o-wszczeciu-postepowania-kwalifikacyjnego-na-stanowisko-czlonka-zarzadu-huty-stalowa-wola-s-a-3/" target="_blank" rel="noopener">&#128279; https://www.hsw.pl/aktualnosci/ogloszenie-o-wszczeciu-postepowania-kwalifikacyjnego-na-stanowisko-czlonka-zarzadu-huty-stalowa-wola-s-a-3/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Otwarcie zgłoszeń Kandydatów nastąpi w dniu 30 lipca 2026 · Rada Nadzorcza HSW S.A.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">lip
+16
+2026
+OGŁOSZENIE O WSZCZĘCIU POSTĘPOWANIA KWALIFIKACYJNEGO
+na stanowisko Członka Zarządu Huty Stalowa Wola S.A.
+z siedzibą w Stalowej Woli pod adresem: ul. gen. T. Kasprzyckiego 8, 37-450 Stalowa Wola
+RADA NADZORCZA
+HUTY STALOWA WOLA S.A.
+działając na podstawie § 23 ust. 1 Statutu Spółki Rada Nadzorcza Huty Stalowa Wola S.A. pod firmą Huta Stalowa Wola S.A. zwaną w dalszej części „Spółką”, ogłasza wszczęcie postępowania kwalifikacyjnego na stanowisko:
+CZŁONKA ZARZĄDU HUTY STALOWA WOLA S.A.
+Kandydaci na stanowisko Członka Zarządu Huty Stalowa Wola S.A. powinni spełniać następujące kryteria:
+posiadać wykształcenie wyższe lub wykształcenie wyższe uzyskane za granicą uznawane w Rzeczypospolitej Polskiej, na podstawie przepisów odrębnych. Wykształceniem preferowanym na stanowisko Członka Zarządu Huty Stalowa Wola S.A., jest wykształcenie techniczne bądź z zakresu zarządzania,
+posiadać co najmniej 5-letni okres zatrudnienia na podstawie umowy o pracę, powołania, wyboru, mianowania, spółdzielczej umowy o pracę lub świadczenia usług na podstawie innej umowy lub wykonywania działalności gospodarczej na własny rachunek,
+posiadać co najmniej 3-letnie doświadczenie na stanowiskach kierowniczych lub samodzielnych albo wynikającego z prowadzenia działalności gospodarczej na własny rachunek, w tym posiadać doświadczenie wynikające ze specyfiki stanowiska, o które się ubiega,
+posiadać co najmniej 5-letni staż pracy na stanowisku Zarządzającego,
+nie podlegać określonym w przepisach prawa ograniczeniom lub zakazom zajmowania stanowiska członka zarządu w innych spółkach (Kandydaci zobowiązani są do złożenia oświadczenia z informacją o aktualnie zajmowanych stanowiskach w innych spółkach handlowych, prowadzonej działalności gospodarczej, pracy wykonywanej dla innych podmiotów),
+korzystać z pełni praw publicznych,
+posiadać pełną zdolność do czynności prawnych.
+Kandydat nie może:
+pełnić funkcji społecznego współpracownika albo być zatrudnionym w biurze poselskim, senatorskim, poselsko-senatorskim lub biurze posła do Parlamentu Europejskiego na podstawie umowy o pracę lub świadczyć pracy na podstawie umowy zlecenia lub innej umowy o podobnym charakterze,
+wchodzić w skład organu partii politycznej reprezentującego partię polityczną na zewnątrz oraz uprawnionego do zaciągania zobowiązań,
+być zatrudnionym przez partię polityczną na podstawie umowy o pracę lub świadczeniu pracy na podstawie umowy zlecenia lub innej umowy o podobnym charakterze,
+pełnić funkcji z wyboru w zakład…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://www.dorzeczebialej.pl/ogloszenie-o-naborze-kandydata-do-rady-nadzorczej-spolki-komunalnej/" target="_blank" rel="noopener">Ogłoszenie o naborze kandydata do Rady Nadzorczej Spółki...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.dorzeczebialej.pl</span>
+    </div>
+    <a class="url-link" href="https://www.dorzeczebialej.pl/ogloszenie-o-naborze-kandydata-do-rady-nadzorczej-spolki-komunalnej/" target="_blank" rel="noopener">&#128279; https://www.dorzeczebialej.pl/ogloszenie-o-naborze-kandydata-do-rady-nadzorczej-spolki-komunalnej/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Liczba członków Rady Nadzorczej przewidywanych do powołania: 1. Podstawowa działalność Spółki: gospodarka wodno – ściekowa, odbiór odpadów komunalnych. Kandydat do Rady Nadzorczej Spółki, zgodnie z art. 10a ust.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Liczba członków Rady Nadzorczej przewidywanych do powołania: 1. Podstawowa działalność Spółki: gospodarka wodno – ściekowa, odbiór odpadów komunalnych. Kandydat do Rady Nadzorczej Spółki, zgodnie z art. 10a ust.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-7">
+  <div class="card-header">
+    <div class="card-number">7</div>
+    <div class="card-title">
+      <a href="https://businessinsider.com.pl/gospodarka/ministerstwo-zaostrza-zasady-w-spolkach-skarbu-panstwa-piec-lat-pracy-nie-wystarczy/d6y021p" target="_blank" rel="noopener">Zmiany w państwowych spółkach po aferze Collegium Humanum. &quot;Będziemy filtrować wszystkich członków&quot;</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 21 lipca 2026</span>
+      <span class="meta-pill">&#127760; businessinsider.com.pl</span>
+    </div>
+    <a class="url-link" href="https://businessinsider.com.pl/gospodarka/ministerstwo-zaostrza-zasady-w-spolkach-skarbu-panstwa-piec-lat-pracy-nie-wystarczy/d6y021p" target="_blank" rel="noopener">&#128279; https://businessinsider.com.pl/gospodarka/ministerstwo-zaostrza-zasady-w-spolkach-skarbu-panstwa-piec-lat-pracy-nie-wystarczy/d6y021p</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Rząd chce wprowadzić nowe zasady obsadzania stanowisk członków rad nadzorczych spółek z udziałem Skarbu Państwa. Poprzeczka dla kandydatów zostanie podniesiona — trzeba będzie spełnić dodatkowe warunki — informuje &quot;Rzeczpospolita&quot;.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Business Insider
+Gospodarka
+Zmiany w państwowych spółkach po aferze Collegium Humanum. &quot;Będziemy filtrować wszystkich członków&quot;
+Zmiany w państwowych spółkach po aferze Collegium Humanum. &quot;Będziemy filtrować wszystkich członków&quot;
+Opracowanie: Beata Michalik
+21 lipca 2026, 8:24.
+2 min czytania
+Udostępnij artykuł
+Rząd chce wprowadzić nowe zasady obsadzania stanowisk członków rad nadzorczych spółek z udziałem Skarbu Państwa. Poprzeczka dla kandydatów zostanie podniesiona — trzeba będzie spełnić dodatkowe warunki — informuje &quot;Rzeczpospolita&quot;.
+Minister aktywów państwowych Wojciech Balczun
+|
+Foto:
+Jacek Dominski/REPORTER / East News
+Jak ustaliła &quot;Rzeczpospolita&quot;, powstał już projekt nowelizacji ustawy o zasadach zarządzania mieniem państwowym, który czeka na wpis do wykazu prac legislacyjnych Rady Ministrów. Ministerstwo aktywów państwowych dąży do tego, by członkowie rad nadzorczych spółek z udziałem Skarbu Państwa byli starannie dobrani, na podstawie wysokich kompetencji i bogatego doświadczenia.
+Do dotychczasowych wymogów mają dojść nowe — przede wszystkim wymagane będzie doświadczenie w zarządzaniu dużym (co najmniej 250 pracowników lub roczny obrót powyżej 50 mln euro) przedsiębiorstwem przez co najmniej pięć lat.
+Zobacz także:
+Ministerstwo Zdrowia szykuje duże zmiany. Nowe zasady dla pacjentów i przedsiębiorców
+Dalszy ciąg artykułu pod materiałem wideo
+Jeśli nie będzie zmian system się zawali - ostrzega ekspert ds. ochrony zdrowia
+Rosną wymagania od kandydatów do rad nadzorczych
+Obecnie, zgodnie z zapisami ustawy o zasadach zarządzania mieniem państwowym kandydat na członka rady nadzorczej musi mieć wykształcenie wyższe, minimum 5-letnie doświadczenie zawodowe, a także posiadać stopień naukowy doktora nauk ekonomicznych, prawnych lub technicznych albo tytułu radcy prawnego, adwokata, biegłego rewidenta, doradcy podatkowego, doradcy inwestycyjnego lub doradcy restrukturyzacyjnego.
+Kandydat może ewentualnie mieć dyplom Master of Business Administration (MBA), ale tu również pojawia się dodatkowy warunek, by zapobiec sytuacji, jaka miała miejsce w związku z Collegium Humanum.
+Afera wokół tej uczelni dotyczyła m.in. łatwego i szybkiego pozyskiwania prestiżowych tytułów MBA.
+Po zmianach liczyć będą się wyłącznie studia ukończone na uczelni posiadającej odpowiednie uprawnienia.
+Czytaj także w BUSINESS INSIDER
+Finanse
+Politycy znów chcą sięgnąć do kieszeni banków. &quot;Rachunek za to zapłacą klienci&quot;
+Maciej Rudke
+Prawo
+Minister …</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-8">
+  <div class="card-header">
+    <div class="card-number">8</div>
+    <div class="card-title">
+      <a href="https://finteo.pl/slownik-pojec-prawnych/czlonek-rady-nadzorczej" target="_blank" rel="noopener">Członek rady nadzorczej | Finteo</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; finteo.pl</span>
+    </div>
+    <a class="url-link" href="https://finteo.pl/slownik-pojec-prawnych/czlonek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://finteo.pl/slownik-pojec-prawnych/czlonek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Członek rady nadzorczej to osoba pełniąca funkcję nadzoru nad działalnością spółki kapitałowej, będąca wybrana i powołana do rady nadzorczej w oparciu o przepisy prawa oraz statut danej organizacji.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Członek rady nadzorczej to osoba pełniąca funkcję nadzoru nad działalnością spółki kapitałowej, będąca wybrana i powołana do rady nadzorczej w oparciu o przepisy prawa oraz statut danej organizacji.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-9">
+  <div class="card-header">
+    <div class="card-number">9</div>
+    <div class="card-title">
+      <a href="https://invest-park.com.pl/wp-content/uploads/2024/06/Zalacznik-nr-1-do-Uchwaly-RN-Ogloszenie-nabor-na-stanowisko-Prezesa-Zarzadu.pdf" target="_blank" rel="noopener">Załącznik nr 1 do uchwały Rady Nadzorczej Wałbrzyskiej Specjalnej...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; invest-park.com.pl</span>
+    </div>
+    <a class="url-link" href="https://invest-park.com.pl/wp-content/uploads/2024/06/Zalacznik-nr-1-do-Uchwaly-RN-Ogloszenie-nabor-na-stanowisko-Prezesa-Zarzadu.pdf" target="_blank" rel="noopener">&#128279; https://invest-park.com.pl/wp-content/uploads/2024/06/Zalacznik-nr-1-do-Uchwaly-RN-Ogloszenie-nabor-na-stanowisko-Prezesa-Zarzadu.pdf</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Rada Nadzorcza, po zakończeniu postępowania kwalifikacyjnego, powiadomi kandydatów uczestniczących w postępowaniu o jego wynikach na wskazany przez kandydata, w zgłoszeniu do postępowania, adres poczty elektronicznej. Strona 3 z 4.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Rada Nadzorcza, po zakończeniu postępowania kwalifikacyjnego, powiadomi kandydatów uczestniczących w postępowaniu o jego wynikach na wskazany przez kandydata, w zgłoszeniu do postępowania, adres poczty elektronicznej. Strona 3 z 4.</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-07-23 12:13 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
