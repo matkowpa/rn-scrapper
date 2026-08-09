@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-08-09 16:29</span>
+      <span class="header-chip chip-green">&#9679; 7 ogłoszeń</span>
+      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane po <strong>09.07.2026</strong> (ostatnie 3 miesiące od dnia dzisiejszego). Ogłoszeń bez rozpoznanej daty: <strong>5</strong> (oznaczone żółto).</div></div>
+
+    <div class="section-heading">Lista ogłoszeń (7)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://wadowiceonline.pl/polityka/5057-kolejny-nabor-w-magistracie-tym-razem-do-rad-nadzorczych" target="_blank" rel="noopener">Kolejny nabór w magistracie. Tym razem do rad nadzorczych</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 09 sierpnia 2026</span>
+      <span class="meta-pill">&#127760; wadowiceonline.pl</span>
+    </div>
+    <a class="url-link" href="https://wadowiceonline.pl/polityka/5057-kolejny-nabor-w-magistracie-tym-razem-do-rad-nadzorczych" target="_blank" rel="noopener">&#128279; https://wadowiceonline.pl/polityka/5057-kolejny-nabor-w-magistracie-tym-razem-do-rad-nadzorczych</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Magistrat szuka kandydatów na członków rad nadzorczych z udziałem gminy Wadowice, czyli Przedsiębiorstwa Energetyki Cieplnej &quot;TERMOWAD&quot;, Wadowickiego Przedsiębiorstwa Wodociągów i Kanalizacji oraz Przedsiębiorstwa Komunalnego Eko.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Kolejny nabór w magistracie. Tym razem do rad nadzorczych
+Magistrat szuka kandydatów na członków rad nadzorczych z udziałem gminy Wadowice, czyli Przedsiębior
+Drukuj
+E-mail
+Opublikowano: 03 lutego 2015, 10:15
+Komentarze: 8
+Magistrat szuka kandydatów na członków rad nadzorczych z udziałem gminy Wadowice, czyli Przedsiębiorstwa Energetyki Cieplnej &quot;TERMOWAD&quot;, Wadowickiego Przedsiębiorstwa Wodociągów i Kanalizacji oraz Przedsiębiorstwa Komunalnego Eko.
+Burmistrz
+Mateusz Klinowski
+ogłosił kolejny nabór. Tym razem poszukiwani są kandydaci na członków rad nadzorczych spółek prawa handlowego z udziałem gminy Wadowice. Zmiany planowane są w
+Przedsiębiorstwie Energetyki Cieplnej &quot;TERMOWAD&quot;
+,
+Wadowickim Przedsiębiorstwie Wodociągów i Kanalizacj
+i oraz
+Przedsiębiorstwie Komunalnym Eko
+. Aplikacje przyjmowane są do
+13 lutego
+do godziny
+15:00
+.
+Wymagania konieczne dla kandydata do rady nadzorczej to: m.in. posiadanie pełnej zdolności do czynności prawnych, ukończone studia wyższe, nie może pozostawać w stosunku pracy ze spółką, zasiadać w radzie nadzorczej innej spółki, ma złożony egzamin państwowy na członka rady nadzorczej lub posiada tytuł do zwolnienia z tego egzaminu oraz jest niekarany.
+Wymagania pożądanie to preferowanie wykształcenie prawo, ekonomia, zarządzanie, finanse, znajomość zasad funkcjonowania  spółek handlowych, ze szczególnym uwzględnieniem spółek komunalnych, doświadczenie  zawodowe  związane ze sferą  gospodarki, finansów, obsługi prawnej, zarządzania, nadzoru właścicielskiego lub w pracach organów, statutowych spółek prawa handlowego, znajomość branży, w której działa spółka, znajomość uwarunkowań lokalnych i specyfiki gminy Wadowice.
+Osoby urodzone przed
+1 sierpnia 1972
+roku przed  powołaniem do rady nadzorczej, zobowiązane są do złożenia Wojewodzie Małopolskiemu oświadczenia lustracyjnego.
+Przypomnijmy, że w radzie nadzorczej
+Wadowickiego Przedsiębiorstwa Wodociągów i Kanalizacji
+przewodniczącym jest
+Wiesław Ramos
+, zastępcą
+Andrzej Zieliński
+, a sekretarzem
+Tadeusz Szczurkowski
+zaś prezesem
+Andrzej Smaga
+. W
+Przedsiębiorstwie Energetyki Cieplnej &quot;TERMOWAD&quot;
+przewodniczącym jest
+Andrzej Sobieszczyk
+, zastępcą
+Małgorzata Wodniak
+, zaś sekretarzem Krystyna Curzydło. Prezesem spółki jest Wiesław Wróbel. W radzie nadzorczej
+Przedsiębiorstwa Komunalnego Eko
+z ramienia gminy zasiada
+Bożena Flasz
+. Prezesem spółki jest
+Marcin Mauer
+a wiceprezesem
+Lesław Makuch
+.
+Gmina Wadowice w Wadowickim Przedsiębiorstwie Wodociągów i Kanalizacji posiada
+98
+% udziałów…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://zecndm.pl/nabor_kandydatow_do_rady/" target="_blank" rel="noopener">Ogłoszenie o naborze kandydatów do Rady Nadzorczej ZEC Sp....</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; zecndm.pl</span>
+    </div>
+    <a class="url-link" href="https://zecndm.pl/nabor_kandydatow_do_rady/" target="_blank" rel="noopener">&#128279; https://zecndm.pl/nabor_kandydatow_do_rady/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ogłoszenie o naborze kandydatów do Rady Nadzorczej Zakładu Energetyki Cieplnej Nowy Dwór Mazowiecki spółka z ograniczoną odpowiedzialnością.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Ogłoszenie o naborze kandydatów do Rady Nadzorczej Zakładu Energetyki Cieplnej Nowy Dwór Mazowiecki spółka z ograniczoną odpowiedzialnością.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej?tresc=3190" target="_blank" rel="noopener">Strona Główna | Produkty | Krajowa Grupa Spożywcza S.A.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.kgssa.pl</span>
+    </div>
+    <a class="url-link" href="https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej?tresc=3190" target="_blank" rel="noopener">&#128279; https://www.kgssa.pl/209,ogloszenia-rady-nadzorczej?tresc=3190</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ogłoszenia Rady Nadzorczej. Ogłoszenie Rady Nadzorczej Krajowej Grupy Spożywczej S.A. o postępowaniu kwalifikacyjnym na stanowisko Członka Zarządu Krajowej Grupy Spożywczej S.A. z siedzibą w Toruniu odpowiedzialnego za obszar ekonomiczno-finansowy Spółki.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Produkty
+Produkty dla handlu detalicznego
+Produkty B2B</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://pap-mediaroom.pl/biznes-i-finanse/rafamet-sa-w-restrukturyzacji-332026-ukonstytuowanie-sie-rady-nadzorczej-rafamet" target="_blank" rel="noopener">RAFAMET SA W RESTRUKTURYZACJI (33/2026) Ukonstytuowanie się Rady Nadzorczej RAFAMET S.A. w restrukturyzacji, informacja o członkach Rady Nadzorczej oraz powołanie Komitetu Audytu.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-badge">&#128197; 23 lipca 2026</span>
+      <span class="meta-pill">&#127760; pap-mediaroom.pl</span>
+    </div>
+    <a class="url-link" href="https://pap-mediaroom.pl/biznes-i-finanse/rafamet-sa-w-restrukturyzacji-332026-ukonstytuowanie-sie-rady-nadzorczej-rafamet" target="_blank" rel="noopener">&#128279; https://pap-mediaroom.pl/biznes-i-finanse/rafamet-sa-w-restrukturyzacji-332026-ukonstytuowanie-sie-rady-nadzorczej-rafamet</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Zarząd Fabryki Obrabiarek RAFAMET S.A. w restrukturyzacji (&quot;Spółka&quot;, &quot;Emitent&quot;) informuje, że na posiedzeniu Rady Nadzorczej w dniu dzisiejszym nastąpiło ukonstytuowanie się jej składu, który przedstawia się następująco</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">RAFAMET SA W RESTRUKTURYZACJI (33/2026) Ukonstytuowanie się Rady Nadzorczej RAFAMET S.A. w restrukturyzacji, informacja o członkach Rady Nadzorczej oraz powołanie Komitetu Audytu.
+04.08.2026, 15:54
+aktualizacja: 04.08.2026, 15:55</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://www.dorzeczebialej.pl/ogloszenie-o-naborze-kandydata-do-rady-nadzorczej-spolki-komunalnej-2/" target="_blank" rel="noopener">Ogłoszenie o naborze kandydata do Rady Nadzorczej Spółki...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; www.dorzeczebialej.pl</span>
+    </div>
+    <a class="url-link" href="https://www.dorzeczebialej.pl/ogloszenie-o-naborze-kandydata-do-rady-nadzorczej-spolki-komunalnej-2/" target="_blank" rel="noopener">&#128279; https://www.dorzeczebialej.pl/ogloszenie-o-naborze-kandydata-do-rady-nadzorczej-spolki-komunalnej-2/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Liczba członków Rady Nadzorczej przewidywanych do powołania: 1. Podstawowa działalność Spółki: gospodarka wodno – ściekowa, odbiór odpadów komunalnych. Kandydat do Rady Nadzorczej Spółki, zgodnie z art. 10a ust.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Liczba członków Rady Nadzorczej przewidywanych do powołania: 1. Podstawowa działalność Spółki: gospodarka wodno – ściekowa, odbiór odpadów komunalnych. Kandydat do Rady Nadzorczej Spółki, zgodnie z art. 10a ust.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://cgrpoland.pl/jak-zostac-czlonkiem-rady-nadzorczej-wymagania/" target="_blank" rel="noopener">Jak zostać członkiem rady nadzorczej – wymagania, które należy spełniać</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; cgrpoland.pl</span>
+    </div>
+    <a class="url-link" href="https://cgrpoland.pl/jak-zostac-czlonkiem-rady-nadzorczej-wymagania/" target="_blank" rel="noopener">&#128279; https://cgrpoland.pl/jak-zostac-czlonkiem-rady-nadzorczej-wymagania/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Członkowie rady nadzorczej muszą posiadać zaawansowane kompetencje techniczne i analityczne. Obejmuje to umiejętność analizy raportów finansowych, zrozumienie zaawansowanych narzędzi do zarządzania ryzykiem oraz zdolność oceny technologii stosowanych przez firmę.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Decyzja o ubieganiu się o stanowisko członka rady nadzorczej może być kluczowym krokiem w karierze zawodowej każdego menedżera i specjalisty. Wymaga to jednak nie tylko chęci, ale również spełnienia odpowiednich wymagań oraz posiadania określonych kwalifikacji. Rola ta wiąże się z wieloma wyzwaniami, odpowiedzialnością i odpowiednimi kompetencjami, aby móc efektywnie nadzorować działalność firmy, w której się pracuje.
+W tym poradniku przedstawimy najważniejsze kroki oraz wymagania, które musisz spełnić, aby dołączyć do tego elitarnego grona. Rozpoczynając od niezbędnych kwalifikacji, przez kompetencje osobiste i zawodowe, aż po proces rekrutacyjny – wszystko, co musisz wiedzieć, aby zostać skutecznym członkiem rady nadzorczej.
+Kim jest członek rady nadzorczej?
+Definicja i rola członka rady nadzorczej
+Członek rady nadzorczej to osoba odpowiedzialna za nadzór nad działalnością spółki i jej zarządu. Rola ta obejmuje monitorowanie wyników finansowych, zgodności z przepisami oraz strategicznych decyzji firmy, zapewniając jednocześnie, że działania spółki są zgodne z interesami akcjonariuszy.
+Podstawowe zadania i obowiązki
+Członkowie rady nadzorczej odpowiadają za nadzór nad działalnością spółki, w tym monitorowanie wyników finansowych, zapewnienie zgodności z przepisami oraz kontrolę strategicznych decyzji zarządu. Ich obowiązki obejmują również ocenę ryzyka oraz dbanie o interesy akcjonariuszy.
+Kluczowe kwalifikacje i umiejętności
+Wykształcenie i doświadczenie zawodowe
+Aby zostać członkiem rady nadzorczej, niezbędne jest posiadanie odpowiedniego wykształcenia oraz doświadczenia zawodowego. Preferowane są osoby z wyższym wykształceniem w dziedzinach takich jak ekonomia, prawo, zarządzanie czy rachunkowość.
+Równie istotne jest bogate doświadczenie zawodowe, szczególnie na stanowiskach kierowniczych czy menedżerskich, które umożliwia zdobycie praktycznych umiejętności w zakresie zarządzania i nadzoru.
+Kompetencje techniczne i analityczne
+Członkowie rady nadzorczej muszą posiadać zaawansowane kompetencje techniczne i analityczne. Obejmuje to umiejętność analizy raportów finansowych, zrozumienie zaawansowanych narzędzi do zarządzania ryzykiem oraz zdolność oceny technologii stosowanych przez firmę.
+Wiedza ta jest kluczowa do efektywnego monitorowania działalności spółki i podejmowania świadomych decyzji strategicznych.
+Umiejętności interpersonalne i przywódcze
+Członkowie rady nadzorczej powinni wykazywać się wysokim poziomem umiejętności interpersonalnych i przywód…</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-7">
+  <div class="card-header">
+    <div class="card-number">7</div>
+    <div class="card-title">
+      <a href="https://finteo.pl/slownik-pojec-prawnych/czlonek-rady-nadzorczej" target="_blank" rel="noopener">Członek rady nadzorczej | Finteo</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; brak daty</span>
+      <span class="meta-pill">&#127760; finteo.pl</span>
+    </div>
+    <a class="url-link" href="https://finteo.pl/slownik-pojec-prawnych/czlonek-rady-nadzorczej" target="_blank" rel="noopener">&#128279; https://finteo.pl/slownik-pojec-prawnych/czlonek-rady-nadzorczej</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Członek rady nadzorczej to osoba pełniąca funkcję nadzoru nad działalnością spółki kapitałowej, będąca wybrana i powołana do rady nadzorczej w oparciu o przepisy prawa oraz statut danej organizacji.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">« Wróć
+Finteo
+Słownik pojęć prawnych
+Członek rady nadzorczej
+Członek rady nadzorczej w kontekście Upadłości Konsumenckiej
+Członek rady nadzorczej
+to osoba pełniąca funkcję nadzoru nad działalnością spółki kapitałowej, będąca wybrana i powołana do rady nadzorczej w oparciu o przepisy prawa oraz statut danej organizacji. Rada nadzorcza jest organem kontrolno-doradczym, który sprawuje nadzór nad działalnością zarządu oraz reprezentuje interesy akcjonariuszy i udziałowców. Członkowie rady nadzorczej mają obowiązek strzeżenia interesów spółki oraz jej akcjonariuszy, dbać o przestrzeganie prawa, a także wykonywać swoje obowiązki z należytą starannością. W przypadku spółek akcyjnych i spółek z ograniczoną odpowiedzialnością, rada nadzorcza jest obowiązkowym organem, który powołuje się zgodnie z przepisami Kodeksu spółek handlowych. W przypadku spółek z ograniczoną odpowiedzialnością, rada nadzorcza może być powołana na wniosek wspólników lub na mocy postanowień statutu spółki. Członkowie rady nadzorczej są wybierani przez walne zgromadzenie, a w przypadku spółek z ograniczoną odpowiedzialnością - przez wspólników. Członkowie rady nadzorczej mogą być wybierani spośród osób fizycznych, które posiadają pełną zdolność do czynności prawnych. Przepisy mogą także wymagać, aby część członków rady nadzorczej posiadała określone kwalifikacje zawodowe bądź doświadczenie.
+Przykład zastosowania w postępowaniu upadłościowym:
+W sytuacji ogłoszenia upadłości spółki, członkowie rady nadzorczej odgrywają kluczową rolę w procesie upadłościowym. Zgodnie z przepisami prawa upadłościowego, rada nadzorcza ma obowiązek pilnego zawiadomienia sądu o zaistniałej sytuacji, gdy uzna, że spółka jest niewypłacalna lub zagrożona niewypłacalnością. Członkowie rady nadzorczej mogą być także wezwani do współpracy z syndykiem masy upadłości, który zarządza majątkiem upadłego dłużnika, oraz do udzielania informacji na temat sytuacji finansowej spółki, jej majątku i zobowiązań.
+Przykład zastosowania w postępowaniu oddłużeniowym:
+W przypadku spółki, która przystąpiła do postępowania oddłużeniowego, członkowie rady nadzorczej mają obowiązek współpracy z zarządem spółki w procesie restrukturyzacji zadłużenia i wdrażania planu naprawczego. Członkowie rady nadzorczej są odpowiedzialni za monitorowanie działań zarządu spółki oraz za weryfikowanie, czy podejmowane kroki są zgodne z planem naprawczym. Rada nadzorcza może także zlecić niezależne badanie sytuacji finansowej spółki, aby mieć pewność, że działan…</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-08-09 16:29 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
