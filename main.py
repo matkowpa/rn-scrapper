@@ -85,9 +85,9 @@ logger = logging.getLogger(__name__)
 # Parsowanie argumentów CLI
 # ---------------------------------------------------------------------------
 
-def _parse_args() -> date:
+def _parse_args() -> tuple:
     """
-    Zwraca datę odcięcia na podstawie argumentów wiersza poleceń.
+    Zwraca krotkę (data_odcięcia, przeparsowane argumenty).
 
     --date YYYY-MM-DD   ustaw konkretną datę graniczną
     --months N          cofnij się o N miesięcy od dziś (domyślnie: 1)
@@ -134,7 +134,7 @@ def _parse_args() -> date:
     else:
         cutoff = today - relativedelta(months=args.months)
 
-    return cutoff
+    return cutoff, args
 
 
 # ---------------------------------------------------------------------------
@@ -143,7 +143,7 @@ def _parse_args() -> date:
 
 
 def main() -> None:
-    cutoff_date = _parse_args()
+    cutoff_date, args = _parse_args()
     today = date.today()
 
     logger.info("=" * 60)
