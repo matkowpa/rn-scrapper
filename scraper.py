@@ -655,6 +655,121 @@ def collect_from_sources(
     return announcements
 
 
+def _load_jst_registry() -> list:
+    """
+    Rejestr BIP-ów samorządów (gminy/powiaty/miasta) z oficjalnego spisu
+    gov.pl/web/bip/spis-podmiotow. Plik generowany narzędziem
+    tools/fetch_bip_registry.py i przechowywany w repo: data/bip_jst.json.
+    """
+    import json
+    for path in ("data/bip_jst.json", "bip_jst.json"):
+        try:
+            with open(path, encoding="utf-8") as f:
+                reg = json.load(f)
+            if isinstance(reg, list) and reg:
+                return reg
+        except FileNotFoundError:
+            continue
+        except Exception as exc:
+            logger.warning("Rejestr JST uszkodzony (%s): %s", path, exc)
+    return []
+
+
+def _jst_daily_slice(registry: list, window: int = 40) -> list:
+    """
+    Deterministyczne okno próbkowania: ~1940 samorządów nie da się skrobać
+    w całości przy każdym uruchomieniu, więc każdy przebieg bierze inne,
+    ciągłe okno wpisów przesuwane według dnia roku (dzień * window % len).
+    Kolejne dni pokrywają kolejne fragmenty listy.
+    """
+    if not registry or window <= 0:
+        return []
+    day = datetime.now().timetuple().tm_yday
+    start = (day * window) % len(registry)
+    if start + window <= len(registry):
+        return registry[start:start + window]
+    return registry[start:] + registry[:window - (len(registry) - start)]
+
+
+def collect_from_jst(
+    entries: list,
+    max_links_per_source: int = 2,
+    delay_between_results: float = 0.6,
+) -> list:
+    """
+    Czyta losowo-rotacyjną próbkę BIP-ów samorządowych i wykrywa linki naborów
+    na członków rad nadzorczych spółek komunalnych (ta sama walidacja co dla
+    pozostałych źródeł).
+    """
+    announcements: list = []
+    from sources import Source  # lokalny import – unika cyklu przy pakiecie
+
+    for ent in entries:
+        src = Source(ent.get("name", "?")[:12], ent["name"],
+                     ent["url"], "jst", True)
+        logger.info("[JST] %s → %s", ent["name"], ent["url"])
+        html = _fetch_html(src.url)
+        if not html:
+            continue
+        try:
+            soup = BeautifulSoup(html, "lxml")
+        except Exception:
+            continue
+
+        candidates = []
+        for a in soup.find_all("a", href=True):
+            text = a.get_text(" ", strip=True)
+            if not text or len(text) < 12:
+                continue
+            t = text.lower()
+            if not RECRUITMENT_LINK_RE.search(t):
+                continue
+            if not RAD_NADZORCZA_RE.search(t):
+                continue
+            href = urljoin(src.url, a["href"].strip())
+            if not href.startswith("http"):
+                continue
+            if href.lower().split("?")[0].endswith(".pdf"):
+                continue
+            candidates.append((text, href))
+            if len(candidates) >= max_links_per_source:
+                break
+
+        for anchor_text, url in candidates:
+            time.sleep(delay_between_results)
+            domain = urlparse(url).netloc
+            page_html = _fetch_html(url)
+            target_html = page_html or ""
+            text_for_filter = anchor_text + "\n" + _parse_page(
+                target_html, anchor_text)["details"] if page_html else anchor_text
+
+            title_parsed = (_parse_page(page_html, anchor_text)["title"]
+                            if page_html else "")
+            ann_title = title_parsed or anchor_text
+
+            if not _is_relevant(ann_title, anchor_text, details=text_for_filter,
+                                domain=domain, trusted=domain.endswith(".gov.pl")):
+                continue
+            if _has_stale_years(ann_title, text_for_filter):
+                continue
+            raw_date = (_extract_publication_date(target_html)
+                        if target_html else None)
+            raw_date = raw_date or _extract_date(anchor_text)
+            announcements.append(Announcement(
+                title=ann_title,
+                url=url,
+                source_domain=domain,
+                date=raw_date,
+                date_parsed=parse_date_str(raw_date),
+                summary=anchor_text[:600],
+                details=text_for_filter[:2500],
+            ))
+            time.sleep(delay_between_results)
+
+    logger.info("[JST] zaakceptowano ogłoszeń: %d", len(announcements))
+    return announcements
+
+
 # ---------------------------------------------------------------------------
 # Główna funkcja
 # ---------------------------------------------------------------------------
@@ -706,6 +821,25 @@ def search_and_scrape(
                         len(announcements))
         except Exception as exc:
             logger.error("Błąd fazy źródeł bezpośrednich: %s", exc)
+
+    # ------------------------------------------------------------------
+    # FAZA 1b – BIP-y samorządów (gminy/powiaty) – rotacyjne okno z rejestru
+    # ------------------------------------------------------------------
+    if use_direct_sources:
+        try:
+            registry = _load_jst_registry()
+            if registry:
+                window = _jst_daily_slice(registry, window=40)
+                logger.info("Faza 1b: JST — okno dzienne %d/%d podmiotów",
+                            len(window), len(registry))
+                jst_anns = collect_from_jst(window)
+                for ann in jst_anns:
+                    if ann.url in seen_urls:
+                        continue
+                    seen_urls.add(ann.url)
+                    announcements.append(ann)
+        except Exception as exc:
+            logger.error("Błąd fazy JST: %s", exc)
 
     # ------------------------------------------------------------------
     # FAZA 2 – DuckDuckGo jako uzupełnienie
