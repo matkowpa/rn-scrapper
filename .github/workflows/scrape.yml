@@ -2,12 +2,11 @@ name: Scrape – Rada Nadzorcza
 
 on:
   schedule:
-    - cron: "0 6 * * *"    # 08:00 PL – zbiórka #1 (okno 100 BIP-ów)
-    - cron: "0 9 * * *"    # 11:00 PL – zbiórka #2
-    - cron: "0 12 * * *"   # 14:00 PL – zbiórka #3
-    - cron: "0 15 * * *"   # 17:00 PL – zbiórka #4
-    - cron: "0 18 * * *"   # 20:00 PL – zbiórka #5
-    - cron: "0 4 * * *"    # 06:00 PL – publikacja raportu zbiorczego (zagregowane wyniki dnia)
+    # Cron godzinowy (UTC) – właściwa akcja (zbiórka 8/11/14/17/20 PL,
+    # publikacja 6:00 PL) wybierana jest w kroku "Decide mode" wg
+    # aktualnego czasu Europe/Warsaw, więc godziny są poprawne cały rok
+    # niezależnie od zmiany czasu letniego/zimowego.
+    - cron: "0 * * * *"
   workflow_dispatch:
     inputs:
       regenerate_registry:
@@ -43,14 +42,23 @@ jobs:
           git add data/bip_jst.json
           git diff --staged --exit-code --quiet || { git commit -m "Rejestr BIP samorzadow — odswiezenie $(date +'%Y-%m-%d')"; git push; }
 
-      - name: Decide mode
+      - name: Decide mode (DST-safe, czas PL)
         id: mode
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event.schedule }}" = "0 4 * * *" ]; then
-            echo "mode=publish" >> "$GITHUB_OUTPUT"
-          else
-            echo "mode=collect" >> "$GITHUB_OUTPUT"
-          fi
+          HOUR=$(TZ='Europe/Warsaw' date +'%H')
+          echo "Godzina PL: $HOUR"
+          case "$HOUR" in
+            06) MODE=publish ;;
+            08|11|14|17|20) MODE=collect ;;
+            *) MODE=skip ;;
+          esac
+          # Ręczne uruchomienie zawsze publikuje od razu
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then MODE=publish; fi
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+
+      - name: Skip (poza harmonogramem PL)
+        if: steps.mode.outputs.mode == 'skip'
+        run: echo "Poza zaplanowanymi godzinami PL — nic do zrobienia."
 
       - name: Run scraper (collect)
         if: steps.mode.outputs.mode == 'collect'
