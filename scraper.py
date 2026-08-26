@@ -716,6 +716,13 @@ def collect_from_jst(
         html = _fetch_html(src.url)
         if not html:
             continue
+        # Slug /gmina-... z API gov.pl to trasa wewnętrznej wyszukiwarki,
+        # nie publiczna strona BIP — po przekierowaniu dostajemy portal
+        # "Portal Gov.pl". Wykryj to i pomiń (zero treści do sparsowania).
+        if "<title>Portal Gov.pl</title>" in html:
+            logger.debug("[JST] %s – slug gov.pl to przekierowanie, pomijam",
+                         ent["name"])
+            continue
         try:
             soup = BeautifulSoup(html, "lxml")
         except Exception:

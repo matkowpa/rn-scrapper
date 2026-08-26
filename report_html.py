@@ -6,6 +6,7 @@ Generuje raport HTML z listy ogłoszeń na stanowisko członka rady nadzorczej.
 import html as _html_lib
 from datetime import date, datetime
 from typing import List, Optional
+from urllib.parse import quote_plus as _uq
 
 from scraper import Announcement, JST_WINDOW_DEFAULT
 try:
@@ -383,14 +384,23 @@ def _render_sources_section() -> str:
         registry = []
     if registry and _jst_daily_slice:
         window = _jst_daily_slice(registry, window=JST_WINDOW_DEFAULT)
+        # Slug z API gov.pl to trasa wewnętrznej wyszukiwarki — nie daje
+        # użytecznego linku do BIP. Zamiast martwego adresu podajemy link
+        # do gotowego wyszukiwania ogłoszeń danego podmiotu w domenach
+        # gov.pl / BIP (to samo kryterium, którego używa scraper).
         lis_jst = "".join(
-            f'<li><a href="{esc(e.get("url", ""))}" target="_blank" rel="noopener">{esc(e.get("name", ""))}</a>'
-            f' &mdash; <code style="font-size:0.78em;">{esc(e.get("url", ""))}</code></li>'
+            f'<li>{esc(e.get("name", ""))} &mdash; '
+            f'<a href="https://duckduckgo.com/?q={_uq("nabor kandydatow rada nadzorcza " + e.get("name", "") + " site:gov.pl")}" target="_blank" rel="noopener">'
+            f'szukaj ogłoszeń</a></li>'
             for e in sorted(window, key=lambda x: x.get("name", ""))
         )
         rows.append(
             f"<h4>BIP-y samorządów &mdash; dzisiejsze okno rotacyjne "
             f"({len(window)}/{len(registry)})</h4>"
+            f'<p class="src-note">Slug podmiotów z oficjalnego spisu gov.pl to '
+            f"trasy aplikacji wyszukiwarki, nie osobne strony &mdash; dlatego "
+            f"każda pozycja prowadzi do gotowego wyszukiwania ogłoszeń naboru "
+            f"w domenach <code>gov.pl</code> dla danego urzędu.</p>"
             f'<ul class="src-list">{lis_jst}</ul>'
         )
 
