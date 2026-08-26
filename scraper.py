@@ -47,7 +47,67 @@ SEARCH_QUERIES = [
     'członek rady nadzorczej ogłoszenie nabór kandydatów spółka',
 ]
 
+# Serwisy agregujące / reklamowe – wyniki z nich NIE są realnymi ogłoszeniami
+# o naborach (JOOBLE i podobne to agregatory ofert / reklamy serwisów rekrutacyjnych).
+# Dopasowanie przez podciąg w domenie; celowo bez generycznych słów (np. "kariera"),
+# by nie odcinać oficjalnych stron BIP.
+BLOCKED_DOMAINS = (
+    "jooble",        # agregator / reklamy
+    "pracuj.pl",     # portal ofert
+    "pracujw.pl",
+    "indeed",        # globalny agregator
+    "linkedin",      # sieć / oferty spons
+    "careerjet", "monster.com", "neuvoo", "adzuna",
+    "olx.pl",        # ogłoszenia drobne
+    "career",        # tylko gdy w kontekście "career." (portale ofert)
+    "youtube",       # filmy o karierze, nie ogłoszenia
+)
+
+# Frazy wskazujące, że mamy do czynienia z ARTYKUŁEM / poradnikiem / analizą prawniczą /
+# omówieniem tematu rad nadzorczych, a NIE z realnym ogłoszeniem o nabor/rekrutacji.
+# (np. wyniki z lex.pl, portali prawnych, blogów)
+ARTICLE_OR_LEGAL_PHRASES = [
+    "wyjaśniamy", "wyjaśniam", "poradnik",
+    "jak zostać", "co robi rada", "jak powstaje",
+    "wszystko o", "przewodnik", "na czym polega",
+    "opisującą", "opisuje", "o tym czym jest",
+    "granice odpowiedzialności", "badanie",
+    "nowelizacja", "już od", "obowiązki członka", "prawa i obowiązki",
+    "jakie kompetencje", "kompetencje rady", "rola rady",
+    "analiza", "ekspert", "komentarz", "opinia",
+    "poruszyliśmy", "kancelaria",
+    "stan prawny",
+]
+
+# Frazy wskazujące na treści EDUKACYJNE / egzaminacyjne (np. kursy, testy, certyfikaty),
+# a nie ogłoszenia o nabor na członka rady nadzorczej.
+EXAM_OR_EDU_PHRASES = [
+    "egzamin", "test kwalifikacyjny", "test", "certyfikat",
+    "kurs", "szkolenie dla", "praktyka", "program",
+    "aktualna", "przykładowe",
+]
+
+# Frazy sygnalizujące, że ogłoszenie/poszukiwania już się zakończyły (nieaktualne)
+# lub że strona jest zwykłą stroną-przykład, a nie żywym naborem.
+STALE_OR_CLOSED_PHRASES = [
+    "zakończył się", "zakończył się nabór", "zakończono",
+    "minął termin", "upłynął termin", "termin minął",
+    "nabór zakończony", "rekrutacja zakończona",
+    "nieaktualne", "usunięto ogłoszenie",
+    "nie aktualne", "ostateczny termin",
+]
+
+# Reklamy serwisów rekrutacyjnych – typowe frazy marketingowe agregatorów (np. JOOBLE).
+# Uwaga: świadomie NIE umieszczamy tu słowa "plikuj", bo występuje w prawdziwych
+# ogłoszeniach BIP ("plikuj" / "aplikacja") – mogłoby to odrzucać ważne nabory.
+AD_MARKETING_PHRASES = [
+    "serwisy pracy", "portale pracy", "zobacz więcej ofert",
+    "setki ofert", "zweryfikowany pracodawca",
+    "praca w branży", "oferta z portalu",
+]
+
 DISQUALIFYING_PHRASES = [
+    # Stanowiska kierownicze NIErzad nadzorcza
     "członek zarządu",
     "członków zarządu",  # liczba mnoga
     "prezes zarządu",
@@ -57,15 +117,41 @@ DISQUALIFYING_PHRASES = [
     "wiceprezes zarządu",
     "stanowisko prezesa",
     "prokurent",
+    # Artykuły / prawnie / poradniki / analizy (np. lex.pl)
+    *ARTICLE_OR_LEGAL_PHRASES,
+    # Treści egzaminacyjne / edukacyjne
+    *EXAM_OR_EDU_PHRASES,
+    # Nieaktualne / zakończone
+    *STALE_OR_CLOSED_PHRASES,
+    # Reklmy serwisów
+    *AD_MARKETING_PHRASES,
 ]
 
-# Frazy wymagane – wynik musi zawierać co najmniej jedną
+# Frazy wymagane – wynik musi zawierać co najmniej jedną (o radzie nadzorczej)
 REQUIRED_PHRASES = [
     "rada nadzorcza",
     "rady nadzorczej",
     "radzie nadzorczej",
     "rady nadzorcz",   # pokrywa odmiany: nadzorczą, nadzorczej itp.
     "nadzorcz",        # szeroki fallback
+]
+
+# Frazy wymagane – aby wynik NAPRAWDĘ dotyczył AKTYWNEGO na boru / poszukiwania kandydatów
+# (a nie artykułu o radach nadzorczych czy omówienia przepisów).
+# Musi wystąpić przynajmniej jedna z nich, by wynik został zaakceptowany.
+RECRUITMENT_PHRASES = [
+    "nabór", "naboru", "nabory",
+    "rekru",           # rekrutacja / rekrutujemy
+    "kandydat", "kandydaci", "kandydatów", "kandydata",
+    "poszukuje", "poszukujemy", "poszukiwany",
+    "ogłoszenie o naborze", "ogłasza nabór",
+    "konkurs na", "konkurs o",
+    "zaprasza", "zaprasza do",
+    "wyłonienie", "wyłanian",
+    "obsadzenia", "obsadzili",
+    "zgłoszenie kandydatury", "zgłaszanie kandydatów",
+    "aplik",           # aplikuj / aplikację
+    "ponowny nabór", "otwarty nabór",
 ]
 
 # Polskie nazwy miesięcy do ekstrakcji daty
@@ -158,21 +244,46 @@ def parse_date_str(raw: Optional[str]) -> Optional[date]:
     return None
 
 
-def _is_relevant(title: str, snippet: str) -> bool:
+def _is_relevant(
+    title: str,
+    snippet: str,
+    details: Optional[str] = None,
+    domain: Optional[str] = None,
+) -> bool:
     """
-    Zwraca True tylko gdy tekst dotyczy rady nadzorczej
-    i NIE dotyczy zarządu ani innych stanowisk kierowniczych.
-    """
-    combined = f"{title} {snippet}".lower()
+    Zwraca True tylko dla REALNYCH, AKTUALNYCH ogłoszeń o nabor na członka rady
+    nadzorczej (a nie reklam agregatorów, artykułów prawniczych, treści o
+    egzaminach czy nieaktualnych ogłoszeń).
 
-    # Musi zawierać frazę o radzie nadzorczej
+    Kryteria (wszystkie muszą być spełnione):
+      * wynik nie pochodzi z domen-agregatorów/reklam (BLOCKED_DOMAINS),
+      * tekst musi dotyczyć rady nadzorczej (REQUIRED_PHRASES),
+      * tekst musi zawierać frazy AKTYWNEGO naboru/rekrutacji (RECRUITMENT_PHRASES),
+      * tekst nie może zawierać żadnej frazy dyskwalifikującej (DISQUALIFYING_PHRASES).
+
+    Sprawdzamy łącznie tytuł + snippet z wyszukiwarki oraz (jeśli podano)
+    pełną treść pobranej strony (details).
+    """
+    if domain:
+        d = domain.lower()
+        if any(b in d for b in BLOCKED_DOMAINS):
+            return False
+
+    combined = f"{title} {snippet}".lower()
+    if details:
+        combined = f"{combined}\n{details}".lower()
+
+    # Musi dotyczyć tematu rady nadzorczej
     if not any(phrase in combined for phrase in REQUIRED_PHRASES):
         return False
 
-    # Nie może być zdominowany przez frazy o zarządzie
-    for phrase in DISQUALIFYING_PHRASES:
-        if phrase in combined:
-            return False
+    # Musi dotyczyć AKTYWNEGO naboru / poszukiwania kandydatów
+    if not any(phrase in combined for phrase in RECRUITMENT_PHRASES):
+        return False
+
+    # Nie może zawierać fraz dyskwalifikujących
+    if any(phrase in combined for phrase in DISQUALIFYING_PHRASES):
+        return False
 
     return True
 
@@ -298,9 +409,11 @@ def search_and_scrape(
                 continue
             seen_urls.add(url)
 
-            # Filtr trafności
-            if not _is_relevant(title, snippet):
-                logger.debug("Pomijam (nieistotne): %.60s", title)
+            domain = url.split("/")[2] if "//" in url else url
+
+            # Odrzuć od razu domeny-agregatory/reklamy (np. JOOBLE)
+            if any(b in domain.lower() for b in BLOCKED_DOMAINS):
+                logger.debug("Pomijam (domena zablokowana): %s", domain)
                 continue
 
             logger.info("Przetwarzam: %.70s", title)
@@ -309,23 +422,38 @@ def search_and_scrape(
             html = _fetch_html(url)
             if html:
                 parsed = _parse_page(html, snippet)
-                raw_date = parsed["date"] or _extract_date(snippet)
+                ann_title = parsed["title"] or title
+                # Rygorystyczna weryfikacja także na pełnej treści strony
+                if not _is_relevant(
+                    ann_title, snippet,
+                    details=parsed["details"], domain=domain,
+                ):
+                    logger.debug("Pomijam (pełna treść nieistotna): %.60s", title)
+                    continue
+                raw_date = (
+                    parsed["date"]
+                    or _extract_date(parsed["title"])
+                    or _extract_date(snippet)
+                )
                 ann = Announcement(
-                    title=parsed["title"] or title,
+                    title=ann_title,
                     url=url,
-                    source_domain=url.split("/")[2] if "//" in url else url,
+                    source_domain=domain,
                     date=raw_date,
                     date_parsed=parse_date_str(raw_date),
                     summary=snippet[:600],
                     details=parsed["details"],
                 )
             else:
-                # Fallback – tylko dane ze snippetu DDG
+                # Fallback – tylko tekst ze snippetu DDG (bez pobranej strony)
+                if not _is_relevant(title, snippet, domain=domain):
+                    logger.debug("Pomijam (nieistotne): %.60s", title)
+                    continue
                 raw_date = _extract_date(snippet)
                 ann = Announcement(
                     title=title,
                     url=url,
-                    source_domain=url.split("/")[2] if "//" in url else url,
+                    source_domain=domain,
                     date=raw_date,
                     date_parsed=parse_date_str(raw_date),
                     summary=snippet[:600],
