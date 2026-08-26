@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Zakładka przeszukanych źródeł ───────────────── */
+.sources-box {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+}
+.sources-box summary {
+    cursor: pointer; font-weight: 600; color: #1d4ed8; user-select: none;
+}
+.sources-box[open] summary { margin-bottom: 10px; }
+.src-note { color: #475569; margin-bottom: 12px; line-height: 1.5; }
+.src-list { margin: 6px 0 12px 18px; line-height: 1.7; }
+.sources-box h4 { margin-top: 12px; color: #334155; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-08-26 21:17</span>
+      <span class="header-chip chip-green">&#9679; 4 ogłoszeń</span>
+      <span class="header-chip">&#127760; DuckDuckGo (pl-pl) + strony źródłowe</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane w okresie <strong>26.07.2026 → 26.08.2026</strong>. Ogłoszeń bez rozpoznanej daty: <strong>4</strong> (oznaczone żółto).</div></div>
+
+    
+<details class="sources-box">
+  <summary>&#127760; Przeszukane źródła (34) &mdash; kliknij, aby rozwinąć</summary>
+  <p class="src-note">Raport powstaje z bezpośredniego odczytu poniższych stron
+  (oficjalne Biuletyny Informacji Publicznej i portale korporacyjne, na których
+  zgodnie z ustawą publikowane są ogłoszenia o konkursach do rad nadzorczych)
+  oraz uzupełniająco z wyszukiwarki DuckDuckGo ograniczonej do domen
+  <code>.gov.pl</code> / BIP.</p>
+  <h4>Ministerstwa / centra rządowe (5)</h4><ul class="src-list"><li><a href="https://www.gov.pl/web/aktywa-majatkowe/aktualnosci" target="_blank" rel="noopener">Ministerstwo Aktywów Państwowych</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/aktywa-majatkowe/aktualnosci</code></li><li><a href="https://www.gov.pl/web/finanse/aktualnosci" target="_blank" rel="noopener">Ministerstwo Finansów</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/finanse/aktualnosci</code></li><li><a href="https://www.gov.pl/web/klimat/aktualnosci" target="_blank" rel="noopener">Ministerstwo Klimatu i Środowiska</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/klimat/aktualnosci</code></li><li><a href="https://www.gov.pl/web/infrastruktura/aktualnosci" target="_blank" rel="noopener">Ministerstwo Infrastruktury</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/infrastruktura/aktualnosci</code></li><li><a href="https://www.gov.pl/web/cyfryzacja/aktualnosci" target="_blank" rel="noopener">Ministerstwo Cyfryzacji</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/cyfryzacja/aktualnosci</code></li></ul><h4>BIP-y samorządów gmin i powiatów (5)</h4><ul class="src-list"><li><a href="https://um_jaslo.bip.gov.pl" target="_blank" rel="noopener">BIP Miasta Jaslo</a> &mdash; <code style="font-size:0.78em;">https://um_jaslo.bip.gov.pl</code></li><li><a href="https://www.bip.krakow.pl" target="_blank" rel="noopener">BIP m.st. Krakow</a> &mdash; <code style="font-size:0.78em;">https://www.bip.krakow.pl</code></li><li><a href="https://bip.wroclaw.pl" target="_blank" rel="noopener">BIP m.st. Wroclaw</a> &mdash; <code style="font-size:0.78em;">https://bip.wroclaw.pl</code></li><li><a href="https://bip.poznan.pl" target="_blank" rel="noopener">BIP m.st. Poznan</a> &mdash; <code style="font-size:0.78em;">https://bip.poznan.pl</code></li><li><a href="https://bip.bialystok.pl" target="_blank" rel="noopener">BIP m.st. Bialystok</a> &mdash; <code style="font-size:0.78em;">https://bip.bialystok.pl</code></li></ul><h4>Spółki Skarbu Państwa i spółki z istotnym udziałem SP (24)</h4><ul class="src-list"><li><a href="https://www.orlen.pl" target="_blank" rel="noopener">ORLEN S.A.</a> &mdash; <code style="font-size:0.78em;">https://www.orlen.pl</code></li><li><a href="https://www.gkpge.pl" target="_blank" rel="noopener">Grupa PGE</a> &mdash; <code style="font-size:0.78em;">https://www.gkpge.pl</code></li><li><a href="https://www.tauron.pl" target="_blank" rel="noopener">TAURON Polska Energia</a> &mdash; <code style="font-size:0.78em;">https://www.tauron.pl</code></li><li><a href="https://grupa-enea.pl" target="_blank" rel="noopener">Grupa Enea</a> &mdash; <code style="font-size:0.78em;">https://grupa-enea.pl</code></li><li><a href="https://www.grupa-energa.pl" target="_blank" rel="noopener">Grupa Energa</a> &mdash; <code style="font-size:0.78em;">https://www.grupa-energa.pl</code></li><li><a href="https://kghm.com" target="_blank" rel="noopener">KGHM Polska Miedź</a> &mdash; <code style="font-size:0.78em;">https://kghm.com</code></li><li><a href="https://www.plk-sa.pl" target="_blank" rel="noopener">PKP Polskie Linie Kolejowe</a> &mdash; <code style="font-size:0.78em;">https://www.plk-sa.pl</code></li><li><a href="https://pkpcargo.com" target="_blank" rel="noopener">PKP Cargo</a> &mdash; <code style="font-size:0.78em;">https://pkpcargo.com</code></li><li><a href="https://www.intercity.pl" target="_blank" rel="noopener">PKP Intercity</a> &mdash; <code style="font-size:0.78em;">https://www.intercity.pl</code></li><li><a href="https://www.poczta-polska.pl" target="_blank" rel="noopener">Poczta Polska</a> &mdash; <code style="font-size:0.78em;">https://www.poczta-polska.pl</code></li><li><a href="https://www.pzu.pl" target="_blank" rel="noopener">Grupa PZU</a> &mdash; <code style="font-size:0.78em;">https://www.pzu.pl</code></li><li><a href="https://www.gpw.pl" target="_blank" rel="noopener">GPW Warszawska Giełda Papierów Wartościowych</a> &mdash; <code style="font-size:0.78em;">https://www.gpw.pl</code></li><li><a href="https://www.kdpw.pl" target="_blank" rel="noopener">KDPW</a> &mdash; <code style="font-size:0.78em;">https://www.kdpw.pl</code></li><li><a href="https://www.bgk.pl" target="_blank" rel="noopener">Bank Gospodarstwa Krajowego</a> &mdash; <code style="font-size:0.78em;">https://www.bgk.pl</code></li><li><a href="https://www.pkobp.pl" target="_blank" rel="noopener">PKO Bank Polski</a> &mdash; <code style="font-size:0.78em;">https://www.pkobp.pl</code></li><li><a href="https://www.gaz-system.pl" target="_blank" rel="noopener">Gaz-System</a> &mdash; <code style="font-size:0.78em;">https://www.gaz-system.pl</code></li><li><a href="https://www.pse.pl" target="_blank" rel="noopener">Polskie Sieci Elektroenergetyczne</a> &mdash; <code style="font-size:0.78em;">https://www.pse.pl</code></li><li><a href="https://pfr.pl" target="_blank" rel="noopener">Polski Fundusz Rozwoju</a> &mdash; <code style="font-size:0.78em;">https://pfr.pl</code></li><li><a href="https://cpk.pl" target="_blank" rel="noopener">Centralny Port Komunikacyjny</a> &mdash; <code style="font-size:0.78em;">https://cpk.pl</code></li><li><a href="https://www.wody.gov.pl" target="_blank" rel="noopener">Wody Polskie</a> &mdash; <code style="font-size:0.78em;">https://www.wody.gov.pl</code></li><li><a href="https://www.arpindustrial.pl" target="_blank" rel="noopener">ARP Industrial (Agencja Rozwoju Przemysłu)</a> &mdash; <code style="font-size:0.78em;">https://www.arpindustrial.pl</code></li><li><a href="https://www.port.gdansk.pl" target="_blank" rel="noopener">Zarząd Morskich Portów Gdańsk</a> &mdash; <code style="font-size:0.78em;">https://www.port.gdansk.pl</code></li><li><a href="https://www.port.gdynia.pl" target="_blank" rel="noopener">Zarząd Portów Gdynia</a> &mdash; <code style="font-size:0.78em;">https://www.port.gdynia.pl</code></li><li><a href="https://port.szczecin.pl" target="_blank" rel="noopener">Szczecińskie i Świnoujskie Porty</a> &mdash; <code style="font-size:0.78em;">https://port.szczecin.pl</code></li></ul>
+</details>
+
+    <div class="section-heading">Lista ogłoszeń (4)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">Ogłoszenie o naborze uzupełniającym kandydatów na członków rady nadzorczej</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; um_jaslo.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">&#128279; https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://miir.bip.gov.pl/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-stanowiska-prezesa-zarzadu-i-czlonka-zarzadu-inofama-s-a.html" target="_blank" rel="noopener">Nabór na stanowiska prezesa zarządu i członka zarządu INOFAMA S.A.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; miir.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://miir.bip.gov.pl/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-stanowiska-prezesa-zarzadu-i-czlonka-zarzadu-inofama-s-a.html" target="_blank" rel="noopener">&#128279; https://miir.bip.gov.pl/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-stanowiska-prezesa-zarzadu-i-czlonka-zarzadu-inofama-s-a.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">W toku postępowania kwalifikacyjnego kandydat może przedstawiać Radzie Nadzorczej dokumenty potwierdzające posiadanie dodatkowych kwalifikacji. Pisemne oferty kandydatów należy składać osobiście lub w formie listownej w sekretariacie Spółki, tj.: ul.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">W toku postępowania kwalifikacyjnego kandydat może przedstawiać Radzie Nadzorczej dokumenty potwierdzające posiadanie dodatkowych kwalifikacji. Pisemne oferty kandydatów należy składać osobiście lub w formie listownej w sekretariacie Spółki, tj.: ul.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://cpk.bip.gov.pl/pomoc/421211_postepowanie-kwalifikacyjne-na-stanowisko-czlonka-zarzadu.html" target="_blank" rel="noopener">Postępowanie kwalifikacyjne na stanowisko Członka Zarządu</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; cpk.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://cpk.bip.gov.pl/pomoc/421211_postepowanie-kwalifikacyjne-na-stanowisko-czlonka-zarzadu.html" target="_blank" rel="noopener">&#128279; https://cpk.bip.gov.pl/pomoc/421211_postepowanie-kwalifikacyjne-na-stanowisko-czlonka-zarzadu.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Jeżeli wyłoniony kandydat nie wyraził zgody na powołanie w skład Zarządu Spółki, Rada Nadzorcza może dokonać wyboru na stanowisko Członka Zarządu ds. nieruchomości kolejnego najwyżej ocenionego kandydata albo postępowanie kwalifikacyjne powtórzyć. XIX. Jeżeli żaden z kandydatów nie spełnił kryteriów określonych pkt I, II, III ogłoszenia lub nie złożył oświadczeń, o których mowa w pkt IV, Rada Nadzorcza decyduje o zakończeniu postępowania bez wyłaniania kandydatów.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Jeżeli wyłoniony kandydat nie wyraził zgody na powołanie w skład Zarządu Spółki, Rada Nadzorcza może dokonać wyboru na stanowisko Członka Zarządu ds. nieruchomości kolejnego najwyżej ocenionego kandydata albo postępowanie kwalifikacyjne powtórzyć. XIX. Jeżeli żaden z kandydatów nie spełnił kryteriów określonych pkt I, II, III ogłoszenia lub nie złożył oświadczeń, o których mowa w pkt IV, Rada Nadzorcza decyduje o zakończeniu postępowania bez wyłaniania kandydatów.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://miir.bip.gov.pl/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-czlonka-zarzadu-totalizatora-sportowego-sp-z-o-o.html" target="_blank" rel="noopener">Nabór na członka zarządu Totalizatora Sportowego Sp. z o.o. ds. finansów i inwestycji</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; miir.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://miir.bip.gov.pl/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-czlonka-zarzadu-totalizatora-sportowego-sp-z-o-o.html" target="_blank" rel="noopener">&#128279; https://miir.bip.gov.pl/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-czlonka-zarzadu-totalizatora-sportowego-sp-z-o-o.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">April 19, 2017 - W takim przypadku, w trakcie rozmowy kwalifikacyjnej kandydat jest zobowiązany do przedstawienia Radzie Nadzorczej oryginałów lub urzędowych odpisów poświadczonych przez siebie dokumentów, pod rygorem wykluczenia z dalszego postępowania kwalifikacyjnego.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">April 19, 2017 - W takim przypadku, w trakcie rozmowy kwalifikacyjnej kandydat jest zobowiązany do przedstawienia Radzie Nadzorczej oryginałów lub urzędowych odpisów poświadczonych przez siebie dokumentów, pod rygorem wykluczenia z dalszego postępowania kwalifikacyjnego.</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-08-26 21:17 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
