@@ -10,6 +10,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, date
 from typing import Optional
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -19,6 +20,16 @@ except ImportError:
     from duckduckgo_search import DDGS  # fallback to old name
 
 logger = logging.getLogger(__name__)
+
+# Lista bezpośrednich źródeł (BIP / ministerstwa / spółki SP) – patrz sources.py
+try:
+    from sources import SOURCES
+except ImportError:  # pozwól na import modułu jako pakiet
+    try:
+        from .sources import SOURCES
+    except ImportError:
+        SOURCES = []
+
 
 # ---------------------------------------------------------------------------
 # Konfiguracja
@@ -45,7 +56,21 @@ SEARCH_QUERIES = [
     'rady nadzorczej nabór ogłoszenie BIP 2025',
     'rady nadzorczej nabór ogłoszenie BIP 2026',
     'członek rady nadzorczej ogłoszenie nabór kandydatów spółka',
+    'ogłoszenie konkurs członek rady nadzorczej site:gov.pl',
 ]
+
+# ---------------------------------------------------------------------------
+# Wykrywanie odnośników do naborów NA STRONACH ŹRÓDŁOWYCH (whitelist)
+# Tekst kotwicy musi wskazywać AKTYWNY nabór/konkurs i dotyczyć rady nadzorczej.
+# ---------------------------------------------------------------------------
+
+RECRUITMENT_LINK_RE = re.compile(
+    r"nab[oó]r|konkurs|rekrutacj|kandydat|ogłoszen|zgłoszen", re.IGNORECASE
+)
+
+RAD_NADZORCZA_RE = re.compile(
+    r"rad(?:y|a|ie|ą)?\s+nadzorcz|nadzorcz", re.IGNORECASE
+)
 
 # Serwisy agregujące / reklamowe – wyniki z nich NIE są realnymi ogłoszeniami
 # o naborach (JOOBLE i podobne to agregatory ofert / reklamy serwisów rekrutacyjnych).
@@ -244,6 +269,34 @@ def parse_date_str(raw: Optional[str]) -> Optional[date]:
     return None
 
 
+def _has_stale_years(title: str, text: str = "") -> bool:
+    """
+    Heurystyka przeterminowanych ogłoszeń (problem: DDG zwracał archiwalne
+    nabory z 2018/2021).
+
+    Zasada: jeśli w TYTULE występuje rok, a jest on starszy niż
+    (rok bieżący - 1), ogłoszenie uznajemy za nieaktualne.
+    Jeśli tytuł nie ma roku, sprawdzamy początek treści (pierwsze 400 znaków),
+    gdzie zwykle widnieje data publikacji.
+
+    Rok bieżący lub o jeden mniejszy NIE dyskwalifikuje (nabór z grudnia
+    poprzecznego roku może być wciąż aktywny).
+    """
+    current_year = datetime.now().year
+    years_in_title = [int(y) for y in re.findall(r"\b(20[0-3]\d)\b", title)]
+    if not years_in_title:
+        head = (text or "")[:400]
+        years_in_title = [int(y) for y in re.findall(r"\b(20[0-3]\d)\b", head)]
+    if not years_in_title:
+        return False
+    newest = max(years_in_title)
+    if newest < current_year - 1:
+        logger.debug("Stale (najnowszy rok %d < %d): %.60s",
+                     newest, current_year - 1, title)
+        return True
+    return False
+
+
 def _is_relevant(
     title: str,
     snippet: str,
@@ -358,6 +411,122 @@ def _parse_page(html: str, fallback: str) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Pobieranie BEZPOŚREDNIO ze źródeł whitelist (BIP / ministerstwa / spółki)
+# ---------------------------------------------------------------------------
+
+
+def collect_from_sources(
+    max_links_per_source: int = 4,
+    delay_between_results: float = 0.8,
+) -> list:
+    """
+    Czyta strony z WHITELISTY źródeł (sources.py) i wykrywa odnośniki
+    do naborów na członków rad nadzorczych bezpośrednio na ich stronach.
+
+    To obejście problemu DDG: agregatory (jooble), artykuły (lex.pl) i stare
+    wyniki nie mają tu dostępu, bo czytamy wyłącznie oficjalne domeny.
+    Kandydaci przechodzą potem TĘ SAMĄ ścieżkę walidacji co wyniki DDG
+    (_is_relevant + _has_stale_years), więc jakość jest spójna.
+
+    Zwraca listę obiektów Announcement (bez deduplikacji z DDG – robi to
+    search_and_scrape).
+    """
+    announcements: list = []
+
+    for src in SOURCES:
+        logger.info("[Źródło %s] %s → %s", src.id, src.name, src.url)
+        html = _fetch_html(src.url)
+        if not html:
+            logger.warning("[Źródło %s] brak odpowiedzi – pomijam", src.id)
+            continue
+
+        try:
+            soup = BeautifulSoup(html, "lxml")
+        except Exception as exc:  # parsowanie się nie wykona
+            logger.warning("[Źródło %s] błąd parsowania: %s", src.id, exc)
+            continue
+
+        candidates = []
+        for a in soup.find_all("a", href=True):
+            text = a.get_text(" ", strip=True)
+            if not text or len(text) < 12:
+                continue
+            text_lower = text.lower()
+            if not RECRUITMENT_LINK_RE.search(text_lower):
+                continue
+            if not RAD_NADZORCZA_RE.search(text_lower):
+                continue
+
+            href = urljoin(src.url, a["href"].strip())
+            if not href.startswith("http"):
+                continue
+            if href.lower().split("?")[0].endswith(".pdf"):
+                # Ogłoszenia PDF nie są parsowalne z pewnością – pomijamy,
+                # zwykle ten sam nabór ma wersję HTML/aktualność na stronie.
+                continue
+            candidates.append((text, href))
+            if len(candidates) >= max_links_per_source:
+                break
+
+        if not candidates:
+            logger.info("[Źródło %s] brak pasujących odnośników", src.id)
+            continue
+
+        for anchor_text, url in candidates:
+            time.sleep(delay_between_results)
+            domain = urlparse(url).netloc
+            page_html = _fetch_html(url)
+
+            if page_html:
+                parsed = _parse_page(page_html, anchor_text)
+                ann_title = parsed["title"] or anchor_text
+                details_text = parsed["details"]
+
+                if not _is_relevant(
+                    ann_title, anchor_text,
+                    details=details_text, domain=domain,
+                ):
+                    logger.debug("[Źródło %s] odrzucono treść: %.60s",
+                                 src.id, ann_title)
+                    continue
+                if _has_stale_years(ann_title, details_text):
+                    logger.debug("[Źródło %s] odrzucono (stare): %.60s",
+                                 src.id, ann_title)
+                    continue
+
+                raw_date = parsed["date"] or _extract_date(anchor_text)
+                announcements.append(Announcement(
+                    title=ann_title,
+                    url=url,
+                    source_domain=domain,
+                    date=raw_date,
+                    date_parsed=parse_date_str(raw_date),
+                    summary=anchor_text[:600],
+                    details=details_text,
+                ))
+            else:
+                # Strony szczegółów nie pobrano – dopuść tylko, jeśli SAM tekst
+                # kotwicy przejdzie pełne filtrowanie (bardzo konserwatywnie).
+                if _is_relevant(anchor_text, anchor_text, domain=domain) \
+                        and not _has_stale_years(anchor_text):
+                    raw_date = _extract_date(anchor_text)
+                    announcements.append(Announcement(
+                        title=anchor_text,
+                        url=url,
+                        source_domain=domain,
+                        date=raw_date,
+                        date_parsed=parse_date_str(raw_date),
+                        summary=anchor_text[:600],
+                        details=anchor_text,
+                    ))
+
+        logger.info("[Źródło %s] zaakceptowano ogłoszeń: %d",
+                    src.id, len(announcements))
+
+    return announcements
+
+
+# ---------------------------------------------------------------------------
 # Główna funkcja
 # ---------------------------------------------------------------------------
 
@@ -366,10 +535,16 @@ def search_and_scrape(
     max_results_per_query: int = 8,
     delay_between_results: float = 1.2,
     delay_between_queries: float = 3.0,
+    use_direct_sources: bool = True,
 ) -> list:
     """
     Przeszukuje DuckDuckGo zapytaniami ukierunkowanymi na rady nadzorcze,
     pobiera treść stron i zwraca listę obiektów Announcement.
+
+    Faza 1 (nowość): bezpośrednie czytanie whitelisty źródeł BIP/portali
+    (`use_direct_sources`) — najwyższa wiarygodność.
+    Faza 2: klasyczne wyszukiwanie DDG jako uzupełnienie (agregatory domenowo
+    blokowane; przeterminowane heurystyką roku).
 
     Parametry
     ----------
@@ -383,6 +558,29 @@ def search_and_scrape(
     seen_urls: set = set()
     announcements: list = []
 
+    # ------------------------------------------------------------------
+    # FAZA 1 – bezpośrednie czytanie whitelisty źródeł (BIP / ministerstwa
+    # / spółki SP). Wyniki mają najwyższą wiarygodność i wchodzą do puli
+    # przed wynikami wyszukiwarki; duplikaty są odsiewane przez seen_urls.
+    # ------------------------------------------------------------------
+    if use_direct_sources and SOURCES:
+        try:
+            logger.info("Faza 1: bezpośrednie źródła (%d pozycji)…", len(SOURCES))
+            for ann in collect_from_sources(
+                delay_between_results=delay_between_results,
+            ):
+                if ann.url in seen_urls:
+                    continue
+                seen_urls.add(ann.url)
+                announcements.append(ann)
+            logger.info("Faza 1 zakończona: %d ogłoszeń ze źródeł bezpośrednich.",
+                        len(announcements))
+        except Exception as exc:
+            logger.error("Błąd fazy źródeł bezpośrednich: %s", exc)
+
+    # ------------------------------------------------------------------
+    # FAZA 2 – DuckDuckGo jako uzupełnienie
+    # ------------------------------------------------------------------
     for query in SEARCH_QUERIES:
         logger.info("Zapytanie DDG: %s", query)
 
@@ -429,6 +627,10 @@ def search_and_scrape(
                     details=parsed["details"], domain=domain,
                 ):
                     logger.debug("Pomijam (pełna treść nieistotna): %.60s", title)
+                    continue
+                if _has_stale_years(ann_title,
+                                    (parsed["details"] or "")[:600]):
+                    logger.debug("Pomijam (przeterminowane): %.60s", title)
                     continue
                 raw_date = (
                     parsed["date"]
