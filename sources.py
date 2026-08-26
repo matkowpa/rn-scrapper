@@ -92,7 +92,26 @@ SOURCES: list = [
     Source("wody",     "Wody Polskie",
            "https://www.wody.gov.pl", "spolka", False),
     Source("arp",      "ARP Industrial (Agencja Rozwoju Przemysłu)",
-           "https://www.arpindustrial.pl", "spolka", False),
+                      "https://www.arpindustrial.pl", "spolka", False),
+
+    # ------------------------------------------------------------------
+    # Samorządy (gminy/powiaty) - oficjalne miejsca publikacji ogloszen
+    # o naborach na clonkow rad nadzorczych jednostek samorzadu
+    # lokalnego. Adresy zweryfikowane HTTP 200 w dniu 2026-08-26.
+    # Dla pozostalych gmin/powiatow odkrycie zapewnia faza DDG
+    # (zapytania `site:bip.gov.pl`) - patrz scraper.SEARCH_QUERIES.
+    # ------------------------------------------------------------------
+    Source("um_jaslo",     "BIP Miasta Jaslo",
+           "https://um_jaslo.bip.gov.pl", "bip", True),
+    Source("bip_krakow",   "BIP m.st. Krakow",
+           "https://www.bip.krakow.pl", "bip", True),
+    Source("bip_wroclaw",  "BIP m.st. Wroclaw",
+           "https://bip.wroclaw.pl", "bip", True),
+    Source("bip_poznan",   "BIP m.st. Poznan",
+           "https://bip.poznan.pl", "bip", True),
+    Source("bip_bialystok","BIP m.st. Bialystok",
+           "https://bip.bialystok.pl", "bip", True),
+
 
     # ------------------------------------------------------------------
     # Porty morskie (samorządowe / spółki z udziałem państwa)

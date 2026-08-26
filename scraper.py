@@ -56,7 +56,11 @@ SEARCH_QUERIES = [
     'rady nadzorczej nabór ogłoszenie BIP 2025',
     'rady nadzorczej nabór ogłoszenie BIP 2026',
     'członek rady nadzorczej ogłoszenie nabór kandydatów spółka',
-    'ogłoszenie konkurs członek rady nadzorczej site:gov.pl',
+        'ogłoszenie konkurs członek rady nadzorczej site:gov.pl',
+    # Dynamiczne odkrywanie oferowanego w BIP-ach gmin/powiatow
+    # (pełna lista jednostek nie jest statycznie dostępna).
+    'site:bip.gov.pl ogłoszenie nabór członek rady nadzorczej',
+    'site:bip.gov.pl konkurs członek rady nadzorczej kandydatów',
 ]
 
 # ---------------------------------------------------------------------------
@@ -465,7 +469,8 @@ def _fetch_html(url: str, timeout: int = 12) -> Optional[str]:
     """
     import urllib3
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=timeout, verify=True)
+        resp = requests.get(url, headers=HEADERS,
+                            timeout=(6, timeout), verify=True)
         resp.raise_for_status()
         resp.encoding = resp.apparent_encoding or "utf-8"
         return resp.text
@@ -473,7 +478,8 @@ def _fetch_html(url: str, timeout: int = 12) -> Optional[str]:
         # Wiele polskich stron BIP ma nieprawidłowe certyfikaty – próba bez weryfikacji
         try:
             urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-            resp = requests.get(url, headers=HEADERS, timeout=timeout, verify=False)
+            resp = requests.get(url, headers=HEADERS,
+                                timeout=(6, timeout), verify=False)
             resp.raise_for_status()
             resp.encoding = resp.apparent_encoding or "utf-8"
             logger.debug("Pobrano bez weryfikacji SSL: %s", url)
