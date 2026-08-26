@@ -2,16 +2,22 @@ name: Scrape – Rada Nadzorcza
 
 on:
   schedule:
-    - cron: "0 6 * * *"    # 06:00 UTC (08:00 PL lato)
-    - cron: "0 11 * * *"   # 11:00 UTC (13:00 PL lato)
-    - cron: "0 16 * * *"   # 16:00 UTC (18:00 PL lato)
-  workflow_dispatch:         # możliwość ręcznego uruchomienia z GitHub UI
+    - cron: "0 6 * * *"    # 08:00 PL – zbiórka (bez publikacji)
+    - cron: "0 11 * * *"   # 13:00 PL – zbiórka
+    - cron: "0 16 * * *"   # 18:00 PL – publikacja raportu zbiorczego
+  workflow_dispatch:
+    inputs:
+      regenerate_registry:
+        description: "Odśwież rejestr BIP samorządów (data/bip_jst.json) przed skanem"
+        type: boolean
+        default: false
+        required: false
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
     permissions:
-      contents: write        # potrzebne do git push
+      contents: write
 
     steps:
       - name: Checkout repo
@@ -25,10 +31,34 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run scraper
-        run: python main.py --months 1
+      - name: Regenerate JST registry (optional)
+        if: inputs.regenerate_registry == true
+        run: |
+          python tools/fetch_bip_registry.py
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/bip_jst.json
+          git diff --staged --exit-code --quiet || { git commit -m "Rejestr BIP samorzadow — odswiezenie $(date +'%Y-%m-%d')"; git push; }
 
-      - name: Save report to docs/reports/ and update index
+      - name: Decide mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event.schedule }}" = "0 16 * * *" ]; then
+            echo "mode=publish" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=collect" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run scraper (collect)
+        if: steps.mode.outputs.mode == 'collect'
+        run: python main.py --months 1 --store --jst-window 100
+
+      - name: Run scraper (publish daily report)
+        if: steps.mode.outputs.mode == 'publish'
+        run: python main.py --months 1 --jst-window 100
+
+      - name: Save report to docs/reports/
+        if: steps.mode.outputs.mode == 'publish'
         run: |
           mkdir -p docs/reports
           TIMESTAMP=$(date +'%Y%m%d_%H%M%S')
@@ -37,10 +67,12 @@ jobs:
           echo "Zapisano: $LATEST -> docs/reports/${TIMESTAMP}.html"
           python generate_index.py
 
-      - name: Commit and push report
+      - name: Commit and push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/
-          git diff --staged --quiet || git commit -m "Raport $(date +'%Y-%m-%d %H:%M') UTC"
+          if [ -n "$(git diff --staged --quiet; echo $?)" ] && [ "$(git diff --staged --quiet; echo $?)" != "0" ]; then :; fi
+          git diff --staged --exit-code --quiet && echo "nothing to commit" || \
+            { if [ "${{ steps.mode.outputs.mode }}" = "publish" ]; then MSG="Raport dzienny $(date +'%Y-%m-%d %H:%M') UTC"; else MSG="Zbiorka danych $(date +'%Y-%m-%d %H:%M') UTC"; fi; git commit -m "$MSG"; }
           git push

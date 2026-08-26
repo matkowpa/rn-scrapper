@@ -655,6 +655,11 @@ def collect_from_sources(
     return announcements
 
 
+# Domyślny rozmiar dziennego okna próbkowania BIP-ów samorządowych
+# (udostępniane report_html.py, żeby raport pokazywał tę samą listę).
+JST_WINDOW_DEFAULT = 100
+
+
 def _load_jst_registry() -> list:
     """
     Rejestr BIP-ów samorządów (gminy/powiaty/miasta) z oficjalnego spisu
@@ -675,7 +680,7 @@ def _load_jst_registry() -> list:
     return []
 
 
-def _jst_daily_slice(registry: list, window: int = 40) -> list:
+def _jst_daily_slice(registry: list, window: int = JST_WINDOW_DEFAULT) -> list:
     """
     Deterministyczne okno próbkowania: ~1940 samorządów nie da się skrobać
     w całości przy każdym uruchomieniu, więc każdy przebieg bierze inne,
@@ -780,6 +785,7 @@ def search_and_scrape(
     delay_between_results: float = 1.2,
     delay_between_queries: float = 3.0,
     use_direct_sources: bool = True,
+    jst_window: int = 100,
 ) -> list:
     """
     Przeszukuje DuckDuckGo zapytaniami ukierunkowanymi na rady nadzorcze,
@@ -829,10 +835,22 @@ def search_and_scrape(
         try:
             registry = _load_jst_registry()
             if registry:
-                window = _jst_daily_slice(registry, window=40)
-                logger.info("Faza 1b: JST — okno dzienne %d/%d podmiotów",
-                            len(window), len(registry))
-                jst_anns = collect_from_jst(window)
+                window = _jst_daily_slice(registry, window=jst_window)
+                # Pomiń wpisy z placeholderowym adresem (strona główna gov.pl):
+                # pobieranie jej 100× nic nie wnosi, a generuje ruch i czas.
+                usable = [e for e in window
+                          if e.get("url") and e["url"].rstrip("/") not in
+                          ("https://www.gov.pl", "http://www.gov.pl", "https://gov.pl")]
+                skipped = len(window) - len(usable)
+                if skipped:
+                    logger.warning(
+                        "Faza 1b: pominięto %d/%d wpisów JST z placeholderowym "
+                        "adresem — odśwież rejestr (tools/fetch_bip_registry.py).",
+                        skipped, len(window),
+                    )
+                logger.info("Faza 1b: JST — okno dzienne %d/%d podmiotów (%d do skanu)",
+                            len(window), len(registry), len(usable))
+                jst_anns = collect_from_jst(usable)
                 for ann in jst_anns:
                     if ann.url in seen_urls:
                         continue

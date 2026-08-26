@@ -7,7 +7,12 @@ import html as _html_lib
 from datetime import date, datetime
 from typing import List, Optional
 
-from scraper import Announcement
+from scraper import Announcement, JST_WINDOW_DEFAULT
+try:
+    from scraper import _jst_daily_slice, _load_jst_registry
+except ImportError:
+    _jst_daily_slice = None
+    _load_jst_registry = None
 try:
     from sources import SOURCES
 except ImportError:
@@ -367,7 +372,29 @@ def _render_sources_section() -> str:
         )
         n = len(items)
         rows.append(f"<h4>{esc(label)} ({n})</h4><ul class=\"src-list\">{lis}</ul>")
-    total = len(SOURCES)
+
+    # ── Rejestr BIP-ów samorządowych (gminy/powiaty/miasta) ──────────────
+    # Pełny rejestr (~1200 podmiotów) nie mieści się w jednym przebiegu,
+    # więc codziennie skanowane jest rotacyjne okno JST_WINDOW_DEFAULT
+    # podmiotów — lista poniżej pokazuje dokładnie dzisiejszą próbę.
+    try:
+        registry = _load_jst_registry() if _load_jst_registry else []
+    except Exception:
+        registry = []
+    if registry and _jst_daily_slice:
+        window = _jst_daily_slice(registry, window=JST_WINDOW_DEFAULT)
+        lis_jst = "".join(
+            f'<li><a href="{esc(e.get("url", ""))}" target="_blank" rel="noopener">{esc(e.get("name", ""))}</a>'
+            f' &mdash; <code style="font-size:0.78em;">{esc(e.get("url", ""))}</code></li>'
+            for e in sorted(window, key=lambda x: x.get("name", ""))
+        )
+        rows.append(
+            f"<h4>BIP-y samorządów &mdash; dzisiejsze okno rotacyjne "
+            f"({len(window)}/{len(registry)})</h4>"
+            f'<ul class="src-list">{lis_jst}</ul>'
+        )
+
+    total = len(SOURCES) + (len(registry) if registry else 0)
     body = "".join(rows)
     return f"""
 <details class="sources-box">
