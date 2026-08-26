@@ -72,6 +72,21 @@ RAD_NADZORCZA_RE = re.compile(
     r"rad(?:y|a|ie|ą)?\s+nadzorcz|nadzorcz", re.IGNORECASE
 )
 
+# Domeny urzędowe, których treść jest z definicji wiarygodna: link
+# „Ogłoszenie o naborze … członków rady nadzorczej" zamieszczony przez urząd /
+# spółkę SP NIE wymaga dodatkowego wezwania do działania (CV, termin), bo
+# sam tytuł stanowi ogłoszenie. Obowiązuje tam tylko kontrola roku i fraz
+# dyskwalifikujących.
+OFFICIAL_DOMAIN_SUFFIXES = (
+    "gov.pl",
+)
+
+
+def _is_official_domain(domain: str) -> bool:
+    """True dla domen urzędowych (np. *.bip.gov.pl, *.gov.pl)."""
+    d = (domain or "").lower()
+    return d.endswith(OFFICIAL_DOMAIN_SUFFIXES)
+
 # Serwisy agregujące / reklamowe – wyniki z nich NIE są realnymi ogłoszeniami
 # o naborach (JOOBLE i podobne to agregatory ofert / reklamy serwisów rekrutacyjnych).
 # Dopasowanie przez podciąg w domenie; celowo bez generycznych słów (np. "kariera"),
@@ -325,6 +340,7 @@ def _is_relevant(
     snippet: str,
     details: Optional[str] = None,
     domain: Optional[str] = None,
+    trusted: bool = False,
 ) -> bool:
     """
     Zwraca True tylko dla REALNYCH, AKTUALNYCH ogłoszeń o nabor na członka rady
@@ -360,8 +376,12 @@ def _is_relevant(
         return False
 
     # Musi zawierać silne wezwanie do działania (odróżnia ogłoszenie od
-    # artykułu, aktu prawnego czy komunikatu opisującego procedurę)
-    if not any(phrase in combined for phrase in STRONG_ACTION_PHRASES):
+    # artykułu, aktu prawnego czy komunikatu opisującego procedurę).
+    # Domeny urzędowe (*.gov.pl) są zwolnione z TEGO kryterium – sam link
+    # „ogłoszenie o naborze" na BIP jest formalnym ogłoszeniem.
+    if not trusted and not any(
+        phrase in combined for phrase in STRONG_ACTION_PHRASES
+    ):
         return False
 
     # Nie może zawierać fraz dyskwalifikujących
@@ -515,6 +535,7 @@ def collect_from_sources(
                 if not _is_relevant(
                     ann_title, anchor_text,
                     details=details_text, domain=domain,
+                    trusted=_is_official_domain(domain),
                 ):
                     logger.debug("[Źródło %s] odrzucono treść: %.60s",
                                  src.id, ann_title)
@@ -537,7 +558,8 @@ def collect_from_sources(
             else:
                 # Strony szczegółów nie pobrano – dopuść tylko, jeśli SAM tekst
                 # kotwicy przejdzie pełne filtrowanie (bardzo konserwatywnie).
-                if _is_relevant(anchor_text, anchor_text, domain=domain) \
+                if _is_relevant(anchor_text, anchor_text, domain=domain,
+                                trusted=_is_official_domain(domain)) \
                         and not _has_stale_years(anchor_text):
                     raw_date = _extract_date(anchor_text)
                     announcements.append(Announcement(
@@ -655,6 +677,7 @@ def search_and_scrape(
                 if not _is_relevant(
                     ann_title, snippet,
                     details=parsed["details"], domain=domain,
+                    trusted=_is_official_domain(domain),
                 ):
                     logger.debug("Pomijam (pełna treść nieistotna): %.60s", title)
                     continue
@@ -678,7 +701,8 @@ def search_and_scrape(
                 )
             else:
                 # Fallback – tylko tekst ze snippetu DDG (bez pobranej strony)
-                if not _is_relevant(title, snippet, domain=domain):
+                if not _is_relevant(title, snippet, domain=domain,
+                                    trusted=_is_official_domain(domain)):
                     logger.debug("Pomijam (nieistotne): %.60s", title)
                     continue
                 raw_date = _extract_date(snippet)
