@@ -282,8 +282,17 @@ def _e(text: str) -> str:
 
 
 def _render_card(idx: int, ann: Announcement) -> str:
-    date_label = ann.date or "brak daty"
-    date_class = "meta-pill date-badge" if ann.date_parsed else "meta-pill date-unknown"
+    # Data ogłoszenia: wolisz sparsowaną datę (ujednolicony DD.MM.YYYY),
+    # potem surowy string z ogłoszenia; „brak" gdy nic nie znaleziono.
+    if ann.date_parsed:
+        date_label = f"Data ogłoszenia: {ann.date_parsed.strftime('%d.%m.%Y')}"
+        date_class = "meta-pill date-badge"
+    elif ann.date:
+        date_label = f"Data ogłoszenia: {ann.date} (niepewna)"
+        date_class = "meta-pill date-badge"
+    else:
+        date_label = "Data ogłoszenia: brak"
+        date_class = "meta-pill date-unknown"
 
     details_lines = [ln.strip() for ln in ann.details.splitlines() if ln.strip()]
     details_text = "\n".join(details_lines[:60])

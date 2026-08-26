@@ -308,6 +308,74 @@ def parse_date_str(raw: Optional[str]) -> Optional[date]:
     return None
 
 
+_LABEL_DATE_RE = re.compile(
+    r"(?:data\s+publikacji|opublikowano|data\s+og[łl]oszenia"
+    r"|data\s+dodania|dodano|utworzono|wytworzono|data\s+wydania"
+    r"|wpisano\s+do\s+bip)",
+    re.IGNORECASE,
+)
+
+_META_DATE_FIELDS = (
+    ("property", "article:published_time"),
+    ("property", "og:published_time"),
+    ("name", "pubdate"),
+    ("name", "date"),
+    ("name", "dc.date"),
+    ("itemprop", "datePublished"),
+)
+
+
+def _clean_iso(value: str) -> Optional[str]:
+    """'2026-08-12T09:30:00+02:00' -> '2026-08-12'; None gdy brak roku."""
+    m = re.search(r"\b(20[0-3]\d)-(\d{2})-(\d{2})", value)
+    if m:
+        try:
+            return date(int(m.group(1)), int(m.group(2)), int(m.group(3))).isoformat()
+        except ValueError:
+            return None
+    return None
+
+
+def _extract_publication_date(soup, full_text: str) -> Optional[str]:
+    """
+    Wyciąga DATĘ PUBLIKACJI ogłoszenia (a nie dowolną datę z treści,
+    np. termin składania aplikacji) – używane do kolumny „Data ogłoszenia".
+
+    Kolejność pewności:
+      1. metatagi (article:published_time, datePublished, pubdate…),
+      2. element <time datetime> lub tekst <time>,
+      3. etykieta przed datą („Data publikacji: 12.08.2026", „Opublikowano …"),
+      4. None → wywołujący spada na ogólną heurystykę pierwszej daty.
+    """
+    # 1) Metatagi
+    for attr, name in _META_DATE_FIELDS:
+        tag = soup.find("meta", attrs={attr: name})
+        if tag:
+            content = (tag.get("content") or "").strip()
+            cleaned = _clean_iso(content)
+            if cleaned:
+                return cleaned
+
+    # 2) <time>
+    time_tag = soup.find("time")
+    if time_tag:
+        candidate = (time_tag.get("datetime") or "").strip() \
+            or time_tag.get_text(" ", strip=True)
+        cleaned = _clean_iso(candidate) or _extract_date(candidate)
+        if cleaned:
+            return cleaned
+
+    # 3) Etykieta bezpośrednio przed datą
+    m = _LABEL_DATE_RE.search(full_text)
+    if m:
+        window = full_text[m.start():m.start() + 60]
+        labelled = _extract_date(window)
+        if labelled:
+            return labelled
+    return None
+
+
+
 def _has_stale_years(title: str, text: str = "") -> bool:
     """
     Heurystyka przeterminowanych ogłoszeń (problem: DDG zwracał archiwalne
@@ -438,7 +506,10 @@ def _parse_page(html: str, fallback: str) -> dict:
 
     # Pełny tekst strony do ekstrakcji daty
     full_text = soup.get_text(separator=" ", strip=True)
-    date = _extract_date(full_text)
+    date = (
+        _extract_publication_date(soup, full_text)
+        or _extract_date(full_text)
+    )
 
     # Główna treść – próbuj semantyczne tagi, potem body
     main_elem = (
