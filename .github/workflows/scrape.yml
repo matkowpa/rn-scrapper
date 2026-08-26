@@ -2,9 +2,12 @@ name: Scrape – Rada Nadzorcza
 
 on:
   schedule:
-    - cron: "0 6 * * *"    # 08:00 PL – zbiórka (bez publikacji)
-    - cron: "0 11 * * *"   # 13:00 PL – zbiórka
-    - cron: "0 16 * * *"   # 18:00 PL – publikacja raportu zbiorczego
+    - cron: "0 6 * * *"    # 08:00 PL – zbiórka #1 (okno 100 BIP-ów)
+    - cron: "0 9 * * *"    # 11:00 PL – zbiórka #2
+    - cron: "0 12 * * *"   # 14:00 PL – zbiórka #3
+    - cron: "0 15 * * *"   # 17:00 PL – zbiórka #4
+    - cron: "0 18 * * *"   # 20:00 PL – zbiórka #5
+    - cron: "0 4 * * *"    # 06:00 PL – publikacja raportu zbiorczego (zagregowane wyniki dnia)
   workflow_dispatch:
     inputs:
       regenerate_registry:
@@ -43,7 +46,7 @@ jobs:
       - name: Decide mode
         id: mode
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event.schedule }}" = "0 16 * * *" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event.schedule }}" = "0 4 * * *" ]; then
             echo "mode=publish" >> "$GITHUB_OUTPUT"
           else
             echo "mode=collect" >> "$GITHUB_OUTPUT"
