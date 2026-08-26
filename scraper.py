@@ -86,6 +86,8 @@ BLOCKED_DOMAINS = (
     "olx.pl",        # ogłoszenia drobne
     "career",        # tylko gdy w kontekście "career." (portale ofert)
     "youtube",       # filmy o karierze, nie ogłoszenia
+    "lex.pl",        # bazy aktów prawnych – nigdy nie zawierają ogłoszeń naboru
+    "cire.pl",       # serwis branżowy z artykułami, nie ogłoszeniami
 )
 
 # Frazy wskazujące, że mamy do czynienia z ARTYKUŁEM / poradnikiem / analizą prawniczą /
@@ -177,6 +179,28 @@ RECRUITMENT_PHRASES = [
     "zgłoszenie kandydatury", "zgłaszanie kandydatów",
     "aplik",           # aplikuj / aplikację
     "ponowny nabór", "otwarty nabór",
+]
+
+# Frazy SILNEGO wezwania do działania – charakterystyczne dla PRAWDZIWEGO
+# ogłoszenia (organ wprost zaprasza do aplikowania i wskazuje termin/formę).
+# Artykuły prasowe, akty prawne i komunikaty opisujące procedury ich NIE mają.
+# Wynik musi zawierać co najmniej jedną taką frazę, aby został zaakceptowany.
+STRONG_ACTION_PHRASES = [
+    "zaprasza do składania",          # "…zaprasza do składania zgłoszeń"
+    "składania zgłoszeń",
+    "składanie zgłoszeń",
+    "zgłoszenia kandydatur",
+    "przesłać aplikację",
+    "przesyłania aplikacji",
+    "należy przesłać",
+    "aplikacje należy",
+    "kandydatury należy",
+    "termin składania",
+    "składać kandydatury",
+    "w terminie do",
+    "do dnia",
+    "cv",
+    "list motywacyjny",
 ]
 
 # Polskie nazwy miesięcy do ekstrakcji daty
@@ -272,24 +296,23 @@ def parse_date_str(raw: Optional[str]) -> Optional[date]:
 def _has_stale_years(title: str, text: str = "") -> bool:
     """
     Heurystyka przeterminowanych ogłoszeń (problem: DDG zwracał archiwalne
-    nabory z 2018/2021).
+    nabory z 2018/2021 oraz komunikaty z 2013 r.).
 
-    Zasada: jeśli w TYTULE występuje rok, a jest on starszy niż
-    (rok bieżący - 1), ogłoszenie uznajemy za nieaktualne.
-    Jeśli tytuł nie ma roku, sprawdzamy początek treści (pierwsze 400 znaków),
-    gdzie zwykle widnieje data publikacji.
+    Zasada: patrzysz na tytuł + początek treści (pierwsze 1200 znaków).
+      * jeśli występuje JAKIKOLWIEK rok >= (rok bieżący - 1) → AKTUALNE,
+      * jeśli NIE ma żadnego świeżego roku, ale jest starszy (np. 2013/2021)
+        → PRZETERMINOWANE,
+      * brak jakichkolwiek lat 20xx → nie rozstrzyga (False).
 
-    Rok bieżący lub o jeden mniejszy NIE dyskwalifikuje (nabór z grudnia
-    poprzecznego roku może być wciąż aktywny).
+    Tylko rok w tytule nie decyduje samodzielnie — komunikaty sprzed lat często
+    mają bezdatne tytuły, a data kryje się w treści.
     """
     current_year = datetime.now().year
-    years_in_title = [int(y) for y in re.findall(r"\b(20[0-3]\d)\b", title)]
-    if not years_in_title:
-        head = (text or "")[:400]
-        years_in_title = [int(y) for y in re.findall(r"\b(20[0-3]\d)\b", head)]
-    if not years_in_title:
+    window = f"{title} {(text or '')[:1200]}"
+    years = [int(y) for y in re.findall(r"\b(20[0-3]\d)\b", window)]
+    if not years:
         return False
-    newest = max(years_in_title)
+    newest = max(years)
     if newest < current_year - 1:
         logger.debug("Stale (najnowszy rok %d < %d): %.60s",
                      newest, current_year - 1, title)
@@ -312,6 +335,8 @@ def _is_relevant(
       * wynik nie pochodzi z domen-agregatorów/reklam (BLOCKED_DOMAINS),
       * tekst musi dotyczyć rady nadzorczej (REQUIRED_PHRASES),
       * tekst musi zawierać frazy AKTYWNEGO naboru/rekrutacji (RECRUITMENT_PHRASES),
+      * tekst musi zawierać SILNE WEZWANIE DO DZIAŁANIA (STRONG_ACTION_PHRASES) –
+        to odróżnia realne ogłoszenie od artykułu/aktu prawnego/komunikatu,
       * tekst nie może zawierać żadnej frazy dyskwalifikującej (DISQUALIFYING_PHRASES).
 
     Sprawdzamy łącznie tytuł + snippet z wyszukiwarki oraz (jeśli podano)
@@ -332,6 +357,11 @@ def _is_relevant(
 
     # Musi dotyczyć AKTYWNEGO naboru / poszukiwania kandydatów
     if not any(phrase in combined for phrase in RECRUITMENT_PHRASES):
+        return False
+
+    # Musi zawierać silne wezwanie do działania (odróżnia ogłoszenie od
+    # artykułu, aktu prawnego czy komunikatu opisującego procedurę)
+    if not any(phrase in combined for phrase in STRONG_ACTION_PHRASES):
         return False
 
     # Nie może zawierać fraz dyskwalifikujących
