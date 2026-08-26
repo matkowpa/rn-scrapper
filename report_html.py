@@ -8,6 +8,10 @@ from datetime import date, datetime
 from typing import List, Optional
 
 from scraper import Announcement
+try:
+    from sources import SOURCES
+except ImportError:
+    SOURCES = []
 
 # ---------------------------------------------------------------------------
 # CSS osadzony w pliku (bez zewnętrznych zasobów)
@@ -25,6 +29,23 @@ body {
 }
 
 .container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Zakładka przeszukanych źródeł ───────────────── */
+.sources-box {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+}
+.sources-box summary {
+    cursor: pointer; font-weight: 600; color: #1d4ed8; user-select: none;
+}
+.sources-box[open] summary { margin-bottom: 10px; }
+.src-note { color: #475569; margin-bottom: 12px; line-height: 1.5; }
+.src-list { margin: 6px 0 12px 18px; line-height: 1.7; }
+.sources-box h4 { margin-top: 12px; color: #334155; }
 
 /* ── Header ──────────────────────────────────────── */
 header {
@@ -323,6 +344,43 @@ def _render_card(idx: int, ann: Announcement) -> str:
 </div>"""
 
 
+def _render_sources_section() -> str:
+    """Buduje rozwijaną zakładkę z kompletną listą przeszukanych źródeł."""
+    if not SOURCES:
+        return ""
+    esc = _html_lib.escape
+    cats = [
+        ("ministerstwo", "Ministerstwa / centra rządowe"),
+        ("bip", "BIP-y samorządów gmin i powiatów"),
+        ("spolka", "Spółki Skarbu Państwa i spółki z istotnym udziałem SP"),
+        ("portal", "Portale / inne"),
+    ]
+    rows = []
+    for key, label in cats:
+        items = [s for s in SOURCES if s.category == key]
+        if not items:
+            continue
+        lis = "".join(
+            f'<li><a href="{esc(s.url)}" target="_blank" rel="noopener">{esc(s.name)}</a>'
+            f' &mdash; <code style="font-size:0.78em;">{esc(s.url)}</code></li>'
+            for s in items
+        )
+        n = len(items)
+        rows.append(f"<h4>{esc(label)} ({n})</h4><ul class=\"src-list\">{lis}</ul>")
+    total = len(SOURCES)
+    body = "".join(rows)
+    return f"""
+<details class="sources-box">
+  <summary>&#127760; Przeszukane źródła ({total}) &mdash; kliknij, aby rozwinąć</summary>
+  <p class="src-note">Raport powstaje z bezpośredniego odczytu poniższych stron
+  (oficjalne Biuletyny Informacji Publicznej i portale korporacyjne, na których
+  zgodnie z ustawą publikowane są ogłoszenia o konkursach do rad nadzorczych)
+  oraz uzupełniająco z wyszukiwarki DuckDuckGo ograniczonej do domen
+  <code>.gov.pl</code> / BIP.</p>
+  {body}
+</details>"""
+
+
 def generate_html_report(
     announcements: List[Announcement],
     cutoff_date: Optional[date] = None,
@@ -367,6 +425,9 @@ def generate_html_report(
                         if date_unknown_count else "")
         filter_banner = f'<div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> {cutoff_info}{unknown_note}</div></div>'
 
+    # Zakładka z pełną listą przeszukanych źródeł (BIP-y, ministerstwa, spółki SP)
+    sources_section = _render_sources_section()
+
     return f"""<!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -395,6 +456,8 @@ def generate_html_report(
     </div>
 
     {filter_banner}
+
+    {sources_section}
 
     <div class="section-heading">Lista ogłoszeń ({count})</div>
     {cards_html}
