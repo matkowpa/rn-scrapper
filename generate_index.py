@@ -33,7 +33,13 @@ def main():
 
     cards_html = "".join(cards) if cards else '<p class="empty">Brak raportów.</p>'
     total = len(reports)
-    latest = datetime.strptime(reports[0].stem, "%Y%m%d_%H%M%S").strftime("%d.%m.%Y %H:%M") if reports else "—"
+    if reports:
+        try:
+            latest = datetime.strptime(reports[0].stem, "%Y%m%d_%H%M%S").strftime("%d.%m.%Y %H:%M")
+        except ValueError:
+            latest = reports[0].stem
+    else:
+        latest = "—"
 
     html = f"""<!DOCTYPE html>
 <html lang="pl">
@@ -223,7 +229,7 @@ def main():
 
   <footer>
     Raporty generowane automatycznie ok. 08:00, 13:00 i 18:00 (czas PL) &nbsp;·&nbsp;
-    Źródła: BIP, Google, Yahoo, Brave, Startpage
+    Źródło: DuckDuckGo (region: pl-pl) + strony źródłowe
   </footer>
 
 </body>

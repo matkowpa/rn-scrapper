@@ -329,12 +329,14 @@ def generate_html_report(
         Data odcięcia użyta do filtrowania – pokazywana w nagłówku.
     """
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+    today_str = date.today().strftime("%d.%m.%Y")
     count = len(announcements)
 
+    # Informacja o przedziale dat jest wyliczana z realnej daty odcięcia,
+    # a nie wpisana na sztywno (użytkownik może użyć --date lub --months N).
     cutoff_info = (
-        f"Wyświetlane są wyłącznie ogłoszenia opublikowane po "
-        f"<strong>{cutoff_date.strftime('%d.%m.%Y')}</strong> "
-        f"(ostatnie 3 miesiące od dnia dzisiejszego)."
+        f"Wyświetlane są wyłącznie ogłoszenia opublikowane w okresie "
+        f"<strong>{cutoff_date.strftime('%d.%m.%Y')} → {today_str}</strong>."
         if cutoff_date
         else ""
     )
@@ -372,7 +374,7 @@ def generate_html_report(
     <div class="header-meta">
       <span class="header-chip">&#128197; {now_str}</span>
       <span class="header-chip chip-green">&#9679; {count} ogłoszeń</span>
-      <span class="header-chip">&#127760; BIP, Google, Yahoo, Brave, Startpage</span>
+      <span class="header-chip">&#127760; DuckDuckGo (pl-pl) + strony źródłowe</span>
     </div>
   </header>
 

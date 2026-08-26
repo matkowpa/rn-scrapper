@@ -2,7 +2,7 @@
 
 # Run in terminal
 
-# Default: last 3 months
+# Default: last 1 month
 python main.py
 
 # Custom cut-off date

@@ -3,6 +3,7 @@
 Generuje raport Markdown z listy ogłoszeń na stanowisko członka rady nadzorczej.
 """
 
+import re
 from datetime import datetime
 from typing import List
 
@@ -121,5 +122,4 @@ def generate_report(announcements: List[Announcement]) -> str:
     return "\n".join(lines)
 
 
-# Lokalny import re potrzebny do generowania kotwic
-import re
+

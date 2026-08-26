@@ -3,7 +3,7 @@
 Punkt wejścia aplikacji.
 
 Uruchomienie:
-    python main.py                        # domyślnie: ostatnie 3 miesiące
+    python main.py                        # domyślnie: ostatni 1 miesiąc
     python main.py --date 2026-04-01      # ogłoszenia od 1 kwietnia 2026
     python main.py --months 6             # ogłoszenia z ostatnich 6 miesięcy
 
