@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Zakładka przeszukanych źródeł ───────────────── */
+.sources-box {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+}
+.sources-box summary {
+    cursor: pointer; font-weight: 600; color: #1d4ed8; user-select: none;
+}
+.sources-box[open] summary { margin-bottom: 10px; }
+.src-note { color: #475569; margin-bottom: 12px; line-height: 1.5; }
+.src-list { margin: 6px 0 12px 18px; line-height: 1.7; }
+.sources-box h4 { margin-top: 12px; color: #334155; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-08-27 19:22</span>
+      <span class="header-chip chip-green">&#9679; 0 ogłoszeń</span>
+      <span class="header-chip">&#127760; DuckDuckGo (pl-pl) + strony źródłowe</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane w okresie <strong>27.07.2026 → 27.08.2026</strong>.</div></div>
+
+    
+<details class="sources-box">
+  <summary>&#127760; Przeszukane źródła (1140) &mdash; kliknij, aby rozwinąć</summary>
+  <p class="src-note">Raport powstaje z bezpośredniego odczytu poniższych stron
+  (oficjalne Biuletyny Informacji Publicznej i portale korporacyjne, na których
+  zgodnie z ustawą publikowane są ogłoszenia o konkursach do rad nadzorczych)
+  oraz uzupełniająco z wyszukiwarki DuckDuckGo ograniczonej do domen
+  <code>.gov.pl</code> / BIP.</p>
+  <h4>Ministerstwa / centra rządowe (5)</h4><ul class="src-list"><li><a href="https://www.gov.pl/web/aktywa-majatkowe/aktualnosci" target="_blank" rel="noopener">Ministerstwo Aktywów Państwowych</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/aktywa-majatkowe/aktualnosci</code></li><li><a href="https://www.gov.pl/web/finanse/aktualnosci" target="_blank" rel="noopener">Ministerstwo Finansów</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/finanse/aktualnosci</code></li><li><a href="https://www.gov.pl/web/klimat/aktualnosci" target="_blank" rel="noopener">Ministerstwo Klimatu i Środowiska</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/klimat/aktualnosci</code></li><li><a href="https://www.gov.pl/web/infrastruktura/aktualnosci" target="_blank" rel="noopener">Ministerstwo Infrastruktury</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/infrastruktura/aktualnosci</code></li><li><a href="https://www.gov.pl/web/cyfryzacja/aktualnosci" target="_blank" rel="noopener">Ministerstwo Cyfryzacji</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/cyfryzacja/aktualnosci</code></li></ul><h4>BIP-y samorządów gmin i powiatów (5)</h4><ul class="src-list"><li><a href="https://um_jaslo.bip.gov.pl" target="_blank" rel="noopener">BIP Miasta Jaslo</a> &mdash; <code style="font-size:0.78em;">https://um_jaslo.bip.gov.pl</code></li><li><a href="https://www.bip.krakow.pl" target="_blank" rel="noopener">BIP m.st. Krakow</a> &mdash; <code style="font-size:0.78em;">https://www.bip.krakow.pl</code></li><li><a href="https://bip.wroclaw.pl" target="_blank" rel="noopener">BIP m.st. Wroclaw</a> &mdash; <code style="font-size:0.78em;">https://bip.wroclaw.pl</code></li><li><a href="https://bip.poznan.pl" target="_blank" rel="noopener">BIP m.st. Poznan</a> &mdash; <code style="font-size:0.78em;">https://bip.poznan.pl</code></li><li><a href="https://bip.bialystok.pl" target="_blank" rel="noopener">BIP m.st. Bialystok</a> &mdash; <code style="font-size:0.78em;">https://bip.bialystok.pl</code></li></ul><h4>Spółki Skarbu Państwa i spółki z istotnym udziałem SP (24)</h4><ul class="src-list"><li><a href="https://www.orlen.pl" target="_blank" rel="noopener">ORLEN S.A.</a> &mdash; <code style="font-size:0.78em;">https://www.orlen.pl</code></li><li><a href="https://www.gkpge.pl" target="_blank" rel="noopener">Grupa PGE</a> &mdash; <code style="font-size:0.78em;">https://www.gkpge.pl</code></li><li><a href="https://www.tauron.pl" target="_blank" rel="noopener">TAURON Polska Energia</a> &mdash; <code style="font-size:0.78em;">https://www.tauron.pl</code></li><li><a href="https://grupa-enea.pl" target="_blank" rel="noopener">Grupa Enea</a> &mdash; <code style="font-size:0.78em;">https://grupa-enea.pl</code></li><li><a href="https://www.grupa-energa.pl" target="_blank" rel="noopener">Grupa Energa</a> &mdash; <code style="font-size:0.78em;">https://www.grupa-energa.pl</code></li><li><a href="https://kghm.com" target="_blank" rel="noopener">KGHM Polska Miedź</a> &mdash; <code style="font-size:0.78em;">https://kghm.com</code></li><li><a href="https://www.plk-sa.pl" target="_blank" rel="noopener">PKP Polskie Linie Kolejowe</a> &mdash; <code style="font-size:0.78em;">https://www.plk-sa.pl</code></li><li><a href="https://pkpcargo.com" target="_blank" rel="noopener">PKP Cargo</a> &mdash; <code style="font-size:0.78em;">https://pkpcargo.com</code></li><li><a href="https://www.intercity.pl" target="_blank" rel="noopener">PKP Intercity</a> &mdash; <code style="font-size:0.78em;">https://www.intercity.pl</code></li><li><a href="https://www.poczta-polska.pl" target="_blank" rel="noopener">Poczta Polska</a> &mdash; <code style="font-size:0.78em;">https://www.poczta-polska.pl</code></li><li><a href="https://www.pzu.pl" target="_blank" rel="noopener">Grupa PZU</a> &mdash; <code style="font-size:0.78em;">https://www.pzu.pl</code></li><li><a href="https://www.gpw.pl" target="_blank" rel="noopener">GPW Warszawska Giełda Papierów Wartościowych</a> &mdash; <code style="font-size:0.78em;">https://www.gpw.pl</code></li><li><a href="https://www.kdpw.pl" target="_blank" rel="noopener">KDPW</a> &mdash; <code style="font-size:0.78em;">https://www.kdpw.pl</code></li><li><a href="https://www.bgk.pl" target="_blank" rel="noopener">Bank Gospodarstwa Krajowego</a> &mdash; <code style="font-size:0.78em;">https://www.bgk.pl</code></li><li><a href="https://www.pkobp.pl" target="_blank" rel="noopener">PKO Bank Polski</a> &mdash; <code style="font-size:0.78em;">https://www.pkobp.pl</code></li><li><a href="https://www.gaz-system.pl" target="_blank" rel="noopener">Gaz-System</a> &mdash; <code style="font-size:0.78em;">https://www.gaz-system.pl</code></li><li><a href="https://www.pse.pl" target="_blank" rel="noopener">Polskie Sieci Elektroenergetyczne</a> &mdash; <code style="font-size:0.78em;">https://www.pse.pl</code></li><li><a href="https://pfr.pl" target="_blank" rel="noopener">Polski Fundusz Rozwoju</a> &mdash; <code style="font-size:0.78em;">https://pfr.pl</code></li><li><a href="https://cpk.pl" target="_blank" rel="noopener">Centralny Port Komunikacyjny</a> &mdash; <code style="font-size:0.78em;">https://cpk.pl</code></li><li><a href="https://www.wody.gov.pl" target="_blank" rel="noopener">Wody Polskie</a> &mdash; <code style="font-size:0.78em;">https://www.wody.gov.pl</code></li><li><a href="https://www.arpindustrial.pl" target="_blank" rel="noopener">ARP Industrial (Agencja Rozwoju Przemysłu)</a> &mdash; <code style="font-size:0.78em;">https://www.arpindustrial.pl</code></li><li><a href="https://www.port.gdansk.pl" target="_blank" rel="noopener">Zarząd Morskich Portów Gdańsk</a> &mdash; <code style="font-size:0.78em;">https://www.port.gdansk.pl</code></li><li><a href="https://www.port.gdynia.pl" target="_blank" rel="noopener">Zarząd Portów Gdynia</a> &mdash; <code style="font-size:0.78em;">https://www.port.gdynia.pl</code></li><li><a href="https://port.szczecin.pl" target="_blank" rel="noopener">Szczecińskie i Świnoujskie Porty</a> &mdash; <code style="font-size:0.78em;">https://port.szczecin.pl</code></li></ul><h4>BIP-y samorządów &mdash; dzisiejsze okno rotacyjne (100/1106)</h4><p class="src-note">Realne adresy BIP rozpoznane dla <strong>63/100</strong> podmiotów tego okna (pełne mapowanie buduje <code>tools/resolve_bip_urls.py</code>).</p><ul class="src-list"><li>Urząd Miasta Imielin &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-imielin-slaskie-bierunsko-ledzinski-imielin" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-imielin-slaskie-bierunsko-ledzinski-imielin</code></a></li><li>Urząd Miasta Inowrocławia &mdash; <a href="https://arch.bip.inowroclaw.ug.gov.pl/instrukcja" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://arch.bip.inowroclaw.ug.gov.pl/instrukcja</code></a></li><li>Urząd Miasta Iławy &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-ilawy-warminsko-mazurskie-ilawski-ilawa" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-ilawy-warminsko-mazurskie-ilawski-ilawa</code></a></li><li>Urząd Miasta Jarosławia &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-jaroslawia-podkarpackie-jaroslawski-jaroslaw" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-jaroslawia-podkarpackie-jaroslawski-jaroslaw</code></a></li><li>Urząd Miasta Jastrzębie-Zdrój &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-jastrzebie-zdroj" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-jastrzebie-zdroj</code></a></li><li>Urząd Miasta Kalisza &mdash; <a href="https://www.bip.kalisz.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.kalisz.pl</code></a></li><li>Urząd Miasta Kalwarii Zebrzydowskiej &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Kalwarii+Zebrzydowskiej+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Kamienna Góra &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-kamienna-gora-dolnoslaskie-kamiennogorski-kamienna-gora" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-kamienna-gora-dolnoslaskie-kamiennogorski-kamienna-gora</code></a></li><li>Urząd Miasta Katowice &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-katowice" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-katowice</code></a></li><li>Urząd Miasta Kazimierz Dolny &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Kazimierz+Dolny+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Kielce &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-kielce" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-kielce</code></a></li><li>Urząd Miasta Knurów &mdash; <a href="https://knurow.bip.info.pl/index.php?idmp=32" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://knurow.bip.info.pl/index.php?idmp=32</code></a></li><li>Urząd Miasta Kostrzyn nad Odrą &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Kostrzyn+nad+Odr%C4%85+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Krakowa &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Krakowa+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Krynica Morska  &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Krynica+Morska++site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Kędzierzyn-Koźle &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+K%C4%99dzierzyn-Ko%C5%BAle+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Legnicy &mdash; <a href="https://um.bip.legnica.eu" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://um.bip.legnica.eu</code></a></li><li>Urząd Miasta Lubawa &mdash; <a href="https://lubawa.bip-wm.pl/public" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://lubawa.bip-wm.pl/public</code></a></li><li>Urząd Miasta Lublin &mdash; <a href="https://umlublin.bip.lubelskie.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://umlublin.bip.lubelskie.pl</code></a></li><li>Urząd Miasta Marki &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Marki+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Mielec &mdash; <a href="https://mielec.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://mielec.bip.gov.pl</code></a></li><li>Urząd Miasta Mikołów &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Miko%C5%82%C3%B3w+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Międzyrzec Podlaski &mdash; <a href="https://luwwlublinie.bip.gov.pl/2025-wif/1270246_urzad-miasta-miedzyrzec-podlaski.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://luwwlublinie.bip.gov.pl/2025-wif/1270246_urzad-miasta-miedzyrzec-podlaski.html</code></a></li><li>Urząd Miasta Mińsk Mazowiecki &mdash; <a href="https://www.bip.minsk-maz.pl/index.php?type=4&amp;name=bt144&amp;func=selectsite&amp;value[0]=mnu7&amp;value[1]=1" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.minsk-maz.pl/index.php?type=4&amp;name=bt144&amp;func=selectsite&amp;value[0]=mnu7&amp;value[1]=1</code></a></li><li>Urząd Miasta Myszkowa &mdash; <a href="https://myszkow.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://myszkow.bip.net.pl</code></a></li><li>Urząd Miasta Nowego Sącza &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-nowego-sacza-malopolskie-nowy-sacz-nowy-sacz" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-nowego-sacza-malopolskie-nowy-sacz-nowy-sacz</code></a></li><li>Urząd Miasta Nowy Targ &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-nowy-targ" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-nowy-targ</code></a></li><li>Urząd Miasta Oleśnicy &mdash; <a href="https://idumolesnica.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://idumolesnica.bip.gov.pl</code></a></li><li>Urząd Miasta Olsztyna &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-olsztyna" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-olsztyna</code></a></li><li>Urząd Miasta Ostrowiec Świętokrzyski &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Ostrowiec+%C5%9Awi%C4%99tokrzyski+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Ostrołęki &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Ostro%C5%82%C4%99ki+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Piotrkowa Trybunalskiego &mdash; <a href="https://www.bip.piotrkow.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.piotrkow.pl</code></a></li><li>Urząd Miasta Poręba &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Por%C4%99ba+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Poznań &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-poznan-wielkopolskie-poznan-poznan" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-poznan-wielkopolskie-poznan-poznan</code></a></li><li>Urząd Miasta Pruszków &mdash; <a href="http://www.pruszkow.bip.gmina.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://www.pruszkow.bip.gmina.pl</code></a></li><li>Urząd Miasta Puławy &mdash; <a href="http://umpulawy.bip.lubelskie.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://umpulawy.bip.lubelskie.pl</code></a></li><li>Urząd Miasta Racibórz &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Racib%C3%B3rz+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Radomska &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-radomska" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-radomska</code></a></li><li>Urząd Miasta Radymna &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Radymna+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Radzionków &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Radzionk%C3%B3w+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Ruda Śląska &mdash; <a href="https://rudaslaska.bip.info.pl/index.php" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://rudaslaska.bip.info.pl/index.php</code></a></li><li>Urząd Miasta Rumi &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Rumi+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Rybnika &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-rybnika-slaskie-rybnik-rybnik" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-rybnika-slaskie-rybnik-rybnik</code></a></li><li>Urząd Miasta Rydułtowy &mdash; <a href="https://www.bip.rydultowy.finn.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.rydultowy.finn.pl</code></a></li><li>Urząd Miasta Rzeszowa &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Rzeszowa+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Siedlce &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Siedlce+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Siemianowice Śląskie &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-siemianowice-slaskie" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-siemianowice-slaskie</code></a></li><li>Urząd Miasta Sokołów Podlaski &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Soko%C5%82%C3%B3w+Podlaski+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Starogard Gdański &mdash; <a href="https://www.bip.starogard.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.starogard.pl</code></a></li><li>Urząd Miasta Stołecznego Warszawy &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-stolecznego-warszawy" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-stolecznego-warszawy</code></a></li><li>Urząd Miasta Sucha Beskidzka &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-sucha-beskidzka" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-sucha-beskidzka</code></a></li><li>Urząd Miasta Szczecin &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-szczecin-zachodniopomorskie-szczecin-szczecin" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-szczecin-zachodniopomorskie-szczecin-szczecin</code></a></li><li>Urząd Miasta Szczecinek &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-szczecinek-zachodniopomorskie-szczecinecki-szczecinek" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-szczecinek-zachodniopomorskie-szczecinecki-szczecinek</code></a></li><li>Urząd Miasta Sławków &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-slawkow-slaskie-bedzinski-slawkow" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-slawkow-slaskie-bedzinski-slawkow</code></a></li><li>Urząd Miasta Tarnobrzega &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-tarnobrzega" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-tarnobrzega</code></a></li><li>Urząd Miasta Tarnowa &mdash; <a href="https://www.gov.pl/web/bip/urzad-gminy-tarnow" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-gminy-tarnow</code></a></li><li>Urząd Miasta Torunia &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Torunia+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Tychy &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-tychy" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-tychy</code></a></li><li>Urząd Miasta Ustka &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-ustka-pomorskie-slupski-ustka" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-ustka-pomorskie-slupski-ustka</code></a></li><li>Urząd Miasta Wałcz &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-walcz" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-walcz</code></a></li><li>Urząd Miasta Wejherowo &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-wejherowo" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-wejherowo</code></a></li><li>Urząd Miasta Wodzisław Śląski &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-wodzislaw-slaski" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-wodzislaw-slaski</code></a></li><li>Urząd Miasta Wojcieszów &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Wojciesz%C3%B3w+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Wysokie Mazowieckie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Wysokie+Mazowieckie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Włocławek &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-wloclawek-kujawsko-pomorskie-wloclawek-wloclawek" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-wloclawek-kujawsko-pomorskie-wloclawek-wloclawek</code></a></li><li>Urząd Miasta Zambrów &mdash; <a href="http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/prnt/5058.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/prnt/5058.html</code></a></li><li>Urząd Miasta Zduńska Wola &mdash; <a href="https://um-zdunskawola.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://um-zdunskawola.bip.gov.pl</code></a></li><li>Urząd Miasta Zgorzelec &mdash; <a href="https://zgorzelec.bip.info.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://zgorzelec.bip.info.pl</code></a></li><li>Urząd Miasta i Gminy Złocieniec &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+i+Gminy+Z%C5%82ocieniec+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta i Gminy w Koprzywnicy &mdash; <a href="http://jo.koprzywnica.bip.gmina.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://jo.koprzywnica.bip.gmina.pl</code></a></li><li>Urząd Miasta i Gminy w Lidzbarku &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+i+Gminy+w+Lidzbarku+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta i Gminy w Międzychodzie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+i+Gminy+w+Mi%C4%99dzychodzie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta i Gminy w Morawicy &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+i+Gminy+w+Morawicy+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta i Gminy w Nowej Słupi &mdash; <a href="https://www.nowaslupia.bip.jur.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.nowaslupia.bip.jur.pl</code></a></li><li>Urząd Miasta i Gminy w Opatowie &mdash; <a href="https://www.bip.umopatow.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.umopatow.pl</code></a></li><li>Urząd Miasta i Gminy w Osieku &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+i+Gminy+w+Osieku+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta i Gminy w Połańcu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+i+Gminy+w+Po%C5%82a%C5%84cu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta i Gminy w Pruszczu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+i+Gminy+w+Pruszczu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta i Gminy w Serocku &mdash; <a href="https://www.bip.serock.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.serock.pl</code></a></li><li>Urząd Miasta i Gminy w Skępem &mdash; <a href="https://skepe.archiwum.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://skepe.archiwum.bip.net.pl</code></a></li><li>Urząd Miasta i Gminy w Solcu nad Wisłą &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+i+Gminy+w+Solcu+nad+Wis%C5%82%C4%85+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta i Gminy w Strzelinie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+i+Gminy+w+Strzelinie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta i Gminy w Suchedniowie  &mdash; <a href="https://www.suchedniow.bip.doc.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.suchedniow.bip.doc.pl</code></a></li><li>Urząd Miasta i Gminy w Wodzisławiu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+i+Gminy+w+Wodzis%C5%82awiu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta i Gminy w Łasinie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+i+Gminy+w+%C5%81asinie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta w Milanówku &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-w-milanowku-mazowieckie-grodziski-milanowek" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-w-milanowku-mazowieckie-grodziski-milanowek</code></a></li><li>Urząd Miasta w Skarżysku-Kamiennej &mdash; <a href="https://umskarzysko.bip.doc.pl/index.php?main=true" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://umskarzysko.bip.doc.pl/index.php?main=true</code></a></li><li>Urząd Miasta w Trzebini &mdash; <a href="https://eurzad.gminatrzebinia.pl/informacje_publiczne/pl/bip" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://eurzad.gminatrzebinia.pl/informacje_publiczne/pl/bip</code></a></li><li>Urząd Miasta w Żyrardowie &mdash; <a href="https://www.bip.zyrardow.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.zyrardow.pl</code></a></li><li>Urząd Miasta Łańcuta &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-lancuta-podkarpackie-lancucki-lancut" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-lancuta-podkarpackie-lancucki-lancut</code></a></li><li>Urząd Miasta Łodzi &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-lodzi-lodzkie-lodz-lodz" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-lodzi-lodzkie-lodz-lodz</code></a></li><li>Urząd Miasta Łuków &mdash; <a href="https://umlukow.bip.lubelskie.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://umlukow.bip.lubelskie.pl</code></a></li><li>Urząd Miasta Świdwin &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+%C5%9Awidwin+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Świnoujście &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-swinoujscie-zachodniopomorskie-swinoujscie-swinoujscie" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-swinoujscie-zachodniopomorskie-swinoujscie-swinoujscie</code></a></li><li>Urząd Miejski Andrychów &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+Andrych%C3%B3w+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski Byczyna &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+Byczyna+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski Bytom &mdash; <a href="https://www.bytom.pl/bip" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bytom.pl/bip</code></a></li><li>Urząd Miejski Darłowo &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+Dar%C5%82owo+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski Gminy Kłecko &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+Gminy+K%C5%82ecko+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski Kwidzyn &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-kwidzyn" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-kwidzyn</code></a></li></ul>
+</details>
+
+    <div class="section-heading">Lista ogłoszeń (0)</div>
+    
+<div class="empty">
+  <span class="empty-icon">&#128269;</span>
+  Brak ogłoszeń spełniających kryteria daty.<br>
+  <small>Spróbuj ponownie lub dostosuj zapytania w pliku <code>scraper.py</code>.</small>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-08-27 19:22 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
