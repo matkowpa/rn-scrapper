@@ -10,10 +10,18 @@ from urllib.parse import quote_plus as _uq
 
 from scraper import Announcement, JST_WINDOW_DEFAULT
 try:
-    from scraper import _jst_daily_slice, _load_jst_registry
+    from scraper import (
+        Announcement,
+        JST_WINDOW_DEFAULT,
+        _jst_daily_slice,
+        _load_jst_registry,
+        _load_jst_urls,
+    )
 except ImportError:
+    JST_WINDOW_DEFAULT = 100
     _jst_daily_slice = None
     _load_jst_registry = None
+    _load_jst_urls = None
 try:
     from sources import SOURCES
 except ImportError:
@@ -383,24 +391,31 @@ def _render_sources_section() -> str:
     except Exception:
         registry = []
     if registry and _jst_daily_slice:
+        urls_map = _load_jst_urls() if _load_jst_urls else {}
         window = _jst_daily_slice(registry, window=JST_WINDOW_DEFAULT)
-        # Slug z API gov.pl to trasa wewnętrznej wyszukiwarki — nie daje
-        # użytecznego linku do BIP. Zamiast martwego adresu podajemy link
-        # do gotowego wyszukiwania ogłoszeń danego podmiotu w domenach
-        # gov.pl / BIP (to samo kryterium, którego używa scraper).
-        lis_jst = "".join(
-            f'<li>{esc(e.get("name", ""))} &mdash; '
-            f'<a href="https://duckduckgo.com/?q={_uq("nabor kandydatow rada nadzorcza " + e.get("name", "") + " site:gov.pl")}" target="_blank" rel="noopener">'
-            f'szukaj ogłoszeń</a></li>'
-            for e in sorted(window, key=lambda x: x.get("name", ""))
-        )
+        lis_jst = ""
+        n_real = 0
+        for e in sorted(window, key=lambda x: x.get("name", "")):
+            real = urls_map.get(e.get("slug", ""))
+            if real:
+                n_real += 1
+                lis_jst += (
+                    f'<li>{esc(e.get("name", ""))} &mdash; '
+                    f'<a href="{esc(real)}" target="_blank" rel="noopener">'
+                    f'<code style="font-size:0.78em;">{esc(real)}</code></a></li>'
+                )
+            else:
+                lis_jst += (
+                    f'<li>{esc(e.get("name", ""))} &mdash; '
+                    f'<a href="https://duckduckgo.com/?q={_uq("nabor kandydatow rada nadzorcza " + e.get("name", "") + " site:gov.pl")}" target="_blank" rel="noopener">'
+                    f'szukaj ogłoszeń (brak rozpoznanego BIP)</a></li>'
+                )
         rows.append(
             f"<h4>BIP-y samorządów &mdash; dzisiejsze okno rotacyjne "
             f"({len(window)}/{len(registry)})</h4>"
-            f'<p class="src-note">Slug podmiotów z oficjalnego spisu gov.pl to '
-            f"trasy aplikacji wyszukiwarki, nie osobne strony &mdash; dlatego "
-            f"każda pozycja prowadzi do gotowego wyszukiwania ogłoszeń naboru "
-            f"w domenach <code>gov.pl</code> dla danego urzędu.</p>"
+            f'<p class="src-note">Realne adresy BIP rozpoznane dla '
+            f"<strong>{n_real}/{len(window)}</strong> podmiotów tego okna "
+            f"(pełne mapowanie buduje <code>tools/resolve_bip_urls.py</code>).</p>"
             f'<ul class="src-list">{lis_jst}</ul>'
         )
 

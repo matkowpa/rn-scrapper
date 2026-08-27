@@ -680,6 +680,27 @@ def _load_jst_registry() -> list:
     return []
 
 
+def _load_jst_urls() -> dict:
+    """
+    Mapowanie slug -> realny adres strony BIP (narzędzie
+    tools/resolve_bip_urls.py, plik data/bip_jst_urls.json). Slug z API
+    gov.pl to trasa wewnętrznej wyszukiwarki, więc skanujemy wyłącznie
+    podmioty z rozwiązanym, prawdziwym adresem BIP.
+    """
+    import json
+    for path in ("data/bip_jst_urls.json", "bip_jst_urls.json"):
+        try:
+            with open(path, encoding="utf-8") as f:
+                m = json.load(f)
+            if isinstance(m, dict):
+                return m
+        except FileNotFoundError:
+            continue
+        except Exception as exc:
+            logger.warning("Mapa URL-i JST uszkodzona (%s): %s", path, exc)
+    return {}
+
+
 def _jst_daily_slice(registry: list, window: int = JST_WINDOW_DEFAULT) -> list:
     """
     Deterministyczne okno próbkowania: ~1940 samorządów nie da się skrobać
@@ -842,17 +863,23 @@ def search_and_scrape(
         try:
             registry = _load_jst_registry()
             if registry:
+                urls_map = _load_jst_urls()
+                # Podmień slug na realny adres BIP tam, gdzie znaleziono;
+                # podmioty bez rozwiązania pomiń (slug gov.pl = przekierowanie).
+                for e in registry:
+                    real = urls_map.get(e.get("slug", ""))
+                    if real:
+                        e["url"] = real
                 window = _jst_daily_slice(registry, window=jst_window)
-                # Pomiń wpisy z placeholderowym adresem (strona główna gov.pl):
-                # pobieranie jej 100× nic nie wnosi, a generuje ruch i czas.
                 usable = [e for e in window
-                          if e.get("url") and e["url"].rstrip("/") not in
+                          if e.get("url")
+                          and e["url"].rstrip("/") not in
                           ("https://www.gov.pl", "http://www.gov.pl", "https://gov.pl")]
                 skipped = len(window) - len(usable)
                 if skipped:
                     logger.warning(
-                        "Faza 1b: pominięto %d/%d wpisów JST z placeholderowym "
-                        "adresem — odśwież rejestr (tools/fetch_bip_registry.py).",
+                        "Faza 1b: pominięto %d/%d wpisów JST bez realnego "
+                        "adresu BIP — uruchom tools/resolve_bip_urls.py.",
                         skipped, len(window),
                     )
                 logger.info("Faza 1b: JST — okno dzienne %d/%d podmiotów (%d do skanu)",

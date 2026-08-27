@@ -14,6 +14,11 @@ on:
         type: boolean
         default: false
         required: false
+      resolve_urls:
+        description: "Znajdź realne adresy BIP dla podmiotów (wolne: ~30 min)"
+        type: boolean
+        default: false
+        required: false
 
 jobs:
   scrape:
@@ -41,6 +46,15 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/bip_jst.json
           git diff --staged --exit-code --quiet || { git commit -m "Rejestr BIP samorzadow — odswiezenie $(date +'%Y-%m-%d')"; git push; }
+
+      - name: Resolve real BIP URLs (optional)
+        if: inputs.resolve_urls == true
+        run: |
+          python tools/resolve_bip_urls.py
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/bip_jst_urls.json
+          git diff --staged --exit-code --quiet || { git commit -m "Mapowanie slug->realny BIP: $(python -c "import json;d=json.load(open('data/bip_jst_urls.json'));print(sum(1 for v in d.values() if v))") adresow"; git push; }
 
       - name: Decide mode (DST-safe, czas PL)
         id: mode
