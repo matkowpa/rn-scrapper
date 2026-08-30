@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Zakładka przeszukanych źródeł ───────────────── */
+.sources-box {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+}
+.sources-box summary {
+    cursor: pointer; font-weight: 600; color: #1d4ed8; user-select: none;
+}
+.sources-box[open] summary { margin-bottom: 10px; }
+.src-note { color: #475569; margin-bottom: 12px; line-height: 1.5; }
+.src-list { margin: 6px 0 12px 18px; line-height: 1.7; }
+.sources-box h4 { margin-top: 12px; color: #334155; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-08-30 14:23</span>
+      <span class="header-chip chip-green">&#9679; 5 ogłoszeń</span>
+      <span class="header-chip">&#127760; DuckDuckGo (pl-pl) + strony źródłowe</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane w okresie <strong>30.07.2026 → 30.08.2026</strong>. Ogłoszeń bez rozpoznanej daty: <strong>5</strong> (oznaczone żółto).</div></div>
+
+    
+<details class="sources-box">
+  <summary>&#127760; Przeszukane źródła (1140) &mdash; kliknij, aby rozwinąć</summary>
+  <p class="src-note">Raport powstaje z bezpośredniego odczytu poniższych stron
+  (oficjalne Biuletyny Informacji Publicznej i portale korporacyjne, na których
+  zgodnie z ustawą publikowane są ogłoszenia o konkursach do rad nadzorczych)
+  oraz uzupełniająco z wyszukiwarki DuckDuckGo ograniczonej do domen
+  <code>.gov.pl</code> / BIP.</p>
+  <h4>Ministerstwa / centra rządowe (5)</h4><ul class="src-list"><li><a href="https://www.gov.pl/web/aktywa-majatkowe/aktualnosci" target="_blank" rel="noopener">Ministerstwo Aktywów Państwowych</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/aktywa-majatkowe/aktualnosci</code></li><li><a href="https://www.gov.pl/web/finanse/aktualnosci" target="_blank" rel="noopener">Ministerstwo Finansów</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/finanse/aktualnosci</code></li><li><a href="https://www.gov.pl/web/klimat/aktualnosci" target="_blank" rel="noopener">Ministerstwo Klimatu i Środowiska</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/klimat/aktualnosci</code></li><li><a href="https://www.gov.pl/web/infrastruktura/aktualnosci" target="_blank" rel="noopener">Ministerstwo Infrastruktury</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/infrastruktura/aktualnosci</code></li><li><a href="https://www.gov.pl/web/cyfryzacja/aktualnosci" target="_blank" rel="noopener">Ministerstwo Cyfryzacji</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/cyfryzacja/aktualnosci</code></li></ul><h4>BIP-y samorządów gmin i powiatów (5)</h4><ul class="src-list"><li><a href="https://um_jaslo.bip.gov.pl" target="_blank" rel="noopener">BIP Miasta Jaslo</a> &mdash; <code style="font-size:0.78em;">https://um_jaslo.bip.gov.pl</code></li><li><a href="https://www.bip.krakow.pl" target="_blank" rel="noopener">BIP m.st. Krakow</a> &mdash; <code style="font-size:0.78em;">https://www.bip.krakow.pl</code></li><li><a href="https://bip.wroclaw.pl" target="_blank" rel="noopener">BIP m.st. Wroclaw</a> &mdash; <code style="font-size:0.78em;">https://bip.wroclaw.pl</code></li><li><a href="https://bip.poznan.pl" target="_blank" rel="noopener">BIP m.st. Poznan</a> &mdash; <code style="font-size:0.78em;">https://bip.poznan.pl</code></li><li><a href="https://bip.bialystok.pl" target="_blank" rel="noopener">BIP m.st. Bialystok</a> &mdash; <code style="font-size:0.78em;">https://bip.bialystok.pl</code></li></ul><h4>Spółki Skarbu Państwa i spółki z istotnym udziałem SP (24)</h4><ul class="src-list"><li><a href="https://www.orlen.pl" target="_blank" rel="noopener">ORLEN S.A.</a> &mdash; <code style="font-size:0.78em;">https://www.orlen.pl</code></li><li><a href="https://www.gkpge.pl" target="_blank" rel="noopener">Grupa PGE</a> &mdash; <code style="font-size:0.78em;">https://www.gkpge.pl</code></li><li><a href="https://www.tauron.pl" target="_blank" rel="noopener">TAURON Polska Energia</a> &mdash; <code style="font-size:0.78em;">https://www.tauron.pl</code></li><li><a href="https://grupa-enea.pl" target="_blank" rel="noopener">Grupa Enea</a> &mdash; <code style="font-size:0.78em;">https://grupa-enea.pl</code></li><li><a href="https://www.grupa-energa.pl" target="_blank" rel="noopener">Grupa Energa</a> &mdash; <code style="font-size:0.78em;">https://www.grupa-energa.pl</code></li><li><a href="https://kghm.com" target="_blank" rel="noopener">KGHM Polska Miedź</a> &mdash; <code style="font-size:0.78em;">https://kghm.com</code></li><li><a href="https://www.plk-sa.pl" target="_blank" rel="noopener">PKP Polskie Linie Kolejowe</a> &mdash; <code style="font-size:0.78em;">https://www.plk-sa.pl</code></li><li><a href="https://pkpcargo.com" target="_blank" rel="noopener">PKP Cargo</a> &mdash; <code style="font-size:0.78em;">https://pkpcargo.com</code></li><li><a href="https://www.intercity.pl" target="_blank" rel="noopener">PKP Intercity</a> &mdash; <code style="font-size:0.78em;">https://www.intercity.pl</code></li><li><a href="https://www.poczta-polska.pl" target="_blank" rel="noopener">Poczta Polska</a> &mdash; <code style="font-size:0.78em;">https://www.poczta-polska.pl</code></li><li><a href="https://www.pzu.pl" target="_blank" rel="noopener">Grupa PZU</a> &mdash; <code style="font-size:0.78em;">https://www.pzu.pl</code></li><li><a href="https://www.gpw.pl" target="_blank" rel="noopener">GPW Warszawska Giełda Papierów Wartościowych</a> &mdash; <code style="font-size:0.78em;">https://www.gpw.pl</code></li><li><a href="https://www.kdpw.pl" target="_blank" rel="noopener">KDPW</a> &mdash; <code style="font-size:0.78em;">https://www.kdpw.pl</code></li><li><a href="https://www.bgk.pl" target="_blank" rel="noopener">Bank Gospodarstwa Krajowego</a> &mdash; <code style="font-size:0.78em;">https://www.bgk.pl</code></li><li><a href="https://www.pkobp.pl" target="_blank" rel="noopener">PKO Bank Polski</a> &mdash; <code style="font-size:0.78em;">https://www.pkobp.pl</code></li><li><a href="https://www.gaz-system.pl" target="_blank" rel="noopener">Gaz-System</a> &mdash; <code style="font-size:0.78em;">https://www.gaz-system.pl</code></li><li><a href="https://www.pse.pl" target="_blank" rel="noopener">Polskie Sieci Elektroenergetyczne</a> &mdash; <code style="font-size:0.78em;">https://www.pse.pl</code></li><li><a href="https://pfr.pl" target="_blank" rel="noopener">Polski Fundusz Rozwoju</a> &mdash; <code style="font-size:0.78em;">https://pfr.pl</code></li><li><a href="https://cpk.pl" target="_blank" rel="noopener">Centralny Port Komunikacyjny</a> &mdash; <code style="font-size:0.78em;">https://cpk.pl</code></li><li><a href="https://www.wody.gov.pl" target="_blank" rel="noopener">Wody Polskie</a> &mdash; <code style="font-size:0.78em;">https://www.wody.gov.pl</code></li><li><a href="https://www.arpindustrial.pl" target="_blank" rel="noopener">ARP Industrial (Agencja Rozwoju Przemysłu)</a> &mdash; <code style="font-size:0.78em;">https://www.arpindustrial.pl</code></li><li><a href="https://www.port.gdansk.pl" target="_blank" rel="noopener">Zarząd Morskich Portów Gdańsk</a> &mdash; <code style="font-size:0.78em;">https://www.port.gdansk.pl</code></li><li><a href="https://www.port.gdynia.pl" target="_blank" rel="noopener">Zarząd Portów Gdynia</a> &mdash; <code style="font-size:0.78em;">https://www.port.gdynia.pl</code></li><li><a href="https://port.szczecin.pl" target="_blank" rel="noopener">Szczecińskie i Świnoujskie Porty</a> &mdash; <code style="font-size:0.78em;">https://port.szczecin.pl</code></li></ul><h4>BIP-y samorządów &mdash; dzisiejsze okno rotacyjne (100/1106)</h4><p class="src-note">Realne adresy BIP rozpoznane dla <strong>73/100</strong> podmiotów tego okna (pełne mapowanie buduje <code>tools/resolve_bip_urls.py</code>).</p><ul class="src-list"><li>Starostwo Powiatowe w Busku-Zdroju &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Busku-Zdroju+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Bydgoszczy &mdash; <a href="https://powiatbydgoski.archiwum.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://powiatbydgoski.archiwum.bip.net.pl</code></a></li><li>Starostwo Powiatowe w Bytowie &mdash; <a href="https://powiatbytowski.bip.alfatv.pl/strony/menu/102.dhtml" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://powiatbytowski.bip.alfatv.pl/strony/menu/102.dhtml</code></a></li><li>Starostwo Powiatowe w Chełmnie &mdash; <a href="https://www.bip.powiat-chelmno.pl/index.php?cid=16&amp;bip_id=2568" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.powiat-chelmno.pl/index.php?cid=16&amp;bip_id=2568</code></a></li><li>Starostwo Powiatowe w Choszcznie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Choszcznie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Ciechanowie &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-ciechanowie-mazowieckie-ciechanowski-ciechanow" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-ciechanowie-mazowieckie-ciechanowski-ciechanow</code></a></li><li>Starostwo Powiatowe w Cieszynie &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-cieszynie-slaskie-cieszynski-cieszyn" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-cieszynie-slaskie-cieszynski-cieszyn</code></a></li><li>Starostwo Powiatowe w Drawsku Pomorskim &mdash; <a href="https://powiatdrawski.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://powiatdrawski.bip.gov.pl</code></a></li><li>Starostwo Powiatowe w Działdowie &mdash; <a href="https://dzialdowostarostwo.archiwum.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://dzialdowostarostwo.archiwum.bip.net.pl</code></a></li><li>Starostwo Powiatowe w Dzierżoniowie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Dzier%C5%BConiowie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Dębicy &mdash; <a href="https://powiatdebicki.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://powiatdebicki.bip.gov.pl</code></a></li><li>Starostwo Powiatowe w Elblągu &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-elblagu-warminsko-mazurskie-elblaski-elblag" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-elblagu-warminsko-mazurskie-elblaski-elblag</code></a></li><li>Starostwo Powiatowe w Ełku &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+E%C5%82ku+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Gliwicach &mdash; <a href="http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/view/6067.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/view/6067.html</code></a></li><li>Starostwo Powiatowe w Golubiu-Dobrzyniu &mdash; <a href="https://www.serwis.bip.golub-dobrzyn.com.pl/4952,urzad" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.serwis.bip.golub-dobrzyn.com.pl/4952,urzad</code></a></li><li>Starostwo Powiatowe w Gostyniu &mdash; <a href="https://gostyn.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://gostyn.bip.net.pl</code></a></li><li>Starostwo Powiatowe w Gołdapi &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Go%C5%82dapi+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Grajewie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Grajewie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Grudziądzu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Grudzi%C4%85dzu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Górze &mdash; <a href="https://spgora.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://spgora.bip.gov.pl</code></a></li><li>Starostwo Powiatowe w Głubczycach &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+G%C5%82ubczycach+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Inowrocławiu &mdash; <a href="https://www.bip.inowroclaw.powiat.pl/starostwoowiatowe,30_730-730" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.inowroclaw.powiat.pl/starostwoowiatowe,30_730-730</code></a></li><li>Starostwo Powiatowe w Janowie Lubelskim &mdash; <a href="http://spjanowlubelski.bip.lubelskie.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://spjanowlubelski.bip.lubelskie.pl</code></a></li><li>Starostwo Powiatowe w Jarosławiu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Jaros%C5%82awiu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Jaśle &mdash; <a href="https://um_jaslo.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://um_jaslo.bip.gov.pl</code></a></li><li>Starostwo Powiatowe w Jędrzejowie &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-jedrzejowie-swietokrzyskie-jedrzejowski-jedrzejow" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-jedrzejowie-swietokrzyskie-jedrzejowski-jedrzejow</code></a></li><li>Starostwo Powiatowe w Kaliszu &mdash; <a href="https://www.bip.powiat.kalisz.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.powiat.kalisz.pl</code></a></li><li>Starostwo Powiatowe w Kartuzach &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-kartuzach-pomorskie-kartuski-kartuzy" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-kartuzach-pomorskie-kartuski-kartuzy</code></a></li><li>Starostwo Powiatowe w Koninie &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-koninie" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-koninie</code></a></li><li>Starostwo Powiatowe w Koszalinie &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-koszalinie-zachodniopomorskie-koszalin-koszalin" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-koszalinie-zachodniopomorskie-koszalin-koszalin</code></a></li><li>Starostwo Powiatowe w Kozienicach &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Kozienicach+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Kołobrzegu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Ko%C5%82obrzegu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Końskich &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Ko%C5%84skich+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Kościerzynie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Ko%C5%9Bcierzynie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Krasnymstawie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Krasnymstawie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Krośnie &mdash; <a href="https://spkrosno.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://spkrosno.bip.gov.pl</code></a></li><li>Starostwo Powiatowe w Kwidzynie &mdash; <a href="http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/5987,Starostwo+Powiatowe+Kwidzyn.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/5987,Starostwo+Powiatowe+Kwidzyn.html</code></a></li><li>Starostwo Powiatowe w Kędzierzynie-Koźlu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+K%C4%99dzierzynie-Ko%C5%BAlu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Kępnie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+K%C4%99pnie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Kętrzynie &mdash; <a href="http://www.bip.starostwo.ketrzyn.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://www.bip.starostwo.ketrzyn.pl</code></a></li><li>Starostwo Powiatowe w Kłobucku &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-klobucku" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-klobucku</code></a></li><li>Starostwo Powiatowe w Lipsku &mdash; <a href="http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/5960,Starostwo+Powiatowe+Lipsko.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/5960,Starostwo+Powiatowe+Lipsko.html</code></a></li><li>Starostwo Powiatowe w Lubaczowie &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-lubaczowie" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-lubaczowie</code></a></li><li>Starostwo Powiatowe w Lubartowie &mdash; <a href="https://splubartow.bip.lubelskie.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://splubartow.bip.lubelskie.pl</code></a></li><li>Starostwo Powiatowe w Lubinie &mdash; <a href="https://powiat-lubin.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://powiat-lubin.bip.gov.pl</code></a></li><li>Starostwo Powiatowe w Lwówku Śląskim &mdash; <a href="https://www.bip.gov.pl/subjects/5943,Starostwo+Powiatowe+w+Lwówku+Śląskim.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.gov.pl/subjects/5943,Starostwo+Powiatowe+w+Lwówku+Śląskim.html</code></a></li><li>Starostwo Powiatowe w Lęborku &mdash; <a href="https://powiatleborski.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://powiatleborski.bip.gov.pl</code></a></li><li>Starostwo Powiatowe w Makowie Mazowieckim &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-makowie-mazowieckim-mazowieckie-makowski-makow-mazowiecki" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-makowie-mazowieckim-mazowieckie-makowski-makow-mazowiecki</code></a></li><li>Starostwo Powiatowe w Malborku &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-malborku-pomorskie-malborski-malbork" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-malborku-pomorskie-malborski-malbork</code></a></li><li>Starostwo Powiatowe w Miechowie &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-miechowie" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-miechowie</code></a></li><li>Starostwo Powiatowe w Mikołowie &mdash; <a href="https://powiat_mikolow.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://powiat_mikolow.bip.gov.pl</code></a></li><li>Starostwo Powiatowe w Mogilnie &mdash; <a href="http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/view/15335.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/view/15335.html</code></a></li><li>Starostwo Powiatowe w Mrągowie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Mr%C4%85gowie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Myślenicach &mdash; <a href="https://www.gov.pl/web/bip/powiatowy-inspektorat-nadzoru-budowlanego-w-myslenicach" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/powiatowy-inspektorat-nadzoru-budowlanego-w-myslenicach</code></a></li><li>Starostwo Powiatowe w Mławie &mdash; <a href="https://www.bip.powiatmlawski.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.powiatmlawski.pl</code></a></li><li>Starostwo Powiatowe w Nakle nad Notecią &mdash; <a href="https://www.gov.pl/web/bip/gmina-naklo-nad-notecia-kujawsko-pomorskie-nakielski-naklo-nad-notecia" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-naklo-nad-notecia-kujawsko-pomorskie-nakielski-naklo-nad-notecia</code></a></li><li>Starostwo Powiatowe w Namysłowie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Namys%C5%82owie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Nidzicy &mdash; <a href="http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/15739,Starostwo+Powiatowe+Nidzica.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/15739,Starostwo+Powiatowe+Nidzica.html</code></a></li><li>Starostwo Powiatowe w Nisku &mdash; <a href="https://pinb.powiatnizanski.pl/bip" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://pinb.powiatnizanski.pl/bip</code></a></li><li>Starostwo Powiatowe w Nowym Dworze Gdańskim &mdash; <a href="https://www.bip.nowydworgdanski.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.nowydworgdanski.pl</code></a></li><li>Starostwo Powiatowe w Nowym Dworze Mazowieckim &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-nowym-dworze-mazowieckim-mazowieckie-nowodworski-nowy-dwor-mazowiecki" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-nowym-dworze-mazowieckim-mazowieckie-nowodworski-nowy-dwor-mazowiecki</code></a></li><li>Starostwo Powiatowe w Nowym Mieście Lubawskim &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-nowym-miescie-lubawskim-warminsko-mazurskie-nowomiejski-nowe-miasto-lubawskie" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-nowym-miescie-lubawskim-warminsko-mazurskie-nowomiejski-nowe-miasto-lubawskie</code></a></li><li>Starostwo Powiatowe w Nowym Tomyślu &mdash; <a href="http://www.bip.powiatnowotomyski.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://www.bip.powiatnowotomyski.pl</code></a></li><li>Starostwo Powiatowe w Olecku &mdash; <a href="https://www.spolecko.bip.doc.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.spolecko.bip.doc.pl</code></a></li><li>Starostwo Powiatowe w Oleśnie &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-olesnie-opolskie-oleski-olesno" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-olesnie-opolskie-oleski-olesno</code></a></li><li>Starostwo Powiatowe w Opatowie &mdash; <a href="https://www.bip.umopatow.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.umopatow.pl</code></a></li><li>Starostwo Powiatowe w Opolu &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-opolu-opolskie-opole-opole" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-opolu-opolskie-opole-opole</code></a></li><li>Starostwo Powiatowe w Ostrowcu Świętokrzyskim &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-ostrowcu-swietokrzyskim-swietokrzyskie-ostrowiecki-ostrowiec-swietokrzyski" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-ostrowcu-swietokrzyskim-swietokrzyskie-ostrowiecki-ostrowiec-swietokrzyski</code></a></li><li>Starostwo Powiatowe w Ostrowie Wielkopolskim &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-ostrowie-wielkopolskim-wielkopolskie-ostrowski-ostrow-wielkopolski" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-ostrowie-wielkopolskim-wielkopolskie-ostrowski-ostrow-wielkopolski</code></a></li><li>Starostwo Powiatowe w Ostródzie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Ostr%C3%B3dzie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Oświęcimiu &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-oswiecimiu-malopolskie-oswiecimski-oswiecim" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-oswiecimiu-malopolskie-oswiecimski-oswiecim</code></a></li><li>Starostwo Powiatowe w Pabianicach &mdash; <a href="https://powiat-pabianice.bip.info.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://powiat-pabianice.bip.info.pl</code></a></li><li>Starostwo Powiatowe w Parczewie &mdash; <a href="https://spparczew.bip.lubelskie.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://spparczew.bip.lubelskie.pl</code></a></li><li>Starostwo Powiatowe w Pile &mdash; <a href="https://bip.gov.pl/subjects/13727,Starostwo+Powiatowe+w+Pile.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://bip.gov.pl/subjects/13727,Starostwo+Powiatowe+w+Pile.html</code></a></li><li>Starostwo Powiatowe w Piotrkowie Trybunalskim &mdash; <a href="https://powiat-piotrkowski.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://powiat-piotrkowski.bip.net.pl</code></a></li><li>Starostwo Powiatowe w Poddębicach &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Podd%C4%99bicach+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Poznaniu &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-poznaniu-wielkopolskie-poznanski-buk" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-poznaniu-wielkopolskie-poznanski-buk</code></a></li><li>Starostwo Powiatowe w Proszowicach &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-proszowicach" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-proszowicach</code></a></li><li>Starostwo Powiatowe w Przeworsku &mdash; <a href="https://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/prnt/6191.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/prnt/6191.html</code></a></li><li>Starostwo Powiatowe w Pszczynie &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-pszczynie" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-pszczynie</code></a></li><li>Starostwo Powiatowe w Puławach &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Pu%C5%82awach+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Pułtusku &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-pultusku-mazowieckie-pultuski-pultusk" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-pultusku-mazowieckie-pultuski-pultusk</code></a></li><li>Starostwo Powiatowe w Płocku &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+P%C5%82ocku+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Płońsku &mdash; <a href="https://powiat-plonski.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://powiat-plonski.bip.gov.pl</code></a></li><li>Starostwo Powiatowe w Radomsku &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-radomsku" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-radomsku</code></a></li><li>Starostwo Powiatowe w Radzyniu Podlaskim &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Radzyniu+Podlaskim+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Sandomierzu &mdash; <a href="https://www.sandomierz.bip.gmina.pl/index.php?id=7" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.sandomierz.bip.gmina.pl/index.php?id=7</code></a></li><li>Starostwo Powiatowe w Sanoku &mdash; <a href="https://main.bip.powiat-sanok.pl/dokumenty.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://main.bip.powiat-sanok.pl/dokumenty.html</code></a></li><li>Starostwo Powiatowe w Sieradzu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+Sieradzu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe w Skarżysku-Kamiennej &mdash; <a href="https://powiatskarzyski.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://powiatskarzyski.bip.net.pl</code></a></li><li>Starostwo Powiatowe w Skierniewicach &mdash; <a href="http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/14405,Starostwo+Powiatowe+Skierniewice.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/14405,Starostwo+Powiatowe+Skierniewice.html</code></a></li><li>Starostwo Powiatowe w Sępólnie Krajeńskim &mdash; <a href="https://www.bip.powiat-sepolno.pl/523,starostwo-powiatowe" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.powiat-sepolno.pl/523,starostwo-powiatowe</code></a></li><li>Starostwo Powiatowe w Łasku &mdash; <a href="https://lask.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://lask.bip.net.pl</code></a></li><li>Starostwo Powiatowe w Łobzie &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-lobzie-zachodniopomorskie-lobeski-lobez" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-lobzie-zachodniopomorskie-lobeski-lobez</code></a></li><li>Starostwo Powiatowe w Łowiczu &mdash; <a href="https://www.gov.pl/web/bip/starostwo-powiatowe-w-lowiczu-lodzkie-lowicki-lowicz" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/starostwo-powiatowe-w-lowiczu-lodzkie-lowicki-lowicz</code></a></li><li>Starostwo Powiatowe w Łęczycy &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+w+%C5%81%C4%99czycy+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe we Wrocławiu &mdash; <a href="https://powiatwroclawski.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://powiatwroclawski.bip.net.pl</code></a></li><li>Starostwo Powiatowe we Wrześni &mdash; <a href="https://www.bip.wrzesnia.powiat.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.wrzesnia.powiat.pl</code></a></li><li>Starostwo Powiatowe we Wschowie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+we+Wschowie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Starostwo Powiatowe we Włoszczowie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Starostwo+Powiatowe+we+W%C5%82oszczowie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li></ul>
+</details>
+
+    <div class="section-heading">Lista ogłoszeń (5)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://archiwumbip.prudnik.pl/bip-prudnik.skycms.com.pl/2433/ogloszenie-o-naborze-kandydatow-na-czlonkow-rad-nadzorczych-spolek-handlowych.html" target="_blank" rel="noopener">Ogłoszenie o naborze kandydatów na członków rad ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; archiwumbip.prudnik.pl</span>
+    </div>
+    <a class="url-link" href="https://archiwumbip.prudnik.pl/bip-prudnik.skycms.com.pl/2433/ogloszenie-o-naborze-kandydatow-na-czlonkow-rad-nadzorczych-spolek-handlowych.html" target="_blank" rel="noopener">&#128279; https://archiwumbip.prudnik.pl/bip-prudnik.skycms.com.pl/2433/ogloszenie-o-naborze-kandydatow-na-czlonkow-rad-nadzorczych-spolek-handlowych.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">kandydat na członka Rady Nadzorczej spółki nie może pozostawać w stosunku pracy ze spółką, ani świadczyć pracy lub usług na jej rzecz na podstawie innego ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">��&quot;*{?\DU
+&quot;&#x27;�?h�,���
+\�0-�q=��չS����f�o�@��;�,-)�&quot;KT��jk?.��d�$�I���Jj��t_�9�Ln��_ժx�y-ǈ�Atg�G�n�O�N;:�W���+
+�����uz�Y�K��vV�5%�oZ�a$o���
+7�Rd\�
+�d�X�s�2����_ef��L�AT
+h���ni�V��^w�����!�A���{րk��2�$�y�)	d�;���)2і�
+�.�
+�*�-2
+�Q���1��׊R�*�5M��9r�20&quot;�
+��{�	�Ƿ�A�fY�&quot;&#x27;��l�պI
+���|��r�}�	�6h3�ϭ��,�&#x27;��N�ze�X�����PZ�nr�K��� n#@y�)y����8����
+�&#x27;���8��uRPO\��%�r��Vu�
+cA`i�)���k`�������C�m��Q����WՅ�y~�
+��Ϩm�h�9��������&gt;�׋{q/��Y̥Ml^Q�3�3J����{
+cx�ы{�%�`�m ؄?�0(Lp����jy�d�����˦�����b�܌�r��h嵨jHtQ�\���9{)R�V��1� Z1_,CX�Dq@y�+Z(�:3VHu��	��J�qY��[�$T�bTU��%j��U�
+� ����r^Hձ��p���:�9���&gt;&amp;��9MK2�&gt;_�Ĝ�B!�F�Yҧ
+_
+l?��)�^2悫n�O�,/��=ۧ�K����L�����/����/,ű;-�^�����!k��PLw��i�2z�l�:&#x27;�(��;�d�P�d���S�_X�VJ���V�\�e�s���{Op~$@����`o�G|�Q/�q�������**���s붸�a���R5ol{���
+�)a
+���0�=���Ki(:����z&#x27;�~uWGx:ߋX7K�7�WD�[�(%y�k��ur�&amp;4���N�w���2_���+��
+�8!O&gt;ja��W$�e�wB^�OF)�W�CVͩ�+�s5��E�D��&gt;���VsZ����	�_����a��K$p�x�M��
+��U
+Η�ks
+�;exU#e����/5�6�l_P��\p����!�n
+J�����x������ѺC_RMAgر=pq ���jK�kۥd?t��&lt;\���a��/o��!�Mi�ڽ#��-���m��ݒy��M��Y\���m�}�o�2��q������:�yzHo~��y��H������ֈO�?(J�{��/�ؚ;�����&quot;�YKW��9;��u�f��e�
+��&lt;=
+EYB��]6*��&lt;	 e�
+��	�T��
+q�R���R
+��	g7�DO�*$:G��g�$
+��#zׅF�A�sj��L����b��|
+Ӌcz�
+�j#��yx����`�T�&gt;��o\��
+�׮X�3��g�b��N�Le�K�������d�M&amp;!P&lt;�at���
+(jD��(�G����s�2(9�?�f�jO��j�&amp;
+����9�rI5�2��m�ـ��X�&lt;��`WHq�
+���T��\u�;3 �6W&quot;���
+Y ��
+�N�*��W��&quot;��R�QG�A��
+\�B��kOb[$�[�JNY��g&#x27;=7J�������np5ĸ(���H�4B
+NO&quot;�LP&amp;&#x27;y��%?=#�@��.��C
+���&quot;�9�?�ԏ�1��L����R����&gt;�Ze�89ZH�\#���?)�ȺZ4h�o��7#R%W�?]�FTQs�^���?�
+��sb�R�Z����4�䢮��+�
+h�_��k�w�0�V�����Db���Ӭ�*�AX�B
+T�#�ƺ�j���I�+d��=�|d|�)���&gt;�I%��P&lt;}����F�R�ׯ ��ʨ�J�kL�
+?���d/���Ԕ(խz����:����{rbDr��RDF�ok�&#x27;ea��5/�^�
+MU�V
+%ŏC,�M&quot;
+������ׂ4�rE�1$h&gt;
+�|��_+nEVksm@���h��&#x27;�R����O2�R�y�&quot;;�V�����7��kԥi
+���IQE:{�w5?�N���%3Iq�$I�(Zb�
+޿R�
+靍ow�e&amp;�:2�E#��A�EV�)���;��
+��`	[�:�d�
+U��*�Iq~-^HbT�F������Q�b�f���|(��T��7F�`���L���qǞr��&amp;℧v8�
+�q�&lt;&#x27;�9�}@u4���.d}=��i4���Q���6�8f3b*�`5b�
+��o��p��W
+K�Xr��9���J
+��&#x27;��Vi��@��sC���Q(;DJȧ�
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">Ogłoszenie o naborze uzupełniającym kandydatów na członków rady nadzorczej</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; um_jaslo.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">&#128279; https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://miir.bip.gov.pl/kariera-i-praca/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-czlonka-zarzadu-totalizatora-sportowego.html" target="_blank" rel="noopener">Nabór na członka zarządu Totalizatora Sportowego</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; miir.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://miir.bip.gov.pl/kariera-i-praca/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-czlonka-zarzadu-totalizatora-sportowego.html" target="_blank" rel="noopener">&#128279; https://miir.bip.gov.pl/kariera-i-praca/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-czlonka-zarzadu-totalizatora-sportowego.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">May 23, 2017 - W toku postępowania kwalifikacyjnego kandydat może przedstawić Radzie Nadzorczej dodatkowe dokumenty. Zgłoszenie kandydata złożone po upływie terminu oraz zgłoszenie niespełniające wymogów określonych w niniejszym ogłoszeniu nie podlega rozpatrzeniu, a kandydat nie bierze udziału w dalszym postępowaniu kwalifikacyjnym, o czym zostanie powiadomiony listem poleconym.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">May 23, 2017 - W toku postępowania kwalifikacyjnego kandydat może przedstawić Radzie Nadzorczej dodatkowe dokumenty. Zgłoszenie kandydata złożone po upływie terminu oraz zgłoszenie niespełniające wymogów określonych w niniejszym ogłoszeniu nie podlega rozpatrzeniu, a kandydat nie bierze udziału w dalszym postępowaniu kwalifikacyjnym, o czym zostanie powiadomiony listem poleconym.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://polaniec.ssdip.bip.gov.pl/articles/index/zarzadzenie-2026/page:7" target="_blank" rel="noopener">Lista artykułów - urząd miasta i gminy w połańcu</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; polaniec.ssdip.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://polaniec.ssdip.bip.gov.pl/articles/index/zarzadzenie-2026/page:7" target="_blank" rel="noopener">&#128279; https://polaniec.ssdip.bip.gov.pl/articles/index/zarzadzenie-2026/page:7</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">praw z udziałów jako kandydatów na członków Rady Nadzorczej w Spółce Przedsiębiorstwo Usług Komunalnych Spółka z ograniczoną odpowiedzialnością z siedzibą w ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">praw z udziałów jako kandydatów na członków Rady Nadzorczej w Spółce Przedsiębiorstwo Usług Komunalnych Spółka z ograniczoną odpowiedzialnością z siedzibą w ...</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://kzn.bip.gov.pl/joboffers/view/31498" target="_blank" rel="noopener">Oferty Pracy - Krajowy Zasób Nieruchomości</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; kzn.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://kzn.bip.gov.pl/joboffers/view/31498" target="_blank" rel="noopener">&#128279; https://kzn.bip.gov.pl/joboffers/view/31498</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Rada Nadzorcza Krajowego Zasobu Nieruchomości ogłasza nabór na stanowisko: Prezesa Krajowego Zasobu Nieruchomości. Miejsce wykonywania pracy.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Rada Nadzorcza Krajowego Zasobu Nieruchomości ogłasza nabór na stanowisko: Prezesa Krajowego Zasobu Nieruchomości. Miejsce wykonywania pracy.</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-08-30 14:23 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
