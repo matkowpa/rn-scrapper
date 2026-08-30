@@ -108,7 +108,7 @@ def _parse_args() -> tuple:
         metavar="N",
         help="Liczba miesięcy wstecz od dziś (domyślnie: 1).",
     )
-    group.add_argument(
+    parser.add_argument(
         "--store",
         action="store_true",
         help="Tylko zbieraj wyniki do docs/pending.json (bez raportu/publikacji).",
