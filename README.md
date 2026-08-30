@@ -20,7 +20,8 @@ datami publikacji i skrótami treści. Poszczególne raporty są pod ścieżką
 2. Scraper pobiera wyniki z **DuckDuckGo (pl-pl)** oraz **bezpośrednio**
    ze zweryfikowanej listy źródeł (`sources.py`): ministerstwa (gov.pl),
    największe spółki Skarbu Państwa (ORLEN, PGE, TAURON, KGHM, Poczta Polska,
-   BGK, GPW itd.), porty morskie.
+   BGK, GPW itd.), porty morskie, a także rotacyjną próbkę BIP-ów
+   samorządowych (rejestr `data/bip_jst.json`, rozmiar okna: `--jst-window`).
 3. Wyniki przechodzą wielostopniową filtrację jakości:
    - blokada agregatorów i serwisów reklamowych (jooble, pracuj.pl…),
    - odrzucanie artykułów prawnych/blogów (lex.pl, cire.pl) i treści
@@ -44,7 +45,8 @@ przycisk **Run workflow**.
 ```bash
 pip install -r requirements.txt
 python main.py            # domyślnie: ostatni miesiąc, raport HTML
-python main.py --help     # szczegóły flag (miesiące, data graniczna, ścieżka wyjściowa)
+python main.py --store    # tylko zbiórka do bufora docs/pending.json
+python main.py --help     # szczegóły flag (miesiące, data graniczna, --jst-window)
 ```
 
 ## Struktura repozytorium
@@ -57,4 +59,7 @@ python main.py --help     # szczegóły flag (miesiące, data graniczna, ścież
 | `report_html.py` | generator raportu HTML |
 | `generate_index.py` | indeks raportów (`docs/index.html`) |
 | `docs/reports/` | opublikowane raporty |
+| `docs/pending.json` | bufor ogłoszeń zebranych w ciągu dnia (tryb `--store`) |
+| `tools/` | rejestr BIP samorządów (`fetch_bip_registry.py`), mapowanie adresów (`resolve_bip_urls.py`) |
+| `data/` | `bip_jst.json` (rejestr JST), `bip_jst_urls.json` (mapowanie slug→BIP) |
 | `.github/workflows/scrape.yml` | harmonogram / workflow Actions |

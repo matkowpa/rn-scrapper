@@ -8,7 +8,6 @@ from datetime import date, datetime
 from typing import List, Optional
 from urllib.parse import quote_plus as _uq
 
-from scraper import Announcement, JST_WINDOW_DEFAULT
 try:
     from scraper import (
         Announcement,
@@ -22,6 +21,7 @@ except ImportError:
     _jst_daily_slice = None
     _load_jst_registry = None
     _load_jst_urls = None
+    Announcement = None
 try:
     from sources import SOURCES
 except ImportError:

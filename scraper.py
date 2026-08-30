@@ -153,9 +153,9 @@ AD_MARKETING_PHRASES = [
 ]
 
 DISQUALIFYING_PHRASES = [
-    # Stanowiska kierownicze NIErzad nadzorcza
-    "członek zarządu",
-    "członków zarządu",  # liczba mnoga
+    # Stanowiska kierownicze (czysto zarządcze nabory);
+    # uwaga: "członek zarządu" celowo NIE dyskwalifikuje – ogłoszenia BIP
+    # często dotyczą jednocześnie rady nadzorczej i zarządu.
     "prezes zarządu",
     "dyrektor zarządzający",
     "nabór na prezesa",
@@ -772,21 +772,25 @@ def collect_from_jst(
             time.sleep(delay_between_results)
             domain = urlparse(url).netloc
             page_html = _fetch_html(url)
-            target_html = page_html or ""
-            text_for_filter = anchor_text + "\n" + _parse_page(
-                target_html, anchor_text)["details"] if page_html else anchor_text
 
-            title_parsed = (_parse_page(page_html, anchor_text)["title"]
-                            if page_html else "")
-            ann_title = title_parsed or anchor_text
+            if page_html:
+                soup = BeautifulSoup(page_html, "lxml")
+                parsed = _parse_page(page_html, anchor_text)
+            else:
+                soup = None
+                parsed = None
+            text_for_filter = (anchor_text + "\n" + parsed["details"]
+                               if parsed else anchor_text)
+            ann_title = (parsed["title"] if parsed else "") or anchor_text
 
             if not _is_relevant(ann_title, anchor_text, details=text_for_filter,
                                 domain=domain, trusted=domain.endswith(".gov.pl")):
                 continue
             if _has_stale_years(ann_title, text_for_filter):
                 continue
-            raw_date = (_extract_publication_date(target_html)
-                        if target_html else None)
+            raw_date = (_extract_publication_date(
+                            soup, soup.get_text(" ", strip=True))
+                        if soup else None)
             raw_date = raw_date or _extract_date(anchor_text)
             announcements.append(Announcement(
                 title=ann_title,

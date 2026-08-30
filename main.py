@@ -6,6 +6,8 @@ Uruchomienie:
     python main.py                        # domyślnie: ostatni 1 miesiąc
     python main.py --date 2026-04-01      # ogłoszenia od 1 kwietnia 2026
     python main.py --months 6             # ogłoszenia z ostatnich 6 miesięcy
+    python main.py --store                # tylko zbiórka do docs/pending.json
+    python main.py --jst-window 100       # rozmiar okna BIP-ów samorządowych
 
 Wygenerowany raport zapisywany jest w katalogu roboczym jako:
     raport_rada_nadzorcza_YYYYMMDD_HHMMSS.html

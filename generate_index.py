@@ -219,7 +219,7 @@ def main():
     <div class="stat"><span class="stat-dot"></span> Aktywny monitoring</div>
     <div class="stat">&#128202; Liczba raportów: <strong>{total}</strong></div>
     <div class="stat">&#128336; Ostatni: <strong>{latest}</strong></div>
-    <div class="stat">&#128260; Częstotliwość: <strong>3× dziennie</strong></div>
+    <div class="stat">&#128260; Publikacja: <strong>codziennie ok. 6:00 (PL)</strong></div>
   </div>
 
   <main>
@@ -228,7 +228,7 @@ def main():
   </main>
 
   <footer>
-    Raporty generowane automatycznie ok. 08:00, 13:00 i 18:00 (czas PL) &nbsp;·&nbsp;
+    Raport zbiorczy publikowany automatycznie ok. 6:00 (czas PL), zbiórka danych 5× dziennie &nbsp;·&nbsp;
     Źródło: DuckDuckGo (region: pl-pl) + strony źródłowe
   </footer>
 
