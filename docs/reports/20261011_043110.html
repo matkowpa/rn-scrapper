@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Zakładka przeszukanych źródeł ───────────────── */
+.sources-box {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+}
+.sources-box summary {
+    cursor: pointer; font-weight: 600; color: #1d4ed8; user-select: none;
+}
+.sources-box[open] summary { margin-bottom: 10px; }
+.src-note { color: #475569; margin-bottom: 12px; line-height: 1.5; }
+.src-list { margin: 6px 0 12px 18px; line-height: 1.7; }
+.sources-box h4 { margin-top: 12px; color: #334155; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-10-11 04:31</span>
+      <span class="header-chip chip-green">&#9679; 15 ogłoszeń</span>
+      <span class="header-chip">&#127760; DuckDuckGo (pl-pl) + strony źródłowe</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane w okresie <strong>11.09.2026 → 11.10.2026</strong>. Ogłoszeń bez rozpoznanej daty: <strong>15</strong> (oznaczone żółto).</div></div>
+
+    
+<details class="sources-box">
+  <summary>&#127760; Przeszukane źródła (1140) &mdash; kliknij, aby rozwinąć</summary>
+  <p class="src-note">Raport powstaje z bezpośredniego odczytu poniższych stron
+  (oficjalne Biuletyny Informacji Publicznej i portale korporacyjne, na których
+  zgodnie z ustawą publikowane są ogłoszenia o konkursach do rad nadzorczych)
+  oraz uzupełniająco z wyszukiwarki DuckDuckGo ograniczonej do domen
+  <code>.gov.pl</code> / BIP.</p>
+  <h4>Ministerstwa / centra rządowe (5)</h4><ul class="src-list"><li><a href="https://www.gov.pl/web/aktywa-majatkowe/aktualnosci" target="_blank" rel="noopener">Ministerstwo Aktywów Państwowych</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/aktywa-majatkowe/aktualnosci</code></li><li><a href="https://www.gov.pl/web/finanse/aktualnosci" target="_blank" rel="noopener">Ministerstwo Finansów</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/finanse/aktualnosci</code></li><li><a href="https://www.gov.pl/web/klimat/aktualnosci" target="_blank" rel="noopener">Ministerstwo Klimatu i Środowiska</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/klimat/aktualnosci</code></li><li><a href="https://www.gov.pl/web/infrastruktura/aktualnosci" target="_blank" rel="noopener">Ministerstwo Infrastruktury</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/infrastruktura/aktualnosci</code></li><li><a href="https://www.gov.pl/web/cyfryzacja/aktualnosci" target="_blank" rel="noopener">Ministerstwo Cyfryzacji</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/cyfryzacja/aktualnosci</code></li></ul><h4>BIP-y samorządów gmin i powiatów (5)</h4><ul class="src-list"><li><a href="https://um_jaslo.bip.gov.pl" target="_blank" rel="noopener">BIP Miasta Jaslo</a> &mdash; <code style="font-size:0.78em;">https://um_jaslo.bip.gov.pl</code></li><li><a href="https://www.bip.krakow.pl" target="_blank" rel="noopener">BIP m.st. Krakow</a> &mdash; <code style="font-size:0.78em;">https://www.bip.krakow.pl</code></li><li><a href="https://bip.wroclaw.pl" target="_blank" rel="noopener">BIP m.st. Wroclaw</a> &mdash; <code style="font-size:0.78em;">https://bip.wroclaw.pl</code></li><li><a href="https://bip.poznan.pl" target="_blank" rel="noopener">BIP m.st. Poznan</a> &mdash; <code style="font-size:0.78em;">https://bip.poznan.pl</code></li><li><a href="https://bip.bialystok.pl" target="_blank" rel="noopener">BIP m.st. Bialystok</a> &mdash; <code style="font-size:0.78em;">https://bip.bialystok.pl</code></li></ul><h4>Spółki Skarbu Państwa i spółki z istotnym udziałem SP (24)</h4><ul class="src-list"><li><a href="https://www.orlen.pl" target="_blank" rel="noopener">ORLEN S.A.</a> &mdash; <code style="font-size:0.78em;">https://www.orlen.pl</code></li><li><a href="https://www.gkpge.pl" target="_blank" rel="noopener">Grupa PGE</a> &mdash; <code style="font-size:0.78em;">https://www.gkpge.pl</code></li><li><a href="https://www.tauron.pl" target="_blank" rel="noopener">TAURON Polska Energia</a> &mdash; <code style="font-size:0.78em;">https://www.tauron.pl</code></li><li><a href="https://grupa-enea.pl" target="_blank" rel="noopener">Grupa Enea</a> &mdash; <code style="font-size:0.78em;">https://grupa-enea.pl</code></li><li><a href="https://www.grupa-energa.pl" target="_blank" rel="noopener">Grupa Energa</a> &mdash; <code style="font-size:0.78em;">https://www.grupa-energa.pl</code></li><li><a href="https://kghm.com" target="_blank" rel="noopener">KGHM Polska Miedź</a> &mdash; <code style="font-size:0.78em;">https://kghm.com</code></li><li><a href="https://www.plk-sa.pl" target="_blank" rel="noopener">PKP Polskie Linie Kolejowe</a> &mdash; <code style="font-size:0.78em;">https://www.plk-sa.pl</code></li><li><a href="https://pkpcargo.com" target="_blank" rel="noopener">PKP Cargo</a> &mdash; <code style="font-size:0.78em;">https://pkpcargo.com</code></li><li><a href="https://www.intercity.pl" target="_blank" rel="noopener">PKP Intercity</a> &mdash; <code style="font-size:0.78em;">https://www.intercity.pl</code></li><li><a href="https://www.poczta-polska.pl" target="_blank" rel="noopener">Poczta Polska</a> &mdash; <code style="font-size:0.78em;">https://www.poczta-polska.pl</code></li><li><a href="https://www.pzu.pl" target="_blank" rel="noopener">Grupa PZU</a> &mdash; <code style="font-size:0.78em;">https://www.pzu.pl</code></li><li><a href="https://www.gpw.pl" target="_blank" rel="noopener">GPW Warszawska Giełda Papierów Wartościowych</a> &mdash; <code style="font-size:0.78em;">https://www.gpw.pl</code></li><li><a href="https://www.kdpw.pl" target="_blank" rel="noopener">KDPW</a> &mdash; <code style="font-size:0.78em;">https://www.kdpw.pl</code></li><li><a href="https://www.bgk.pl" target="_blank" rel="noopener">Bank Gospodarstwa Krajowego</a> &mdash; <code style="font-size:0.78em;">https://www.bgk.pl</code></li><li><a href="https://www.pkobp.pl" target="_blank" rel="noopener">PKO Bank Polski</a> &mdash; <code style="font-size:0.78em;">https://www.pkobp.pl</code></li><li><a href="https://www.gaz-system.pl" target="_blank" rel="noopener">Gaz-System</a> &mdash; <code style="font-size:0.78em;">https://www.gaz-system.pl</code></li><li><a href="https://www.pse.pl" target="_blank" rel="noopener">Polskie Sieci Elektroenergetyczne</a> &mdash; <code style="font-size:0.78em;">https://www.pse.pl</code></li><li><a href="https://pfr.pl" target="_blank" rel="noopener">Polski Fundusz Rozwoju</a> &mdash; <code style="font-size:0.78em;">https://pfr.pl</code></li><li><a href="https://cpk.pl" target="_blank" rel="noopener">Centralny Port Komunikacyjny</a> &mdash; <code style="font-size:0.78em;">https://cpk.pl</code></li><li><a href="https://www.wody.gov.pl" target="_blank" rel="noopener">Wody Polskie</a> &mdash; <code style="font-size:0.78em;">https://www.wody.gov.pl</code></li><li><a href="https://www.arpindustrial.pl" target="_blank" rel="noopener">ARP Industrial (Agencja Rozwoju Przemysłu)</a> &mdash; <code style="font-size:0.78em;">https://www.arpindustrial.pl</code></li><li><a href="https://www.port.gdansk.pl" target="_blank" rel="noopener">Zarząd Morskich Portów Gdańsk</a> &mdash; <code style="font-size:0.78em;">https://www.port.gdansk.pl</code></li><li><a href="https://www.port.gdynia.pl" target="_blank" rel="noopener">Zarząd Portów Gdynia</a> &mdash; <code style="font-size:0.78em;">https://www.port.gdynia.pl</code></li><li><a href="https://port.szczecin.pl" target="_blank" rel="noopener">Szczecińskie i Świnoujskie Porty</a> &mdash; <code style="font-size:0.78em;">https://port.szczecin.pl</code></li></ul><h4>BIP-y samorządów &mdash; dzisiejsze okno rotacyjne (100/1106)</h4><p class="src-note">Realne adresy BIP rozpoznane dla <strong>59/100</strong> podmiotów tego okna (pełne mapowanie buduje <code>tools/resolve_bip_urls.py</code>).</p><ul class="src-list"><li>Urząd  Miejski w Głogowie &mdash; <a href="https://glogow.bip.info.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://glogow.bip.info.pl</code></a></li><li>Urząd Miasta Tarnobrzega &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-tarnobrzega" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-tarnobrzega</code></a></li><li>Urząd Miasta Tarnowa &mdash; <a href="https://www.gov.pl/web/bip/urzad-gminy-tarnow" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-gminy-tarnow</code></a></li><li>Urząd Miasta Torunia &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Torunia+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Tychy &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-tychy" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-tychy</code></a></li><li>Urząd Miasta Ustka &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-ustka-pomorskie-slupski-ustka" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-ustka-pomorskie-slupski-ustka</code></a></li><li>Urząd Miasta Wałcz &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-walcz" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-walcz</code></a></li><li>Urząd Miasta Wejherowo &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-wejherowo" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-wejherowo</code></a></li><li>Urząd Miasta Wodzisław Śląski &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-wodzislaw-slaski" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-wodzislaw-slaski</code></a></li><li>Urząd Miasta Wojcieszów &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Wojciesz%C3%B3w+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Wysokie Mazowieckie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miasta+Wysokie+Mazowieckie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miasta Włocławek &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-wloclawek-kujawsko-pomorskie-wloclawek-wloclawek" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-wloclawek-kujawsko-pomorskie-wloclawek-wloclawek</code></a></li><li>Urząd Miasta Zambrów &mdash; <a href="http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/prnt/5058.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://bip-archiwum.rudamaleniecka.samorzady.pl/www.bip.gov.pl/subjects/prnt/5058.html</code></a></li><li>Urząd Miasta Zduńska Wola &mdash; <a href="https://um-zdunskawola.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://um-zdunskawola.bip.gov.pl</code></a></li><li>Urząd Miasta Zgorzelec &mdash; <a href="https://zgorzelec.bip.info.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://zgorzelec.bip.info.pl</code></a></li><li>Urząd Miasta w Milanówku &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-w-milanowku-mazowieckie-grodziski-milanowek" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-w-milanowku-mazowieckie-grodziski-milanowek</code></a></li><li>Urząd Miasta w Skarżysku-Kamiennej &mdash; <a href="https://umskarzysko.bip.doc.pl/index.php?main=true" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://umskarzysko.bip.doc.pl/index.php?main=true</code></a></li><li>Urząd Miasta w Trzebini &mdash; <a href="https://eurzad.gminatrzebinia.pl/informacje_publiczne/pl/bip" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://eurzad.gminatrzebinia.pl/informacje_publiczne/pl/bip</code></a></li><li>Urząd Miasta w Żyrardowie &mdash; <a href="https://www.bip.zyrardow.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.zyrardow.pl</code></a></li><li>Urząd Miejski Andrychów &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+Andrych%C3%B3w+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski Byczyna &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+Byczyna+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski Bytom &mdash; <a href="https://www.bytom.pl/bip" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bytom.pl/bip</code></a></li><li>Urząd Miejski Darłowo &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+Dar%C5%82owo+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski Gminy Kłecko &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+Gminy+K%C5%82ecko+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski Kwidzyn &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-kwidzyn" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-kwidzyn</code></a></li><li>Urząd Miejski Orzesze &mdash; <a href="https://bip.orzesze.pl/bip/wladze-miasta" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://bip.orzesze.pl/bip/wladze-miasta</code></a></li><li>Urząd Miejski Pniewy &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-pniewy-wielkopolskie-szamotulski-pniewy" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-pniewy-wielkopolskie-szamotulski-pniewy</code></a></li><li>Urząd Miejski Rzepin &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-rzepin" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-rzepin</code></a></li><li>Urząd Miejski Sierpc &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-sierpc-mazowieckie-sierpecki-sierpc" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-sierpc-mazowieckie-sierpecki-sierpc</code></a></li><li>Urząd Miejski Sulechów &mdash; <a href="https://www.bip.sulechow.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.sulechow.pl</code></a></li><li>Urząd Miejski Suwałki &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-suwalki" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-suwalki</code></a></li><li>Urząd Miejski Trzcianki &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-trzcianki-wielkopolskie-czarnkowsko-trzcianecki-trzcianka" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-trzcianki-wielkopolskie-czarnkowsko-trzcianecki-trzcianka</code></a></li><li>Urząd Miejski Trzemeszna &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+Trzemeszna+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski Ujście &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-ujscie" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-ujscie</code></a></li><li>Urząd Miejski Wągrowiec &mdash; <a href="http://www.bip2.wokiss.pl/wagrowiecm/bip" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://www.bip2.wokiss.pl/wagrowiecm/bip</code></a></li><li>Urząd Miejski w Aleksandrowie Kujawskim &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Aleksandrowie+Kujawskim+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Baborowie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Baborowie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Barczewie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Barczewie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Białej &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Bia%C5%82ej+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Białej Piskiej &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Bia%C5%82ej+Piskiej+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Białymstoku &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-w-bialymstoku-podlaskie-bialystok-bialystok" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-w-bialymstoku-podlaskie-bialystok-bialystok</code></a></li><li>Urząd Miejski w Bieczu &mdash; <a href="https://bip.gov.pl/subjects/5666,Urząd+Miejski+w+Bieczu.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://bip.gov.pl/subjects/5666,Urząd+Miejski+w+Bieczu.html</code></a></li><li>Urząd Miejski w Bielsku-Białej &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-w-bielsku-bialej-slaskie-bielsko-biala-bielsko-biala" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-w-bielsku-bialej-slaskie-bielsko-biala-bielsko-biala</code></a></li><li>Urząd Miejski w Bieruniu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Bieruniu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Bobowej &mdash; <a href="https://bip.gov.pl/subjects/28576,Urząd+Miejski+w+Bobowej.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://bip.gov.pl/subjects/28576,Urząd+Miejski+w+Bobowej.html</code></a></li><li>Urząd Miejski w Bolkowie &mdash; <a href="https://umbolkow.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://umbolkow.bip.net.pl</code></a></li><li>Urząd Miejski w Brodnicy &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Brodnicy+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Brzesku &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-w-brzesku" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-w-brzesku</code></a></li><li>Urząd Miejski w Brześciu Kujawskim &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Brze%C5%9Bciu+Kujawskim+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Będzinie &mdash; <a href="https://bedzin.bip.info.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://bedzin.bip.info.pl</code></a></li><li>Urząd Miejski w Chociwlu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Chociwlu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Chrzanowie &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-w-chrzanowie-malopolskie-chrzanowski-chrzanow" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-w-chrzanowie-malopolskie-chrzanowski-chrzanow</code></a></li><li>Urząd Miejski w Ciechanowcu &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-ciechanow-mazowieckie-ciechanowski-ciechanow" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-ciechanow-mazowieckie-ciechanowski-ciechanow</code></a></li><li>Urząd Miejski w Cieszynie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Cieszynie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Cybince &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Cybince+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Czemiernikach &mdash; <a href="https://ugczemierniki.bip.lubelskie.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://ugczemierniki.bip.lubelskie.pl</code></a></li><li>Urząd Miejski w Czersku &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Czersku+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Dobrodzieniu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Dobrodzieniu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Dobrzanach &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Dobrzanach+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Drohiczynie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Drohiczynie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Drzewicy &mdash; <a href="https://www.bip.drzewica.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.drzewica.pl</code></a></li><li>Urząd Miejski w Dziwnowie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Dziwnowie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Dąbrowie Górniczej &mdash; <a href="https://www.bip.dabrowa-gornicza.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.dabrowa-gornicza.pl</code></a></li><li>Urząd Miejski w Dębicy &mdash; <a href="https://debica.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://debica.bip.gov.pl</code></a></li><li>Urząd Miejski w Dębnie &mdash; <a href="https://debno.bip.alfatv.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://debno.bip.alfatv.pl</code></a></li><li>Urząd Miejski w Elblągu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Elbl%C4%85gu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Gdańsku &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-w-gdansku-pomorskie-gdansk-gdansk" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-w-gdansku-pomorskie-gdansk-gdansk</code></a></li><li>Urząd Miejski w Gliwicach &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-w-gliwicach-slaskie-gliwice-gliwice" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-w-gliwicach-slaskie-gliwice-gliwice</code></a></li><li>Urząd Miejski w Gniewkowie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Gniewkowie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Golczewie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Golczewie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Gorlicach &mdash; <a href="https://www.eurzad.gorlice.pl/informacje_publiczne/pl/bip" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.eurzad.gorlice.pl/informacje_publiczne/pl/bip</code></a></li><li>Urząd Miejski w Gostyniu &mdash; <a href="https://umgostynin.bip.org.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://umgostynin.bip.org.pl</code></a></li><li>Urząd Miejski w Grodkowie &mdash; <a href="https://www.bip.grodkow.pl/318-urzad-miejski.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.grodkow.pl/318-urzad-miejski.html</code></a></li><li>Urząd Miejski w Grodzisku Mazowieckim &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Grodzisku+Mazowieckim+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Grudziądzu &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-w-grudziadzu-kujawsko-pomorskie-grudziadz-grudziadz" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-w-grudziadzu-kujawsko-pomorskie-grudziadz-grudziadz</code></a></li><li>Urząd Miejski w Grybowie &mdash; <a href="https://grybow.pl/tag/bip" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://grybow.pl/tag/bip</code></a></li><li>Urząd Miejski w Gryficach &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-w-gryficach-zachodniopomorskie-gryficki-gryfice" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-w-gryficach-zachodniopomorskie-gryficki-gryfice</code></a></li><li>Urząd Miejski w Gubinie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Gubinie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Głogowie Małopolskim &mdash; <a href="https://glogow.bip.info.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://glogow.bip.info.pl</code></a></li><li>Urząd Miejski w Głownie &mdash; <a href="https://glowno.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://glowno.bip.net.pl</code></a></li><li>Urząd Miejski w Janowcu Wielkopolskim &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Janowcu+Wielkopolskim+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Janowie Lubelskim &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Janowie+Lubelskim+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Jeżowie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Je%C5%BCowie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Kamieńsku &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Kamie%C5%84sku+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Kargowej &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Kargowej+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Karlinie &mdash; <a href="https://bip.karlino.pl/bip/informacje-ogolne/dane-podstawowe/dane-adresowe" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://bip.karlino.pl/bip/informacje-ogolne/dane-podstawowe/dane-adresowe</code></a></li><li>Urząd Miejski w Karpaczu &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-w-karpaczu-dolnoslaskie-jeleniogorski-karpacz" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-w-karpaczu-dolnoslaskie-jeleniogorski-karpacz</code></a></li><li>Urząd Miejski w Kartuzach &mdash; <a href="https://www.bip.kartuzy.pl/v,436,dane-podstawowe.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.kartuzy.pl/v,436,dane-podstawowe.html</code></a></li><li>Urząd Miejski w Kcyni &mdash; <a href="https://www.bip.kcynia.pl/99/strona-internetowa.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.kcynia.pl/99/strona-internetowa.html</code></a></li><li>Urząd Miejski w Kietrzu &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Kietrzu+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Kleszczelach &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Kleszczelach+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Knyszynie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Knyszynie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Kocku &mdash; <a href="http://umigkock.bip.lubelskie.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://umigkock.bip.lubelskie.pl</code></a></li><li>Urząd Miejski w Kole &mdash; <a href="https://gmina-kolo.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://gmina-kolo.bip.net.pl</code></a></li><li>Urząd Miejski w Koluszkach &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Koluszkach+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Konstantynowie Łódzkim &mdash; <a href="http://www.bip.konstantynow.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://www.bip.konstantynow.pl</code></a></li><li>Urząd Miejski w Korszach &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Korszach+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Kołaczycach &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+w+Ko%C5%82aczycach+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Urząd Miejski w Kłobucku &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-w-klobucku-slaskie-klobucki-klobuck" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-w-klobucku-slaskie-klobucki-klobuck</code></a></li><li>Urząd Miejski Łobez &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Urz%C4%85d+Miejski+%C5%81obez+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li></ul>
+</details>
+
+    <div class="section-heading">Lista ogłoszeń (15)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">Ogłoszenie o naborze uzupełniającym kandydatów na członków rady nadzorczej</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; um_jaslo.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html" target="_blank" rel="noopener">&#128279; https://um_jaslo.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-uzupelniajacym-kandydatow-na-czlonkow-rady-nadzorczej.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Strona główna &gt; Ogłoszenia &gt; Ogłoszenie o naborze uzupeł... ... Burmistrz Miasta Jasła zaprasza do składania zgłoszeń przez kandydatów na członków Rady Nadzorczej jednoosobowej Spółki Miasta Jasła, tworzonej w wyniku likwidacji zakładu budżetowego ZMKS w Jaśle</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://trybunal.gov.pl/postepowanie-i-orzeczenia/komunikaty-prasowe/komunikaty-przed/art/6797-zasady-i-tryb-wyboru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-skarbu-panstwa" target="_blank" rel="noopener">Trybunał Konstytucyjny: Zasady i tryb wyboru kandydatów na członków rad nadzorczych spółek Skarbu Państwa.</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; trybunal.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://trybunal.gov.pl/postepowanie-i-orzeczenia/komunikaty-prasowe/komunikaty-przed/art/6797-zasady-i-tryb-wyboru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-skarbu-panstwa" target="_blank" rel="noopener">&#128279; https://trybunal.gov.pl/postepowanie-i-orzeczenia/komunikaty-prasowe/komunikaty-przed/art/6797-zasady-i-tryb-wyboru-kandydatow-na-czlonkow-rad-nadzorczych-spolek-skarbu-panstwa</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Wskazanie przez Ministra Skarbu ... kwalifikacyjne, odbywające się w trybie publicznym, poprzez ogłoszenie o naborze zamieszczane na stronach internetowych Ministerstwa Skarbu Państwa (MSP)....</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Wskazanie przez Ministra Skarbu ... kwalifikacyjne, odbywające się w trybie publicznym, poprzez ogłoszenie o naborze zamieszczane na stronach internetowych Ministerstwa Skarbu Państwa (MSP)....</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-3">
+  <div class="card-header">
+    <div class="card-number">3</div>
+    <div class="card-title">
+      <a href="https://miir.bip.gov.pl/kariera-i-praca/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-czlonka-zarzadu-totalizatora-sportowego.html" target="_blank" rel="noopener">Nabór na członka zarządu Totalizatora Sportowego</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; miir.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://miir.bip.gov.pl/kariera-i-praca/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-czlonka-zarzadu-totalizatora-sportowego.html" target="_blank" rel="noopener">&#128279; https://miir.bip.gov.pl/kariera-i-praca/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-czlonka-zarzadu-totalizatora-sportowego.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">May 23, 2017 - W toku postępowania kwalifikacyjnego kandydat może przedstawić Radzie Nadzorczej dodatkowe dokumenty. Zgłoszenie kandydata złożone po upływie terminu oraz zgłoszenie niespełniające wymogów określonych w niniejszym ogłoszeniu nie podlega rozpatrzeniu, a kandydat nie bierze udziału w dalszym postępowaniu kwalifikacyjnym, o czym zostanie powiadomiony listem poleconym.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">May 23, 2017 - W toku postępowania kwalifikacyjnego kandydat może przedstawić Radzie Nadzorczej dodatkowe dokumenty. Zgłoszenie kandydata złożone po upływie terminu oraz zgłoszenie niespełniające wymogów określonych w niniejszym ogłoszeniu nie podlega rozpatrzeniu, a kandydat nie bierze udziału w dalszym postępowaniu kwalifikacyjnym, o czym zostanie powiadomiony listem poleconym.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-4">
+  <div class="card-header">
+    <div class="card-number">4</div>
+    <div class="card-title">
+      <a href="https://polaniec.ssdip.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-na-czlonkow-rady-nadzorczej-pgk-sp-z-o-o-w-polancu.html" target="_blank" rel="noopener">Ogłoszenie o naborze na członków Rady Nadzorczej PGK Sp. z o.o. ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; polaniec.ssdip.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://polaniec.ssdip.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-na-czlonkow-rady-nadzorczej-pgk-sp-z-o-o-w-polancu.html" target="_blank" rel="noopener">&#128279; https://polaniec.ssdip.bip.gov.pl/ogloszenia/ogloszenie-o-naborze-na-czlonkow-rady-nadzorczej-pgk-sp-z-o-o-w-polancu.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Burmistrz Miasta i Gminy Połaniec ogłasza nabór na kandydatów na członkówRady Nadzorczej Spółki Przedsiębiorstwo Gospodarki Komunalnej Spółka z ograniczoną ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Burmistrz Miasta i Gminy Połaniec ogłasza nabór na kandydatów na członkówRady Nadzorczej Spółki Przedsiębiorstwo Gospodarki Komunalnej Spółka z ograniczoną ...</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-5">
+  <div class="card-header">
+    <div class="card-number">5</div>
+    <div class="card-title">
+      <a href="https://kzn.bip.gov.pl/joboffers/view/31498" target="_blank" rel="noopener">Oferty Pracy - Krajowy Zasób Nieruchomości</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; kzn.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://kzn.bip.gov.pl/joboffers/view/31498" target="_blank" rel="noopener">&#128279; https://kzn.bip.gov.pl/joboffers/view/31498</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Rada Nadzorcza Krajowego Zasobu Nieruchomości ogłasza nabór na stanowisko: Prezesa Krajowego Zasobu Nieruchomości. Miejsce wykonywania pracy.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Rada Nadzorcza Krajowego Zasobu Nieruchomości ogłasza nabór na stanowisko: Prezesa Krajowego Zasobu Nieruchomości. Miejsce wykonywania pracy.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-6">
+  <div class="card-header">
+    <div class="card-number">6</div>
+    <div class="card-title">
+      <a href="https://cpk.bip.gov.pl/pomoc/421211_postepowanie-kwalifikacyjne-na-stanowisko-czlonka-zarzadu.html" target="_blank" rel="noopener">Postępowanie kwalifikacyjne na stanowisko Członka Zarządu</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; cpk.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://cpk.bip.gov.pl/pomoc/421211_postepowanie-kwalifikacyjne-na-stanowisko-czlonka-zarzadu.html" target="_blank" rel="noopener">&#128279; https://cpk.bip.gov.pl/pomoc/421211_postepowanie-kwalifikacyjne-na-stanowisko-czlonka-zarzadu.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Jeżeli wyłoniony kandydat nie wyraził zgody na powołanie w skład Zarządu Spółki, Rada Nadzorcza może dokonać wyboru na stanowisko Członka Zarządu ds. nieruchomości kolejnego najwyżej ocenionego kandydata albo postępowanie kwalifikacyjne powtórzyć. XIX. Jeżeli żaden z kandydatów nie spełnił kryteriów określonych pkt I, II, III ogłoszenia lub nie złożył oświadczeń, o których mowa w pkt IV, Rada Nadzorcza decyduje o zakończeniu postępowania bez wyłaniania kandydatów.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Jeżeli wyłoniony kandydat nie wyraził zgody na powołanie w skład Zarządu Spółki, Rada Nadzorcza może dokonać wyboru na stanowisko Członka Zarządu ds. nieruchomości kolejnego najwyżej ocenionego kandydata albo postępowanie kwalifikacyjne powtórzyć. XIX. Jeżeli żaden z kandydatów nie spełnił kryteriów określonych pkt I, II, III ogłoszenia lub nie złożył oświadczeń, o których mowa w pkt IV, Rada Nadzorcza decyduje o zakończeniu postępowania bez wyłaniania kandydatów.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-7">
+  <div class="card-header">
+    <div class="card-number">7</div>
+    <div class="card-title">
+      <a href="https://businessinsider.com.pl/gospodarka/ministerstwo-zaostrza-zasady-w-spolkach-skarbu-panstwa-piec-lat-pracy-nie-wystarczy/d6y021p" target="_blank" rel="noopener">Ministerstwo zaostrza zasady w spółkach Skarbu Państwa. Pięć lat pracy ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; businessinsider.com.pl</span>
+    </div>
+    <a class="url-link" href="https://businessinsider.com.pl/gospodarka/ministerstwo-zaostrza-zasady-w-spolkach-skarbu-panstwa-piec-lat-pracy-nie-wystarczy/d6y021p" target="_blank" rel="noopener">&#128279; https://businessinsider.com.pl/gospodarka/ministerstwo-zaostrza-zasady-w-spolkach-skarbu-panstwa-piec-lat-pracy-nie-wystarczy/d6y021p</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Rząd chce wprowadzić nowe zasady obsadzania stanowisk członków rad nadzorczych spółek z udziałem Skarbu Państwa. Poprzeczka dla kandydatów zostanie podniesiona — trzeba będzie spełnić dodatkowe warunki — informuje &quot;Rzeczpospolita&quot;.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">[%4
+ij/�C�(��#z�j{�Tgb���ן�10w@����p��
+����|���g�.��R@Q$�&#x27;
+��/ǭ
+���4�
+H�,`Ȳ&gt;���]���������i�z��
+�|uH�-m�O�&lt;�&amp;ޘ$�T�}e�}�\)��0a���J_�{ͨ�7xÐLp ��o�
+ʔd�&quot;)KTd)�p�#y���w� ��F�4)�_S�˸�8�6��~�J[���b��D2���
+a
+[�d9^b���-��缦�v�w���oi�@P��P����ڕK���}ι����z3�L�^U��T7���R���4������Y������pr�%b�i�c0���9f
+qF��X
+��7.R��Py�&lt;��-���s��N���t
+���j�u��{�{o��̞��g��x@r}��
+�\��^�3�C^�DiS�M�Z���
+��+����8�
+���
+s�E�e_�tV���1T���~���l��k�o��*��70ˏ_����]DE!�����ez��&quot;��2p���Z(����w�U�x���j��ݏ]�8��1Vu�}c~)���Қ�)ul~t4�()�X��a�7��϶�JEhDiX_ƴo��Fc�/�Ά���\���/��K�T�,ƴ���)M����$v#yG5��&#x27;V&lt;}������+I��=�$:�Aa
+i��Lx��
+Hi��X�p�
+�a;a��
+����`�J%���!X��B洁1��&gt;���~�u?T��P}}�iwS~xM���B&gt;^�z�p5
+�؟�w��JK�v`���&lt;�
+��^?�{Q��
+��~;���0��� �i��T�������+?��x���������������vq	��k�1|�xw1}�mڙ&gt;&lt;]��\º&amp;E����
+�^}
+0��i�����0��M`9&gt;+
+e���t�
+��^��|��v��A��c�vGa7
+!�5�)�&#x27;�,��{�~�7
+���
+Ġ=9oG�0��`8��%W�D�3�U�ez˔�ޮ�VVra�p��F�OM4�e�3�QX��:�7&amp;C�
+X�&amp;�0��%]p�.���A���*���l�� h��?X^So�����Q���{��ir�q˜cF.����_i�Ė�[+5	lt�����
+�,��]��m^V��	�3���`�Z�V�|C�x�&lt;�^vo쮽ٯ�
+^�~���V�����e����N�y6Xަ��j=��?�zi��`������8]���#1�þ�-ӡ����2B����ۏ��&#x27;5��b3��غw|�,v�׵��9�֏*�[��1�/�jH�o����
+C1x~�qw�u��W���	Ƴy]&#x27;��3��O�TJ�eYv�U~ �J�l
+��t�����v�(��Q��}z�pt�頗�C��s�K�l�Mo��]M�Tn�
+�
+]��BG�0��R&lt;�@����9C��ҝR�te��u�?ݶ�|�zE�S$o��
+����
+�r������N`2+JXL_�������B�&#x27;��a���?���[%����sz���`���\��Wql��Ԛ%
+�q\�b�2��sʩ��)_��{�\�~:�	/hѠM��&gt;_s��
+�lq����&amp;���C$/�5}��$07aٰa���Re��������4[�ŋ$���a�B�cd�p��5b
+U	vS�����̅��T���V�8�̇/ćh�sCc{�
+ۑf�
+&quot;;�xe�&lt;�Ej���E@0��^
+[AIؠ�a�c�sʙ`��Y^\![}�iK�y���W
+۽h�o��`��uY:
+X��5���-/�֕�gT-�C���઴�4-Oϋ
+�M��$�A���h�&amp;vF��0����񊄱n��t�v��c
+������Klw���g��f&amp;
+��};���y?�L�l�X��7�pk�8��6�&gt;����?���Zx��+�Y�+��Z)+E�a��q�ǰV����Zg��5��V:��X�2&lt;
+O��, ҝڊ��&quot;����n�PZ�n���
+�A&amp;�ZH��م;C�|h��7qڂ��Vn��P�����[��3\�]N/V�B+�l�0]��g��b���F�9Ĳ�|�����}�J�1b�n�
+���
+&amp;�;�,ň�[�I ���:3h8+�1Y4��J�1�B�.�h��&quot;���&quot;X�������vZ��Q�NgA����aϴuf���Y�w`
+*�yY�z������ߠ`�������Ѷl��ZYg�oxN�E�BǺ]7��o��iM�Cv�/DC}�,Jxx5�����l�	����2���7Pz+(��N-�{�$��]o�]�l��ߴZ7�E�x�]�e+z�ck��������r�PWf/���^0�f��8s@�^�^
+Pi���a}_	pf/Rҿ���R�[��(�{��̭�^�ef��2����ؾy���&lt;���J�J�u4���s�B�50���2/�}9(�&lt;�q�
+�nf��N3����Xu��3{�_^!��߸��X���߂
+��Ϯ�$
+�5��N�`�i�m��m����Qm�mWL�ݶ�`�j�`��Tf��۵�8������5jG.E�H���إj�l+���H7�8
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-8">
+  <div class="card-header">
+    <div class="card-number">8</div>
+    <div class="card-title">
+      <a href="https://arp.bip.gov.pl/rekrutacje-na-czlonkow-zarzadu-arp-i-spolek-z-grupy-arp/" target="_blank" rel="noopener">agencja rozwoju przemysłu spółka akcyjna - BIP - ARP</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; arp.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://arp.bip.gov.pl/rekrutacje-na-czlonkow-zarzadu-arp-i-spolek-z-grupy-arp/" target="_blank" rel="noopener">&#128279; https://arp.bip.gov.pl/rekrutacje-na-czlonkow-zarzadu-arp-i-spolek-z-grupy-arp/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">AGENCJA ROZWOJU PRZEMYSŁU SPÓŁKA AKCYJNA. Strona główna &gt; Ogłoszenia &gt; Rekrutacje na członków Zarządu ARP i spółek z grupy ARP ... Ogłoszenie Rady Nadzorczej ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">AGENCJA ROZWOJU PRZEMYSŁU SPÓŁKA AKCYJNA. Strona główna &gt; Ogłoszenia &gt; Rekrutacje na członków Zarządu ARP i spółek z grupy ARP ... Ogłoszenie Rady Nadzorczej ...</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-9">
+  <div class="card-header">
+    <div class="card-number">9</div>
+    <div class="card-title">
+      <a href="https://kzn.bip.gov.pl/joboffers/pdf/44063" target="_blank" rel="noopener">[PDF] Ogłoszenie o pracę - Krajowy Zasób Nieruchomości</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; kzn.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://kzn.bip.gov.pl/joboffers/pdf/44063" target="_blank" rel="noopener">&#128279; https://kzn.bip.gov.pl/joboffers/pdf/44063</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">ogłasza nabór kandydatów/kandydatek na stanowisko pracy: Dyrektor/ka ... doświadczenia w funkcji członka/członkini Rady Nadzorczej;. ○ doświadczenie ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">ogłasza nabór kandydatów/kandydatek na stanowisko pracy: Dyrektor/ka ... doświadczenia w funkcji członka/członkini Rady Nadzorczej;. ○ doświadczenie ...</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-10">
+  <div class="card-header">
+    <div class="card-number">10</div>
+    <div class="card-title">
+      <a href="https://um_jaslo.ssdip.bip.gov.pl/articles/pdf/445802" target="_blank" rel="noopener">[PDF] Ogłoszenie o naborze uzupełniającym kandydatów na członków ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; um_jaslo.ssdip.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://um_jaslo.ssdip.bip.gov.pl/articles/pdf/445802" target="_blank" rel="noopener">&#128279; https://um_jaslo.ssdip.bip.gov.pl/articles/pdf/445802</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Jaśle zaprasza do składania zgłoszeń kandydatów na członka Rady Nadzorczej TBS-ABK sp. z o.o. w. Jaśle. Załączniki. Ogłoszenie o naborze (177,33 KB).</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">Jaśle zaprasza do składania zgłoszeń kandydatów na członka Rady Nadzorczej TBS-ABK sp. z o.o. w. Jaśle. Załączniki. Ogłoszenie o naborze (177,33 KB).</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-11">
+  <div class="card-header">
+    <div class="card-number">11</div>
+    <div class="card-title">
+      <a href="https://miir.bip.gov.pl/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-czlonka-zarzadu-totalizatora-sportowego-sp-z-o-o.html" target="_blank" rel="noopener">Nabór na członka zarządu Totalizatora Sportowego Sp. z o.o. ds. finansów i inwestycji</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; miir.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://miir.bip.gov.pl/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-czlonka-zarzadu-totalizatora-sportowego-sp-z-o-o.html" target="_blank" rel="noopener">&#128279; https://miir.bip.gov.pl/nabor-na-wyzsze-stanowiska-panstwowe-w-jednostkach-podleglych-lub-nadzorowanych-przez-ministra-rozwoju/nabor-na-czlonka-zarzadu-totalizatora-sportowego-sp-z-o-o.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">April 19, 2017 - W takim przypadku, w trakcie rozmowy kwalifikacyjnej kandydat jest zobowiązany do przedstawienia Radzie Nadzorczej oryginałów lub urzędowych odpisów poświadczonych przez siebie dokumentów, pod rygorem wykluczenia z dalszego postępowania kwalifikacyjnego.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">April 19, 2017 - W takim przypadku, w trakcie rozmowy kwalifikacyjnej kandydat jest zobowiązany do przedstawienia Radzie Nadzorczej oryginałów lub urzędowych odpisów poświadczonych przez siebie dokumentów, pod rygorem wykluczenia z dalszego postępowania kwalifikacyjnego.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-12">
+  <div class="card-header">
+    <div class="card-number">12</div>
+    <div class="card-title">
+      <a href="https://kzn.bip.gov.pl/ogloszenia-o-prace/31498_prezes-krajowego-zasobu-nieruchomosci.html" target="_blank" rel="noopener">Oferty Pracy - kzn.bip.gov.pl</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; kzn.bip.gov.pl</span>
+    </div>
+    <a class="url-link" href="https://kzn.bip.gov.pl/ogloszenia-o-prace/31498_prezes-krajowego-zasobu-nieruchomosci.html" target="_blank" rel="noopener">&#128279; https://kzn.bip.gov.pl/ogloszenia-o-prace/31498_prezes-krajowego-zasobu-nieruchomosci.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">wyłonienie przez Radę Nadzorczą KZN nie więcej niż 3 kandydatów, którzy zostaną przedstawieni Ministrowi Funduszy i Polityki Regionalnej - na podstawie średniej oceny punktowej, dokonanej przez członków Rady Nadzorczej KZN w toku postępowania oraz w wyniku dyskusji podczas posiedzenia Rady Nadzorczej KZN.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">wyłonienie przez Radę Nadzorczą KZN nie więcej niż 3 kandydatów, którzy zostaną przedstawieni Ministrowi Funduszy i Polityki Regionalnej - na podstawie średniej oceny punktowej, dokonanej przez członków Rady Nadzorczej KZN w toku postępowania oraz w wyniku dyskusji podczas posiedzenia Rady Nadzorczej KZN.</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-13">
+  <div class="card-header">
+    <div class="card-number">13</div>
+    <div class="card-title">
+      <a href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; bip.goldap.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">&#128279; https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">3. Kandydat na stanowisko członka Rady Nadzorczej, winien przedłożyć: CV wraz z opisem przebiegu dotychczasowej kariery zawodowej, z której wynika co najmniej 5 ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">S��4aQ��#�v��I�@
+�
+���o����´l����x}~���}��@����d0��E�i���������d��45H&lt;�!*d
+����fgg戱J�6EU�`��#ް��J��p���&quot;�f�z�p��
+��V��ch9v���h�_c�w�?�Z)����[��U�e/=�\!�@���_{�o����u5�$o���21$-IТ�e�V���#
+��2Cl�&gt;�Z�����3$q#�ɘ��UW
+�� fA�\�/�-�8x��2f�w�괖e��L���B@�
+рF�z��m�?ız�z
+���79H��c������g�o�x8H&gt;3�l�Þ����	BM�Kz�ԑle��V�8@�1�+��8�F`�P�Ybw�
+(���
+��U�f
+3�	�[N��~GNw�X
+�=
+���
+�D��ŏo*�c���
+��&lt;(�2������
++��*�.c(���?�
+�\����?�i��u&#x27;��K����
+�UQ������|:����6+�
+7F
+�
+�/���&gt;�ߏ��C�����5����
+���������v�
+�	u�&lt;�\p%���j�}
+���J)��ȧ_2�
+0q��Y���FG^�{.ic=�
+UT��S
+�
+�����ZD,q�&#x27;�S������g�X�ߜ����������4e^&quot;��ݣ��GS
+��e��2폧`pO��C��Oڐ����s&lt;��ɢC��B
+(۬W�6�o�tKZ�BQ�]�&gt;
+휌}ڷ�K*̼%M|�jD�� �*b���υ
+��V�&quot;c��RML��%[,��XE��W���R�8���^�)Eae����]��Za�
+4L�����X$λt�&lt;ژ1J�
+r|۷�4X�?� 9C��c���.��L�J`��2�!�����z6ɖ��9w��hC�A�M����~��o�B�bKT#�B�Wo^�߶�ڲy�^��z��P����ʵ|܌���}}����[s�2�$�K-O���%�h��ٟ)j���c��%[�:7�Ս�%a��uF����&#x27;
+[E+��Mѝ���X)T��8x���Β2��Qg��[T4+���$�Ȇ�Ԑ?h
+1���ay������Y�
+�k�ħ�ݺ�xݷ6آ�!���٠f&quot;��$:gx�l��_��o@��▓mT&amp;
+��A�c�� ˀ0��a��u��]�&gt;沥Ά��&#x27;X����&amp;J*Q�F���Af�1��;�#��ո�5
+wZ����~i=o����5���w3K˭v/��Ь��Q�*e]�E����ݍ3a������bA�.��Hs�$UPa����X�) ֭�ߞ E��
+�ò$])�2[&lt;��ZP��F���y)䨲-.F]�`��A�ݶXU&#x27;���[ɭ�i
+����L��&quot;Y(
+%�?7�X���b�6f�&#x27;�[�u8X�-0�״�ܡ��ʚ(I��a&lt;��|��q���z����]R7�i���~�߳?N�]����EH�c!T{sbV��0p-re
+�C�͐�Ҁ��������ï�U�[��K�B#A6%�|�����������W#P��	Z�r�/�!�8�=�h	Ҕɋ=CS냡����l�ճ�&#x27;���5�]k㳕!�D&amp;qD��k&#x27;��w�$�DN��������|�e%�d���u���J̙o�6\�ml����L����Jj��ט#�B�&lt;����M&amp;�B�%�DN$,�寄�LO��T��v
+(�@H��4�Md�
+�W��Ř���S�	����Q��~;
+�M�5afz��)	6���9k�U��$57�jW)o�B8��*c�
+�#��W�X�GГ����w&gt;��:���9��o�*
+ޖ�7�oۺ�f��X�]��*pfxt5�7��3��� I�*@}��
+�Լ��������h,�
+L���`�+v��&#x27;����
+&lt;3F�&quot;��Ӎڦ�M&quot;׶)��
+}�+�&#x27;�	�I�!LRp{�)�T
+�֒
+�&gt;����
+z�
+mF�_&#x27;�i詣N�Oґ��_��*�z!����M�		�
+�Q��Șs2��*@
+\Λ�a_���KPF��~���
+R�x���
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-14">
+  <div class="card-header">
+    <div class="card-number">14</div>
+    <div class="card-title">
+      <a href="https://bip.powiatraciborski.pl/aktualnosci_ogloszenia/index/Ogloszenie-o-naborze-kandydatow-do-Rady-Nadzorczej-PKS-w-Raciborzu/idn:403" target="_blank" rel="noopener">Ogłoszenie o naborze kandydatów do Rady Nadzorczej PKS w ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; bip.powiatraciborski.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.powiatraciborski.pl/aktualnosci_ogloszenia/index/Ogloszenie-o-naborze-kandydatow-do-Rady-Nadzorczej-PKS-w-Raciborzu/idn:403" target="_blank" rel="noopener">&#128279; https://bip.powiatraciborski.pl/aktualnosci_ogloszenia/index/Ogloszenie-o-naborze-kandydatow-do-Rady-Nadzorczej-PKS-w-Raciborzu/idn:403</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Ogłoszenie o naborze wraz z oświadczeniem publikowane są w pliku do pobrania. Oferty należy składać w Biurze Obsługi Klienta Starostwa Powiatowego w Raciborzu ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">����OM��U�A���e�k
+R�$����^��m�q�x� �xh�M����6	&#x27;��߯&gt;��
+����$
+���rU��sү�Ő��A��?#z@Я�[�{h�?��&quot;
+�A��
+2�DF��?�&quot;a�Vp�:��g��n�����$Fј�F	hg3+��31
+�,�拝A���x��c��:�&gt;��8�3�*;�zj
+��
+��}+$Z�ݫ���Ͻ&gt;��1�u�_�I5�lfe�[�����u����Cq������/_K���ؙs�u;�b���ְӱM%��&amp;��s�]��!���~�D��;�1}��K���9�w�#z���*�!q&amp;��
+u4������
+&amp;����b�~&quot;hѪQa���&#x27;T#|@5��
+`����R��
+~�g�7G
+Q�G
+4ܥ��0Y:�CD�![
+4F
+��h�u�x�X����6�b�}a/��H@Qp���O��B����4�VS������aB�X���&#x27;��Т&quot;+��y~)�y~AN�7���?���&#x27;RA���Z��f�[�z�[r߭�X�Y�@zl.�	8�1^��5,��Oj�.|k�
+V����m��ڥ.c���{I�ɰ�=�A��g)�������!,���� �O�F�xO�}� q3dZ���|�ZF��v��{�G37�R�H���PmyEk&gt;
+��Fa�s���bȜ��S�@��jW��2��[41��*
+�$;}3��b�|J�?�K�_!�����p� ��_c �P�ͭ&quot;��J�m{�}����&#x27;�NT�v%F�6S=b-&quot;C �����d����x��th�6�Ô~�d�|?i86�C+&quot;wq�G	.S3�NN�!�-tΐ��˽HU���
+��׵��
+���紑
+ۤ���&#x27;)D&quot;���
+?���6���j�q�j�����.[��!�/���rI��GCaO��Ji���2���:���/�������&amp;Dz��
+!e{c��x����׫ŷk[Ǫ7�h��6_Vt�B�l��~v�P�~�d3�����:$6BG��KO��k�eK`�(�M��W�:y�ƺՠ8�ӓ�:�s�f��.���j[餕�?G�;}z�(�wZ��h��2C�ۈ��L�H�m�~��:=Y\]߁b��依� ���������y
+��RG��U�9�@�&gt;{;�=4�&#x27;���;e�}���RØb��R��fa�[
+�
+���L�;qm���^&#x27;��a܃Z&#x27;�t�w9��
+�
+���e��&quot;]��Y���S;m�:Yv=�2s��2
+�f3+��eo(j07I
+JT� @�6z
+q/�?�M%����@�&quot;��d�@&gt;
+0���
+g����v
+n	�]̌�ml�6�7��5}O���Ċm���̻�DU�i�)���
+�?uV�!L�y�4z���l[���w�%W7���n�3oh�t���y�%��8�X�̣s�v��-��(�QFί J�,�Pŵ�G����3f/�����?����|q�ߩi�A�v�
+�˛lb*��!��
+��5�W�x���r9�@�
+;��|��9sx�i��&gt;ZF1I-莐4�8�Ń��cy&quot;g��a�
+�l(F�b&quot;~�L�hs)��:�1��-X�I@Q,�E�T����Ur�j.��^{��F
+D�&quot;B
+�u!l��N�ЮT
+X�E�H�UU&gt;@��%I��C%t ���|�����9���!�m(�wkKЇ��v]J�f���8��ԫ����\����LET��|Yg�!$Q�5U�$����T�\����Tڶ+�]4��o����PN�g�Mc[u��at9�Δ��4��H�Y�iʾ���W:�&amp;�)��͍�`��&lt;
+�.tBp���4��N����Q
+&gt;
+�M�&#x27;�^{�:&#x27;�eJ�=Yk�v��o�1
+C��1u&amp;��j���0cCV�e���(|�C�e��^�`�
+�.D���`���m$I�&amp;DKh�&lt;��Fg^*�m�!; Y�]R��ϱ�R&#x27;���=�y�Qi۬���OqO����-³��k�Np�
+�h؍�9�,�o�?.�/E.A����Kc��(4\2��~�*p�ڟ�Ų&lt;3$�G�&lt;0����E�&quot;&#x27;
+�Q�ً
+\+��4�V���nD�&amp;eø/&amp;g��e�W�O,�op?;��W{��2z��n��I��Ț���bG�q���������c��21��ڨ7Y��M�z��d2tqA���A���R��@Y�CF}�6v��$M�5@&quot;EP�֛����w��;
+@�R̟W;%
+p�4F��}~�V0z��N��S�&quot;��+��i��b9$Ϟ7ڡ�&quot;�$
+��O��N�8SWw�=cA��B`K��7����\��
+.�}
+�#OR͞ػ�^	����{,�N竴��3#���
+!���?��NO���n|���1����ѫ�0�c�L;p�mɣˊ
+g,�YŒ�z��(�W�J�
+bv�����J�}�L��]
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-15">
+  <div class="card-header">
+    <div class="card-number">15</div>
+    <div class="card-title">
+      <a href="https://osiedlemlodych.pl/wybory-do-rady-nadzorczej-zglaszanie-kandydatow-2026/" target="_blank" rel="noopener">Wybory do Rady Nadzorczej – zgłaszanie kandydatów</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; osiedlemlodych.pl</span>
+    </div>
+    <a class="url-link" href="https://osiedlemlodych.pl/wybory-do-rady-nadzorczej-zglaszanie-kandydatow-2026/" target="_blank" rel="noopener">&#128279; https://osiedlemlodych.pl/wybory-do-rady-nadzorczej-zglaszanie-kandydatow-2026/</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Feb 2, 2026 · Prawo zgłaszania kandydatów do Rady Nadzorczej posiadają grupy członków liczące co najmniej pięćdziesiąt osób oraz Rada Nadzorcza i Rady Osiedli. Zgłoszeni kandydaci muszą wyrazić pisemną zgodę na kandydowanie.</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">U�
+EU퇫&quot;9i��h�,���
+��
+�����S��c�j��^ˤ
+��oQM��a�̟������uA(��.J���W�n�l�o��=���j�_�
+���{��3#��CR��\&gt;a9�O$#sr@r�?
+��,�V�w���ݮ�x�j�oZJ
+y�F{��r9C/g\�*�{�����3S�g����H�4�
+�-�{�����
+C�rI�
+�ޟq8�2.R�$2�D1�Q�V��)/�c4[�����w��eϹ��d�T��a�Bƴ��p�����5��t~r*.D
+4���{}�S�s�y�8��g��
+gi�ċ�}
+�����!}X����oS+�*�֐&#x27;�w�kȗ(�8�Mf[/�d������ė�
+��C)����v�D&lt;6��Q2S���Ƶ���-QE@�D%QW�.�I��
+=e��1*��K�k���(������ˠ�%�f&quot;��|]���[{���zՔ�����M��`���n�g�]#k
+��!��lԦ1r_�i�/���1@B1|��t|ב�%A�Hm �/8`QИ���!�ݎ�jGXD��No�_
+����2�~�4�
+���B�ᓐ�W���������+�A�Z��h�^
+�Ͽ�@,��9��m�Ͽ���A���&gt;jeϢ�f&#x27;�3������go�g�܌/�ܨ�ȫ���V/5�U渨��Eұ$k^��M������&quot;(��q&#x27;V��&amp;���6����Itچn߈�J��9lY׋��q�ɠ��}Y,yK����_D+���p�]��������i���&gt;�Q�W]�����EN���بV������D7J���{/EP��k]����_����RI������&#x27;�2
+2���0납�S��
+ƈA_����yxs
+� �8ovra�&lt;��O!m�
+:�Hx4�̎(������?|�����f/�&amp;�
+�3���
+��*�F�&quot;-�s��Y�!��qV����
+ݒ�4~7��h1ћU��w�!&amp;A?`���%��F��#�N����
+u�����
+x���8	.�����ԯ_?���.�ɫ�lK7�E%&gt;��T�⩷�0�]�6I����d��N�U�}�&quot;��E�a��z�U}�QN�
+�.�7w!��&quot;�
+Cv�NLNN~.��@%�]0��݋�����cB�i�$_&quot;1���=��!1����D��;N��H�)NQ!�+���&#x27;l���9銰�qv�ۣ6�I��r
+�7+��
+��1xa�Y�IqW�%g��/�K��
+�{_g�j3U��|��ū]�FY��5���Q&lt;��� ��[ə������j䓪����]&quot;
+�
+]�
+GB ��}[)ً}�g�`L�s��FH�Z&lt;
+1�a�!�*�a�6[�{X?
+u�
+�T��
+K�k�LJ	��˘t�4��
+cY� tzm1���&lt;��&gt;aK��3��-]
+~3�˲�2���Cw��gk���a
+��S
+�I/rv/��Iu[�3�
+�|�N��
+�C��iҽ�c]T]WeO�w���ہ��%[q��ӈt�y�Q��
+=o�8SJa���9����B�i���O魖��my�^���S�J�b�]�yTT�Q�C��y
+��Y[���4j���ѶS`RX/Y���L��X9u�,��bZDu�dT�ж�e3:��&lt;_&quot;o�;���y���pGQ7�
+�^ѩ���P��D΢Z�_&quot;vZ9�
+Q�]4&quot;fպ�q���g�O��µ&amp;�V��{&quot;b�}[�n�r^��}
+3X��^��E��V�as
+,)�9A���ur
+m��u5�q
+������x�뤰��QG	�T�&lt;����
+��J��8��dF}4��cQef}&quot;�p�CEqE��6
+3����ٸ���^�V�)u��*�q1#��O�����L����e����m�%vn�t�t7Q�
+a�A
++���ng;�hJ�޲�ok��ς3g5)���߅�/�3����E���*��y4��V&quot;�K/�
+�w%�|�u�@�W&quot;��^&#x27;�Y�_N���~�Tri܂Wz�����U`SӼ��l��0�Ukٺ][����Ο���;s�钥�	,�vd���F��ì{����X�_�-Ui��V�уX�.4N�
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-10-11 04:31 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
