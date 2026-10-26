@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogłoszenia – Członek Rady Nadzorczej</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
+
+/* ── Zakładka przeszukanych źródeł ───────────────── */
+.sources-box {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+}
+.sources-box summary {
+    cursor: pointer; font-weight: 600; color: #1d4ed8; user-select: none;
+}
+.sources-box[open] summary { margin-bottom: 10px; }
+.src-note { color: #475569; margin-bottom: 12px; line-height: 1.5; }
+.src-list { margin: 6px 0 12px 18px; line-height: 1.7; }
+.sources-box h4 { margin-top: 12px; color: #334155; }
+
+/* ── Header ──────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 32px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-back {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+.header-back:hover { color: #fff; }
+header h1 {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 10px;
+}
+.header-meta {
+    position: relative;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+.header-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.chip-green { background: rgba(34,197,94,0.25); color: #bbf7d0; }
+
+/* ── Info banners ─────────────────────────────────── */
+.banner {
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.banner-yellow { background: #fefce8; border: 1px solid #fde68a; color: #713f12; }
+.banner-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* ── Section heading ──────────────────────────────── */
+.section-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718096;
+    margin: 28px 0 12px;
+}
+
+/* ── Announcement card ────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+    border-color: #93c5fd;
+}
+
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.card-number {
+    min-width: 32px;
+    height: 32px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.card-title {
+    flex: 1;
+    font-size: 0.975rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #1a202c;
+}
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+
+.card-body { padding: 16px 20px; }
+
+/* ── Metadata pills ───────────────────────────────── */
+.meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+.meta-pill strong { color: #1a202c; font-weight: 600; }
+
+.date-badge {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+}
+.date-unknown {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+/* ── URL link ─────────────────────────────────────── */
+.url-link {
+    display: block;
+    font-size: 0.78rem;
+    color: #2563eb;
+    word-break: break-all;
+    margin-bottom: 14px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.url-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Summary ──────────────────────────────────────── */
+.label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+.summary-box {
+    background: #f8fafc;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #4a5568;
+    line-height: 1.65;
+}
+
+/* ── Expandable details ───────────────────────────── */
+details { margin-top: 12px; }
+summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    padding: 6px 0;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+summary::before { content: "▶"; font-size: 0.65em; transition: transform 0.2s; }
+details[open] summary::before { content: "▼"; }
+.details-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    color: #4a5568;
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+    font-size: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-top: 16px;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+footer a { color: #2563eb; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="header-back" href="../index.html">&#8592; Powrót do listy raportów</a>
+    <h1>&#128269; Ogłoszenia – Członek Rady Nadzorczej</h1>
+    <div class="header-meta">
+      <span class="header-chip">&#128197; 2026-10-26 05:41</span>
+      <span class="header-chip chip-green">&#9679; 2 ogłoszeń</span>
+      <span class="header-chip">&#127760; DuckDuckGo (pl-pl) + strony źródłowe</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner banner-yellow">
+      <span class="banner-icon">&#9888;</span>
+      <div><strong>Uwaga metodyczna:</strong> Wyniki obejmują wyłącznie ogłoszenia dotyczące stanowiska
+      <em>członka rady nadzorczej</em>. Ogłoszenia zarządcze (zarząd, prezes) zostały odfiltrowane.</div>
+    </div>
+
+    <div class="banner banner-blue"><span class="banner-icon">&#128197;</span><div><strong>Filtr daty:</strong> Wyświetlane są wyłącznie ogłoszenia opublikowane w okresie <strong>26.09.2026 → 26.10.2026</strong>. Ogłoszeń bez rozpoznanej daty: <strong>2</strong> (oznaczone żółto).</div></div>
+
+    
+<details class="sources-box">
+  <summary>&#127760; Przeszukane źródła (1140) &mdash; kliknij, aby rozwinąć</summary>
+  <p class="src-note">Raport powstaje z bezpośredniego odczytu poniższych stron
+  (oficjalne Biuletyny Informacji Publicznej i portale korporacyjne, na których
+  zgodnie z ustawą publikowane są ogłoszenia o konkursach do rad nadzorczych)
+  oraz uzupełniająco z wyszukiwarki DuckDuckGo ograniczonej do domen
+  <code>.gov.pl</code> / BIP.</p>
+  <h4>Ministerstwa / centra rządowe (5)</h4><ul class="src-list"><li><a href="https://www.gov.pl/web/aktywa-majatkowe/aktualnosci" target="_blank" rel="noopener">Ministerstwo Aktywów Państwowych</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/aktywa-majatkowe/aktualnosci</code></li><li><a href="https://www.gov.pl/web/finanse/aktualnosci" target="_blank" rel="noopener">Ministerstwo Finansów</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/finanse/aktualnosci</code></li><li><a href="https://www.gov.pl/web/klimat/aktualnosci" target="_blank" rel="noopener">Ministerstwo Klimatu i Środowiska</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/klimat/aktualnosci</code></li><li><a href="https://www.gov.pl/web/infrastruktura/aktualnosci" target="_blank" rel="noopener">Ministerstwo Infrastruktury</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/infrastruktura/aktualnosci</code></li><li><a href="https://www.gov.pl/web/cyfryzacja/aktualnosci" target="_blank" rel="noopener">Ministerstwo Cyfryzacji</a> &mdash; <code style="font-size:0.78em;">https://www.gov.pl/web/cyfryzacja/aktualnosci</code></li></ul><h4>BIP-y samorządów gmin i powiatów (5)</h4><ul class="src-list"><li><a href="https://um_jaslo.bip.gov.pl" target="_blank" rel="noopener">BIP Miasta Jaslo</a> &mdash; <code style="font-size:0.78em;">https://um_jaslo.bip.gov.pl</code></li><li><a href="https://www.bip.krakow.pl" target="_blank" rel="noopener">BIP m.st. Krakow</a> &mdash; <code style="font-size:0.78em;">https://www.bip.krakow.pl</code></li><li><a href="https://bip.wroclaw.pl" target="_blank" rel="noopener">BIP m.st. Wroclaw</a> &mdash; <code style="font-size:0.78em;">https://bip.wroclaw.pl</code></li><li><a href="https://bip.poznan.pl" target="_blank" rel="noopener">BIP m.st. Poznan</a> &mdash; <code style="font-size:0.78em;">https://bip.poznan.pl</code></li><li><a href="https://bip.bialystok.pl" target="_blank" rel="noopener">BIP m.st. Bialystok</a> &mdash; <code style="font-size:0.78em;">https://bip.bialystok.pl</code></li></ul><h4>Spółki Skarbu Państwa i spółki z istotnym udziałem SP (24)</h4><ul class="src-list"><li><a href="https://www.orlen.pl" target="_blank" rel="noopener">ORLEN S.A.</a> &mdash; <code style="font-size:0.78em;">https://www.orlen.pl</code></li><li><a href="https://www.gkpge.pl" target="_blank" rel="noopener">Grupa PGE</a> &mdash; <code style="font-size:0.78em;">https://www.gkpge.pl</code></li><li><a href="https://www.tauron.pl" target="_blank" rel="noopener">TAURON Polska Energia</a> &mdash; <code style="font-size:0.78em;">https://www.tauron.pl</code></li><li><a href="https://grupa-enea.pl" target="_blank" rel="noopener">Grupa Enea</a> &mdash; <code style="font-size:0.78em;">https://grupa-enea.pl</code></li><li><a href="https://www.grupa-energa.pl" target="_blank" rel="noopener">Grupa Energa</a> &mdash; <code style="font-size:0.78em;">https://www.grupa-energa.pl</code></li><li><a href="https://kghm.com" target="_blank" rel="noopener">KGHM Polska Miedź</a> &mdash; <code style="font-size:0.78em;">https://kghm.com</code></li><li><a href="https://www.plk-sa.pl" target="_blank" rel="noopener">PKP Polskie Linie Kolejowe</a> &mdash; <code style="font-size:0.78em;">https://www.plk-sa.pl</code></li><li><a href="https://pkpcargo.com" target="_blank" rel="noopener">PKP Cargo</a> &mdash; <code style="font-size:0.78em;">https://pkpcargo.com</code></li><li><a href="https://www.intercity.pl" target="_blank" rel="noopener">PKP Intercity</a> &mdash; <code style="font-size:0.78em;">https://www.intercity.pl</code></li><li><a href="https://www.poczta-polska.pl" target="_blank" rel="noopener">Poczta Polska</a> &mdash; <code style="font-size:0.78em;">https://www.poczta-polska.pl</code></li><li><a href="https://www.pzu.pl" target="_blank" rel="noopener">Grupa PZU</a> &mdash; <code style="font-size:0.78em;">https://www.pzu.pl</code></li><li><a href="https://www.gpw.pl" target="_blank" rel="noopener">GPW Warszawska Giełda Papierów Wartościowych</a> &mdash; <code style="font-size:0.78em;">https://www.gpw.pl</code></li><li><a href="https://www.kdpw.pl" target="_blank" rel="noopener">KDPW</a> &mdash; <code style="font-size:0.78em;">https://www.kdpw.pl</code></li><li><a href="https://www.bgk.pl" target="_blank" rel="noopener">Bank Gospodarstwa Krajowego</a> &mdash; <code style="font-size:0.78em;">https://www.bgk.pl</code></li><li><a href="https://www.pkobp.pl" target="_blank" rel="noopener">PKO Bank Polski</a> &mdash; <code style="font-size:0.78em;">https://www.pkobp.pl</code></li><li><a href="https://www.gaz-system.pl" target="_blank" rel="noopener">Gaz-System</a> &mdash; <code style="font-size:0.78em;">https://www.gaz-system.pl</code></li><li><a href="https://www.pse.pl" target="_blank" rel="noopener">Polskie Sieci Elektroenergetyczne</a> &mdash; <code style="font-size:0.78em;">https://www.pse.pl</code></li><li><a href="https://pfr.pl" target="_blank" rel="noopener">Polski Fundusz Rozwoju</a> &mdash; <code style="font-size:0.78em;">https://pfr.pl</code></li><li><a href="https://cpk.pl" target="_blank" rel="noopener">Centralny Port Komunikacyjny</a> &mdash; <code style="font-size:0.78em;">https://cpk.pl</code></li><li><a href="https://www.wody.gov.pl" target="_blank" rel="noopener">Wody Polskie</a> &mdash; <code style="font-size:0.78em;">https://www.wody.gov.pl</code></li><li><a href="https://www.arpindustrial.pl" target="_blank" rel="noopener">ARP Industrial (Agencja Rozwoju Przemysłu)</a> &mdash; <code style="font-size:0.78em;">https://www.arpindustrial.pl</code></li><li><a href="https://www.port.gdansk.pl" target="_blank" rel="noopener">Zarząd Morskich Portów Gdańsk</a> &mdash; <code style="font-size:0.78em;">https://www.port.gdansk.pl</code></li><li><a href="https://www.port.gdynia.pl" target="_blank" rel="noopener">Zarząd Portów Gdynia</a> &mdash; <code style="font-size:0.78em;">https://www.port.gdynia.pl</code></li><li><a href="https://port.szczecin.pl" target="_blank" rel="noopener">Szczecińskie i Świnoujskie Porty</a> &mdash; <code style="font-size:0.78em;">https://port.szczecin.pl</code></li></ul><h4>BIP-y samorządów &mdash; dzisiejsze okno rotacyjne (100/1106)</h4><p class="src-note">Realne adresy BIP rozpoznane dla <strong>50/100</strong> podmiotów tego okna (pełne mapowanie buduje <code>tools/resolve_bip_urls.py</code>).</p><ul class="src-list"><li>GMINA SIEROSZEWICE &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+GMINA+SIEROSZEWICE+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>GMINA UJAZD &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+GMINA+UJAZD+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Jarocin &mdash; <a href="http://jarocin.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://jarocin.bip.gov.pl</code></a></li><li>Gmina Jasionówka &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Jasion%C3%B3wka+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Jasło &mdash; <a href="https://gminajaslo.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://gminajaslo.bip.gov.pl</code></a></li><li>Gmina Jejkowice &mdash; <a href="https://riokatowice.bip.net.pl/?a=19976" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://riokatowice.bip.net.pl/?a=19976</code></a></li><li>Gmina Jeziorany &mdash; <a href="http://archiwum.jeziorany.bip-e.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://archiwum.jeziorany.bip-e.pl</code></a></li><li>Gmina Jędrzejów &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+J%C4%99drzej%C3%B3w+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Kobylanka &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Kobylanka+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Konstancin-Jeziorna &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Konstancin-Jeziorna+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Kornowac &mdash; <a href="https://riokatowice.bip.net.pl/?a=21837" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://riokatowice.bip.net.pl/?a=21837</code></a></li><li>Gmina Koronowo &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Koronowo+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Korycin &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Korycin+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Korytnica &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Korytnica+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Kotuń &mdash; <a href="https://kotun.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://kotun.bip.net.pl</code></a></li><li>Gmina Kowale Oleckie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Kowale+Oleckie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Krapkowice &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Krapkowice+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Krościenko Wyżne &mdash; <a href="https://www.bip.kroscienkowyzne.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.kroscienkowyzne.pl</code></a></li><li>Gmina Krzanowice &mdash; <a href="https://riokatowice.bip.net.pl/?a=20813" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://riokatowice.bip.net.pl/?a=20813</code></a></li><li>Gmina Kurzętnik &mdash; <a href="https://www.bip.kurzetnik.ops.pl/index.php/71-bip-kurzetnik/kategoria-zbiorcza" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.kurzetnik.ops.pl/index.php/71-bip-kurzetnik/kategoria-zbiorcza</code></a></li><li>Gmina Kąkolewnica &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+K%C4%85kolewnica+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Kąty Wrocławskie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+K%C4%85ty+Wroc%C5%82awskie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Laszki &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Laszki+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Leśnica &mdash; <a href="https://www.gov.pl/web/bip/gmina-lesnica-opolskie-strzelecki-lesnica" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-lesnica-opolskie-strzelecki-lesnica</code></a></li><li>Gmina Lidzbark Warmiński &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Lidzbark+Warmi%C5%84ski+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Limanowa &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Limanowa+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Miastko &mdash; <a href="http://nowaporadnia.miastko.com.pl/bip" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://nowaporadnia.miastko.com.pl/bip</code></a></li><li>Gmina Miasto Oława &mdash; <a href="https://gminaolawa.pl/tag/bip" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://gminaolawa.pl/tag/bip</code></a></li><li>Gmina Miasto Reda &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-w-redzie-pomorskie-wejherowski-reda" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-w-redzie-pomorskie-wejherowski-reda</code></a></li><li>Gmina Miasto Sochaczew &mdash; <a href="https://www.gov.pl/web/bip/urzad-gminy-sochaczew-mazowieckie-sochaczewski-sochaczew" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-gminy-sochaczew-mazowieckie-sochaczewski-sochaczew</code></a></li><li>Gmina Miasto Świdnica &mdash; <a href="https://www.gov.pl/web/bip/gmina-miasto-swidnica-dolnoslaskie-swidnicki-swidnica" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-miasto-swidnica-dolnoslaskie-swidnicki-swidnica</code></a></li><li>Gmina Miedzna &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Miedzna+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Miejska Giżycko &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Miejska+Gi%C5%BCycko+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Miejska Pruszcz Gdański &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Miejska+Pruszcz+Gda%C5%84ski+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Miejska Złotoryja &mdash; <a href="https://www.gov.pl/web/bip/gmina-miejska-zlotoryja-dolnoslaskie-zlotoryjski-zlotoryja" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-miejska-zlotoryja-dolnoslaskie-zlotoryjski-zlotoryja</code></a></li><li>Gmina Mirsk &mdash; <a href="https://www.gov.pl/web/bip/gmina-mirsk-dolnoslaskie-lwowecki-mirsk" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-mirsk-dolnoslaskie-lwowecki-mirsk</code></a></li><li>Gmina Mniów &mdash; <a href="http://www.mniow.biuletyn.net/archiwum/www.bip.mniow.pl/index.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://www.mniow.biuletyn.net/archiwum/www.bip.mniow.pl/index.html</code></a></li><li>Gmina Nagłowice &mdash; <a href="http://archiwum.bip.naglowice.sam3.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://archiwum.bip.naglowice.sam3.pl</code></a></li><li>Gmina Nakło nad Notecią &mdash; <a href="https://www.gov.pl/web/bip/gmina-naklo-nad-notecia-kujawsko-pomorskie-nakielski-naklo-nad-notecia" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-naklo-nad-notecia-kujawsko-pomorskie-nakielski-naklo-nad-notecia</code></a></li><li>Gmina Nowiny &mdash; <a href="https://www.gov.pl/web/bip/gmina-nowiny" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-nowiny</code></a></li><li>Gmina Okonek &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Okonek+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Oksa &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Oksa+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Osielsko &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Osielsko+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Podgórzyn &mdash; <a href="https://podgorzyn.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://podgorzyn.bip.net.pl</code></a></li><li>Gmina Pokrzywnica &mdash; <a href="https://bip.gov.pl/subjects/5340,Urząd+Gminy+Pokrzywnica.html" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://bip.gov.pl/subjects/5340,Urząd+Gminy+Pokrzywnica.html</code></a></li><li>Gmina Postomino &mdash; <a href="https://postomino.bip.net.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://postomino.bip.net.pl</code></a></li><li>Gmina Prażmów &mdash; <a href="https://www.gov.pl/web/bip/gmina-prazmow-mazowieckie-piaseczynski-prazmow" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-prazmow-mazowieckie-piaseczynski-prazmow</code></a></li><li>Gmina Przemęt &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Przem%C4%99t+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Przytuły &mdash; <a href="http://www.przytuly.powiatlomzynski.pl/bip" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://www.przytuly.powiatlomzynski.pl/bip</code></a></li><li>Gmina Prószków  &mdash; <a href="https://www.gov.pl/web/bip/gmina-proszkow-opolskie-opolski-proszkow" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-proszkow-opolskie-opolski-proszkow</code></a></li><li>Gmina Purda &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Purda+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Raczki &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Raczki+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Radków &mdash; <a href="https://www.gov.pl/web/bip/gmina-radkow-swietokrzyskie-wloszczowski-radkow" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-radkow-swietokrzyskie-wloszczowski-radkow</code></a></li><li>Gmina Radoszyce &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Radoszyce+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Radowo Małe &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Radowo+Ma%C5%82e+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Radziejowice &mdash; <a href="https://www.gov.pl/web/bip/gmina-radziejowice-mazowieckie-zyrardowski-radziejowice" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-radziejowice-mazowieckie-zyrardowski-radziejowice</code></a></li><li>Gmina Resko &mdash; <a href="https://resko.bip.alfatv.pl/strony/menu/11.dhtml" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://resko.bip.alfatv.pl/strony/menu/11.dhtml</code></a></li><li>Gmina Reszel &mdash; <a href="https://www.gov.pl/web/bip/gmina-reszel-warminsko-mazurskie-ketrzynski-reszel" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-reszel-warminsko-mazurskie-ketrzynski-reszel</code></a></li><li>Gmina Rutki &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Rutki+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Rytwiany &mdash; <a href="https://www.rytwiany.bip.jur.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.rytwiany.bip.jur.pl</code></a></li><li>Gmina Rząśnia &mdash; <a href="https://www.gov.pl/web/bip/gmina-rzasnia-lodzkie-pajeczanski-rzasnia" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-rzasnia-lodzkie-pajeczanski-rzasnia</code></a></li><li>Gmina Sadowie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Sadowie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Siechnice &mdash; <a href="https://siechnice.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://siechnice.bip.gov.pl</code></a></li><li>Gmina Siemiatycze &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Siemiatycze+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Skarszewy &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Skarszewy+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Skórzec &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Sk%C3%B3rzec+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Sorkwity &mdash; <a href="https://www.gov.pl/web/bip/urzad-gminy-sorkwity" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-gminy-sorkwity</code></a></li><li>Gmina Stara Błotnica &mdash; <a href="https://starablotnica.bip.org.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://starablotnica.bip.org.pl</code></a></li><li>Gmina Starachowice &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Starachowice+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Stary Zamość &mdash; <a href="https://ugstaryzamosc.bip.lubelskie.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://ugstaryzamosc.bip.lubelskie.pl</code></a></li><li>Gmina Stryszów &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Strysz%C3%B3w+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Stubno &mdash; <a href="https://www.gov.pl/web/bip/gmina-stubno-podkarpackie-przemyski-stubno" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-stubno-podkarpackie-przemyski-stubno</code></a></li><li>Gmina Suchy Dąb &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Suchy+D%C4%85b+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Susz &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Susz+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Szczekociny &mdash; <a href="https://www.gov.pl/web/bip/gmina-szczekociny-slaskie-zawiercianski-szczekociny" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-szczekociny-slaskie-zawiercianski-szczekociny</code></a></li><li>Gmina Szczerców &mdash; <a href="https://szczercow.bip.gov.pl/informacje" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://szczercow.bip.gov.pl/informacje</code></a></li><li>Gmina Szemud &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Szemud+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Szubin &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Szubin+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Tczów &mdash; <a href="https://www.bip.tczow.akcessnet.net" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.bip.tczow.akcessnet.net</code></a></li><li>Gmina Terespol &mdash; <a href="https://ugterespol.bip.lubelskie.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://ugterespol.bip.lubelskie.pl</code></a></li><li>Gmina Trzebnica &mdash; <a href="https://www.gov.pl/web/bip/urzad-miejski-w-trzebnicy-dolnoslaskie-trzebnicki-trzebnica" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miejski-w-trzebnicy-dolnoslaskie-trzebnicki-trzebnica</code></a></li><li>Gmina Tuchola &mdash; <a href="http://tpk.bip.gmina.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://tpk.bip.gmina.pl</code></a></li><li>Gmina Tuczno &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Tuczno+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Turawa &mdash; <a href="https://www.gov.pl/web/bip/gmina-turawa-opolskie-opolski-turawa" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-turawa-opolskie-opolski-turawa</code></a></li><li>Gmina Uście Gorlickie &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+U%C5%9Bcie+Gorlickie+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Wierzbica &mdash; <a href="https://ugwierzbica.bip.lubelskie.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://ugwierzbica.bip.lubelskie.pl</code></a></li><li>Gmina Wiśniowa &mdash; <a href="http://wisniowa.bip.gov.pl" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://wisniowa.bip.gov.pl</code></a></li><li>Gmina Wschowa &mdash; <a href="https://www.gov.pl/web/bip/urzad-miasta-i-gminy-wschowa-lubuskie-wschowski-wschowa" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/urzad-miasta-i-gminy-wschowa-lubuskie-wschowski-wschowa</code></a></li><li>Gmina Węgorzyno &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+W%C4%99gorzyno+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Włoszczowa &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+W%C5%82oszczowa+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Zabór &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Zab%C3%B3r+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Zwoleń &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Zwole%C5%84+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Złota &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+Z%C5%82ota+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina i Miasto Szadek &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+i+Miasto+Szadek+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Łańcut &mdash; <a href="https://www.gov.pl/web/bip/gmina-lancut-podkarpackie-lancucki-lancut" target="_blank" rel="noopener"><code style="font-size:0.78em;">https://www.gov.pl/web/bip/gmina-lancut-podkarpackie-lancucki-lancut</code></a></li><li>Gmina Łubniany &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+%C5%81ubniany+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Łubnice &mdash; <a href="http://www.bip.lubnice.akcessnet.net" target="_blank" rel="noopener"><code style="font-size:0.78em;">http://www.bip.lubnice.akcessnet.net</code></a></li><li>Gmina Świercze &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+%C5%9Awiercze+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Świerklany &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+%C5%9Awierklany+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li><li>Gmina Żarów &mdash; <a href="https://duckduckgo.com/?q=nabor+kandydatow+rada+nadzorcza+Gmina+%C5%BBar%C3%B3w+site%3Agov.pl" target="_blank" rel="noopener">szukaj ogłoszeń (brak rozpoznanego BIP)</a></li></ul>
+</details>
+
+    <div class="section-heading">Lista ogłoszeń (2)</div>
+    
+<div class="card" id="ann-1">
+  <div class="card-header">
+    <div class="card-number">1</div>
+    <div class="card-title">
+      <a href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">Burmistrz Gołdapi ogłasza nabór do bazy kandydatów na członków Rad ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; bip.goldap.pl</span>
+    </div>
+    <a class="url-link" href="https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html" target="_blank" rel="noopener">&#128279; https://bip.goldap.pl/burmistrz-goldapi-oglasza-nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-w-ktorych-gmina-goldap-posiada-udzialy.html</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Kandydat na stanowisko członka Rady Nadzorczej, winien przedłożyć: CV wraz z opisem przebiegu dotychczasowej kariery zawodowej, z której wynika co najmniej 5-letni okres zatrudnienia na podstawie umowy o pracę, powołania, wyboru, mianowania, spółdzielczej umowy o pracę lub świadczenia usług na podstawie innej umowy lub wykonywania ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">S��Ea&gt;a�j�-&quot;&#x27;�
+��������q��i��������+K�?#|���7r\��Z�Ĳ)R�i�d)5���G��K&gt;Lf�)�g�Cq�+��҇�n��U8]l��iF�+�{����
+(�%�Eqi��-u/��/�Ҕ&lt;@/c\v
+����
+��*W9�n���wT�T��`�,@� Y�%yU���������
+K�3��+�ě R���g��!�mdl�
+�P-��}&amp;7�}�����`�
+/��=g��6���
+�����j����a^���[�
+e�%�EWx�/b���&amp;v~t���{���G��qy�FY���W
+��M��|����q�a՛B��o�!e����xL]�E&#x27;7�i������I|�^5����*�Lt~�sk����f\�b�=���w:d3R� v�����eY��5Y��`r��m@
+��e�!޸�1�����8���4a��&amp;�Ma��ù��x����&gt;/]�ݼ��C��Q.� 8@�9�����[�l��A��Ы��&lt;�՚oCzq�1�&lt;��-�|j��/��}Ζ�b�\,#X/y-&gt;��b�v1gl��G�
+��=�-�˒d;IB˄��4�N��(�����e��vfsZV�guKI_���hY��n)�˖�j�t!�����l;��t�^�x�|�&lt;͋t��4�N��Ѳ�n�A0f3�&#x27;���C �w���&quot;��!�����/������-�8���&#x27;��4J^Xv��6+�e�
+�(ts���
+~��Fq�p$����Z����,�-�
+$^�`�F˹+�Y:���+��z�[-W�1�M�G�-
+�=�芺T����A�Z�5˺TK+����V���u���$ѯ�_c��lI����VY�4�Y�b�&quot;�,V0�@��խ��Q͢㋇��Ey&quot;��M&amp;�Ңe�
+�&gt;M�n���c�_n��s�$�&lt;ߜw�t.+G���+Õ�6�=�L�|b�T$N�:x
+J�)֦�&amp;ȝۮ��&amp;�A��J
+Gm~6pY���
+���
+2�����j7
+�O����;���!Q��8�(YFI8�B��HԜ�l�Y
+����EM�|T��t��z�-
+4TT��7��o�ti�����(!q���&quot;�Y*yz�[�c��ٳT4���-^��c�F�d�Ί��辗�C��j
+��ә
++
+mM7y:M�䬈��&gt;�YL�4q~�Rn�A4:�
+��jCsg� Y΂�&lt;����)��x�q5��8=pʼ7U��xY��Ԇ�Oo�����)+�
+jgE�����T� �[[��xrF�׳`�hү�-����|t&amp;B���h�}di�������φR�,�[�l�h=o%m�.ۤI%��/����t��&#x27;s�hx1�}-���}!�h^��!�
+���TR���4�V�ڽ�{
+#c�u
+�zW�®����8&amp;��/�W,���O)��
+ZL�O
+�0����$IC
+�a�0�I����{�T7��m6p^C
+�,u����Y��Ơ۶X��ɶ�[��0��3��f��)��
+6���x	[e���U�%�K����-Q�p��÷�Eߌ��U.�
+����bNR�(�Y����Əȣ�e��
+�5U?�v�Ӗ)����e�޿��\���o&quot;��T��k������d�
+c�i4�
+��
+�|68&lt;&lt;q�c���a�a�
+������);�������3����m�;�-����~�
+�܁p�GK����M����(~�)~7u6�������鄹�FH��
+Q���M�?���
+�=��n�&lt;��������^�]#\w\}��pm�Cx]��V���
+�G&gt;��O�ov����b�R H�]�{.$_�3��Gmd�Z;��c�
+�&amp;v�j�K����#�H�Z)x)k����T+���Q}!��%���uTh�Vp�[����
+���:�4&gt;&quot;�^&#x27;`��T?�V�$k.���p�7���;7}f�|��
+,�9З�z|�K\�R�-�CMr@�ԇ�W�&quot;���w1xfˑ���
+��^�@w||$��q[b�[�A�3�J���x&#x27;��ATƇ0�\���&gt;�+��sV�P&amp;U�𚅻��g�q0���^bC��`�������
+A���cv&gt;��K0~����Y�{ru��Y$xk����`�8�Pc�3�
+��=n��v~Z�p������.�K&gt;:�Ҳ��Vg���ᮔsC��
+ɡ�Ө����)�h3v-G�S�
+-����{$�x���	�� ��o
+ktԂê��
+ng�F�B�1��
+��౼/
+�,)�Y����
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+<div class="card" id="ann-2">
+  <div class="card-header">
+    <div class="card-number">2</div>
+    <div class="card-title">
+      <a href="https://brzeszcze.pl/nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-z-udzialem-gminy-brzeszcze-2023-07-17-16-04-34,11943" target="_blank" rel="noopener">Nabór do bazy kandydatów na członków rad nadzorczych spółek z udziałem ...</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meta-row">
+      <span class="meta-pill date-unknown">&#128197; Data ogłoszenia: brak</span>
+      <span class="meta-pill">&#127760; brzeszcze.pl</span>
+    </div>
+    <a class="url-link" href="https://brzeszcze.pl/nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-z-udzialem-gminy-brzeszcze-2023-07-17-16-04-34,11943" target="_blank" rel="noopener">&#128279; https://brzeszcze.pl/nabor-do-bazy-kandydatow-na-czlonkow-rad-nadzorczych-spolek-z-udzialem-gminy-brzeszcze-2023-07-17-16-04-34,11943</a>
+    <div class="label">Skrót ogłoszenia</div>
+    <div class="summary-box">Informujemy o stałym naborze do bazy kandydatów na członków rad nadzorczych spółek z udziałem Gminy Brzeszcze. Kandydat na członka rady nadzorczej musi: posiadać wykształcenie wyższe, posiadać co najmniej 5-letni okres zatrudnienia na podstawie umowy o pracę, powołania, wyboru, mianowania, spółdzielczej umowy o pracę, lub świadczenia usług na podstawie innej umowy, lub ...</div>
+    <details>
+      <summary>Pokaż pełne szczegóły</summary>
+      <div class="details-content">�
+��R3���U�|�A�u{-�}��?��&amp;�C��,�4�U�A&lt;�$t�ʙ����4m&#x27;�-y!���-��w��#k�\�����b��p�P��$���$$&quot;D�Ć	
+�u=��է��	T�RIP%��f2��L*��ʺ�C6h��&#x27;U0-�	;���90�iJ@n������L��X;
+��j^-�|+[Xl^�W/�+��X���M���n�Pu�#�q�����!+�!��C��l8
+��Ǉ����
+��?��Y��&gt;,�I*C4���
+qӊ�:��(Ȍy���$�-^����
+q��{$�~��
+���ܲQ�
+�p�J�NM�
+2O
+Z^��̿,S4g�.��[H5�IX���(,�&amp;i�=G�P�����I�]
+MF�F�I� �n7�؈�J,W�b�_-M|���P�٠��
+lA�֚-�@���;K	: ��
+؟���
+j:,
+������&gt;�$�
+6
+�&gt;\��׷�(��	k��d�L&amp;!
+�}���v�֬��#!�k�&gt;���|qwBHHnqA剔�8�&lt;̌�8K`Wc9�� ���Nh&gt;*�O8��?���_���
+��䵝��0\+M�����-����!���|OG�}/J
+�m@e��8(�\n�ّ��Q�����Y�A��F�䄟�㘹R��kްF�m�����(�B+���E���&gt;N}���/�+��&gt;�����Pn[M�l�
+��1���}�����
+�+����	�b�=�+E]gxD;{g�W������ū�����y�1�5=������C�6�ѓ+�b�R)}�U��x�W5Ms�Գ������U ���d�
+���&#x27;
+|pl&#x27;��ɰ|�CRth��m\77����߇�ޥ�ǎĥ=*
+��T�fܼ��aL��Aٍ&gt;{���=�8�z&quot;����=�U�]�&#x27;�?̭N����6��q���������Aj=c�Q�tyj��$�&amp;_����}0�p���A�_
+Ȥ|~�}aɤHc���C&amp;EΪ
+��WH8���,Q�.;ncሎ1n����W��ܰ�9�]�ڑiV� U�
+�12�7�]������g|
+?*�����&#x27;t�� ��O���2R4#���C�cF��h$��3g�΃�����XZ��#!�++��
+�&quot;(8�Y|�Gn(^������e���x*�cM�̐
+�D�~��`�t��\���c����
+��J�&lt;2�j��XT�
+�V@5_DhD�����rdۥ�*Q&#x27;x��p��&quot;���Z]�S
+��h�����s�hI
+,}�ȑ�j���K�#��������vi�k�}&quot;�8ŗ�I
+�C�R˻�,��Uǟ�o���
+�
+h;Se��Z��D�&gt;�]�]�w
+���
+4���ݽB�dGM��oW
+����dwy��ɍ�[�`����Y݈�lХ��z�&lt;&#x27;?�\Q-��`�I�Q�_��LB
+j��f�����A��(�m�o
+ـ.��$���F
+3|�U��X�03�y`�{�
+�
+[_����n��5�֡
+�H]����&gt;��	����pqX��&amp;Y6γ�ը)LV�����S��g��/�
+?��;���i���3&amp;Ԕ�&quot;���n�m������GH]��jQ���v��&gt;��0uM�� �.]��#�a@�6q���3T��T��V��v������C	?�^��hU&quot;��%�c�]��
+�?��p���Y���G�Ēc-���b^T�ŮnU�x���3���e;�r��n���s�
+kR+J�|&lt;����v��
+O���.U��HӸ���{u�L��v�,魼���V��-&lt;���Y�������,�Zד��|�Y���
+{Hx=c�����0^�i&#x27;b��vտS;j4���g�V��iO��ڿ,��ad���
+G����%�0�Q�t�9���
+GO����eY-�E�_���˿}�t&quot;�K�b���Z&amp;����V�m�eZ�eHh��DV}�b`�B����j�
+M��]D
+vm+n�g�	cأ�,�y6�
+m���j&quot;kK�Z���
+���Xm��jQ��)����05	�(�ъ�
+
+… (treść skrócona – odwiedź link po pełne ogłoszenie)</div>
+    </details>
+  </div>
+</div>
+
+    <footer>
+      Raport wygenerowany automatycznie &nbsp;·&nbsp; 2026-10-26 05:41 &nbsp;·&nbsp;
+      <a href="../index.html">&#8592; Wszystkie raporty</a>
+    </footer>
+  </div>
+
+</body>
+</html>
